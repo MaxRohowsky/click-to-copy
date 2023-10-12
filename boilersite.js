@@ -1,9 +1,10 @@
 
 
 document.getElementById('showStyles').onclick = function() {
-    var $lorem =  document.getElementById('lorem');
+    var $lorem =  document.getElementById('ipsum');
+
     var $code = document.getElementById('code');
-    var rules = MEJSX.getCustomCssRulesOnElement($lorem);
+    var rules = CSSDICT.getCustomCssRulesOnElement($lorem);
     console.log(rules);
   
     for (var i = 0; i < rules.length; i++) {
@@ -13,7 +14,7 @@ document.getElementById('showStyles').onclick = function() {
     }
   }
   
-  var MEJSX = function() {
+  var CSSDICT = function() {
     var getCustomCssRulesOnElement = function(elm) {
       var elementRules = [];
       var slice = Function.call.bind(Array.prototype.slice);

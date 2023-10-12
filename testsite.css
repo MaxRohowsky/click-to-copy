@@ -1,0 +1,9 @@
+#ipsum{
+    color: green;
+}
+
+@media (max-width: 900px) {
+    #ipsum{
+        color: blue; /* Change color to blue */
+    }
+}

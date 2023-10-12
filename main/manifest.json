@@ -1,0 +1,29 @@
+{
+  "name": "Simple Extension",
+  "manifest_version": 3,
+  "version": "1.0",
+
+  "description": "Change webpage background color",
+
+  "permissions": [
+    "tabs",
+    "contextMenus" 
+  ],
+
+  
+
+  "content_scripts": [
+    {
+      "js": ["scripts/viewer.js"],
+      "css" : ["viewer.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+
+
+
+
+
+
+
+}
