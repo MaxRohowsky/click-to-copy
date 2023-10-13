@@ -1,32 +1,46 @@
 
-/*
-Scope: 
-- A good viewer
-- Movable with mouse
-- on off toggle
-- Adjust Styling
-- Copy function
-- Multiple of them
-- DIfferentiator HTML and CSS
-
-*/
 
 
 
 
-var Viewer_Element_CSS
+var VIEWER_ELEMENT
 
-var Viewer_Typography = new Array(
+var VIEWER_TYPOGRAPHY = new Array(
     'font-family',
     'font-size',
     'font-style',
     'color'
 );
 
+var VIEWER_BOX = new Array(
+    'height',
+	'width',
+	'border',
+	'border-top',
+	'border-right',
+	'border-bottom', 
+	'border-left',
+	'margin',
+	'padding',
+);
+
+var VIEWER_POSITIONING = new Array(
+	'top', 
+	'bottom', 
+	'right', 
+	'left', 
+    'z-index'
+);
+
+
+var VIEWER_CATEGORIES = { 
+	'Typography'    : VIEWER_TYPOGRAPHY, 
+	'Box'           : VIEWER_BOX, 
+	'Position'      : VIEWER_POSITIONING
+};
 
 
 
-//console.log(document.styleSheets)
 
 function GetCurrentDocument() 
 {
@@ -41,24 +55,19 @@ function UpdateValue(x){
     console.log(x.innerHTML);
     console.log(viewer.selectedElement.style.fontSize);
     viewer.selectedElement.style.fontSize = x.innerHTML;
-    //x.innerHTML = x.getPropertyValue(Viewer_Typography[1]);
-    //elm.style.fontSize = x.innerHTML;
+
 }
 
-//function SubmitValue(e){
-    //console.log(e.srcElement.innerHTML)
-
-//}
 
 
 function ViewerMouseOver(e) 
 {
     if (this.tagName != 'body') {
         this.style.outline = '1px dotted #f00';
-        //this.style.fontSize = '100px'; //works!
+       
         viewer.selectedElement = this
     }
-    //console.log(this)
+
     
 
     document.getElementById('text').append(String(this))
@@ -68,13 +77,13 @@ function ViewerMouseOver(e)
     var element = document.defaultView.getComputedStyle(this, null);
 
     // generate simple css definition
-    Viewer_Element_CSS = this.tagName.toLowerCase() + (this.id == '' ? '' : ' #' + this.id) + (this.className == '' ? '' : ' .' + this.className);
+    VIEWER_ELEMENT = this.tagName.toLowerCase() + (this.id == '' ? '' : ' #' + this.id) + (this.className == '' ? '' : ' .' + this.className);
 
 
  //experimentinng
  
     var attribute = document.createElement('p') //change to span
-    attribute.textContent = Viewer_Typography[1] //add font size
+    attribute.textContent = VIEWER_TYPOGRAPHY[1] //add font size
     
     document.getElementById('text').append(attribute)
 
@@ -87,51 +96,40 @@ function ViewerMouseOver(e)
     document.getElementById('text').append(valuex)
     
 
-    //valuex.addEventListener("input", () => UpdateValue(valuex, element), false)
-    
 
-
-   // setInterval(() => {
-     //   if (viewer.selectedElement && viewer.selectedElement.style) {
-       //     viewer.selectedElement.style.fontSize = '100px';
-       // }
-    //}, 3000); // Adjust the interval as needed
+    for (var i = 0; i < VIEWER_CATEGORIES.length; i++){
+        
+        console.log(VIEWER_CATEGORIES[0].length)
+    }
 
 
 
 
 
-    for (var i = 0; i < Viewer_Typography.length; i++){
+    for (var i = 0; i < VIEWER_TYPOGRAPHY.length; i++){
+
+
         //Viewer_Element_CSS += "\t" + Viewer_Typography[i] + ': ' + element.getPropertyValue(Viewer_Typography[i]) + ";\n";
         // create a child
         var attribute = document.createElement('p') //change to span
-        attribute.textContent = Viewer_Typography[i]
+        attribute.textContent = VIEWER_TYPOGRAPHY[i]
         document.getElementById('text').append(attribute)
 
         var value = document.createElement('p')
-        value.id = Viewer_Typography[i];
+        value.id = VIEWER_TYPOGRAPHY[i];
         
-        value.innerHTML = element.getPropertyValue(Viewer_Typography[i]);
+        value.innerHTML = element.getPropertyValue(VIEWER_TYPOGRAPHY[i]);
 
         document.getElementById('text').append(value)
         value.contentEditable = true;
 
         value.addEventListener("input", () => UpdateValue(value), false)
-        //value.removeEventListener("blur", SubmitValue, false)
+
     }  
    
         
 
-    //console.log(document.getElementById(Viewer_Typography[1]).textContent)
 
-
-
-        // append child to code
-    
-    
-    
-        //document.getElementById('code').append(Viewer_Element_CSS)
-    //document.getElementById('code').appendChild(document.createElement('p'))
 }
 
 /*
@@ -154,9 +152,7 @@ function ViewerMouseMove(e) {
 
     var document = GetCurrentDocument();
 	var block = document.getElementById('text');
-   // console.log(block.style)
 
-	//block.style.display = 'block';
     block.style.position = 'absolute';
 
     //var blockWidth = 332;
@@ -211,18 +207,16 @@ class Viewer {
 
     ViewerWindow = function(){
 
-        var block = document.createElement('div');
-		block.id = 'Viewer';
+        var container = document.createElement('div');
+		container.id = 'ViewerWindow_container';
 
         var text = document.createElement('div');
-
 		text.id = 'text';
 
-			//< 
-		text.appendChild( document.createTextNode('TEST') ); 
-		block.appendChild(text);
+		
+		container.appendChild(text);
 
-        return block;
+        return container;
     }
 
 
@@ -335,19 +329,4 @@ viewer.AddEventListeners();
 document.onkeydown = Viewer_Keypress;
 
 
-    //setInterval(function() {
-      //  try{
-        //if(viewer.selectedElement.style != null){
-        //viewer.selectedElement.style.fontSize = '100px';}
-    //}
-    //catch(error){
-        
-    //}
-    //}, 3000);
 
-
-   // setInterval(() => {
-     //   if (viewer.selectedElement && viewer.selectedElement.style) {
-       //     viewer.selectedElement.style.fontSize = '100px';
-       // }
-    //}, 3000); // Adjust the interval as needed
