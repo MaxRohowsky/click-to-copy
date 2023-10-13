@@ -97,10 +97,6 @@ function ViewerMouseOver(e)
     
 
 
-    for (var i = 0; i < VIEWER_CATEGORIES.length; i++){
-        
-        console.log(VIEWER_CATEGORIES[0].length)
-    }
 
 
 
