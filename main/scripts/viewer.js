@@ -1,161 +1,145 @@
 
 
 
-
-
 var VIEWER_ELEMENT
 
 var VIEWER_TYPOGRAPHY = new Array(
-    'font-family',
     'font-size',
-    'font-style',
-    'color'
+    'font-weight',                      // default: 400
+    'font-style',                       
+    'color',                            
+    'font-family'
 );
 
 var VIEWER_BOX = new Array(
     'height',
-	'width',
-	'border',
-	'border-top',
-	'border-right',
-	'border-bottom', 
-	'border-left',
-	'margin',
-	'padding',
+    'width',
+    'border',
+    'border-top',
+    'border-right',
+    'border-bottom',
+    'border-left',
+    'margin',
+    'padding',
 );
 
 var VIEWER_POSITIONING = new Array(
-	'top', 
-	'bottom', 
-	'right', 
-	'left', 
+    'top',
+    'bottom',
+    'right',
+    'left',
     'z-index'
 );
 
 
-var VIEWER_CATEGORIES = { 
-	'Typography'    : VIEWER_TYPOGRAPHY, 
-	'Box'           : VIEWER_BOX, 
-	'Position'      : VIEWER_POSITIONING
+var VIEWER_CATEGORIES = {
+    'Typography': VIEWER_TYPOGRAPHY,
+    'Box': VIEWER_BOX,
+    'Position': VIEWER_POSITIONING
 };
 
 
 
 
-function GetCurrentDocument() 
-{
+function GetCurrentDocument() {
     return window.document;
 }
 
-/*
-* Triggered when mouse moves within element boundaries
-*/ 
 
-function UpdateValue(x){
-    console.log(x.innerHTML);
-    console.log(viewer.selectedElement.style.fontSize);
-    viewer.selectedElement.style.fontSize = x.innerHTML;
 
+function UpdateValue(inputElement, property) 
+{
+    //console.log(x.html());
+    console.log(viewer.currentElement.style);
+   // viewer.currentElement.style.fontSize = x.html();
+   viewer.currentElement.style[property] = inputElement.html();
 }
 
 
 
-function ViewerMouseOver(e) 
+
+function GetCSSProperty(elementStyle, property) 
 {
+    return elementStyle.getPropertyValue(property)
+}
+
+
+
+
+
+function ViewerMouseOver(e) {
+    var document = GetCurrentDocument();
+    var viewerWindow = document.getElementById('CSSViewer_window');
+
+    // Save element to viewer instance
+    viewer.currentElement = this
+
+    // Stop event propagation through DOM
+    e.stopPropagation();
+
+    // Outline element
     if (this.tagName != 'body') {
         this.style.outline = '1px dotted #f00';
-       
-        viewer.selectedElement = this
     }
 
-    
+    // Get info:
+    var elementStyle = document.defaultView.getComputedStyle(this, null);
 
-    document.getElementById('text').append(String(this))
-
-    e.stopPropagation();
-
-    var element = document.defaultView.getComputedStyle(this, null);
-
-    // generate simple css definition
-    VIEWER_ELEMENT = this.tagName.toLowerCase() + (this.id == '' ? '' : ' #' + this.id) + (this.className == '' ? '' : ' .' + this.className);
-
-
- //experimentinng
- 
-    var attribute = document.createElement('p') //change to span
-    attribute.textContent = VIEWER_TYPOGRAPHY[1] //add font size
-    
-    document.getElementById('text').append(attribute)
-
-    var valuex = document.createElement('p')
-
-    
-    valuex.innerHTML = element.getPropertyValue('font-size');
-    valuex.contentEditable = true;
-    valuex.addEventListener("input", () => UpdateValue(valuex), false)
-    document.getElementById('text').append(valuex)
-    
+    // Get info for property:
 
 
 
 
+    //size
+    $('#ViewerWindow_font-size .ViewerWindow_property').text(VIEWER_TYPOGRAPHY[0]+ ": ");
+    $('#ViewerWindow_font-size .ViewerWindow_value').text(GetCSSProperty(elementStyle, VIEWER_TYPOGRAPHY[0]));
+
+    //weight
+    $('#ViewerWindow_font-weight .ViewerWindow_property').text(VIEWER_TYPOGRAPHY[1] + ": ");
+    $('#ViewerWindow_font-weight .ViewerWindow_value').text(GetCSSProperty(elementStyle, VIEWER_TYPOGRAPHY[1]));
+
+    //style
+    $('#ViewerWindow_font-style .ViewerWindow_property').text(VIEWER_TYPOGRAPHY[2] + ": ");
+    $('#ViewerWindow_font-style .ViewerWindow_value').text(GetCSSProperty(elementStyle, VIEWER_TYPOGRAPHY[2]));
+
+    //color
+    $('#ViewerWindow_color .ViewerWindow_property').text(VIEWER_TYPOGRAPHY[3] + ": ");
+    $('#ViewerWindow_color .ViewerWindow_value').text(GetCSSProperty(elementStyle, VIEWER_TYPOGRAPHY[3]));
 
 
 
-    for (var i = 0; i < VIEWER_TYPOGRAPHY.length; i++){
 
-
-        //Viewer_Element_CSS += "\t" + Viewer_Typography[i] + ': ' + element.getPropertyValue(Viewer_Typography[i]) + ";\n";
-        // create a child
-        var attribute = document.createElement('p') //change to span
-        attribute.textContent = VIEWER_TYPOGRAPHY[i]
-        document.getElementById('text').append(attribute)
-
-        var value = document.createElement('p')
-        value.id = VIEWER_TYPOGRAPHY[i];
-        
-        value.innerHTML = element.getPropertyValue(VIEWER_TYPOGRAPHY[i]);
-
-        document.getElementById('text').append(value)
-        value.contentEditable = true;
-
-        value.addEventListener("input", () => UpdateValue(value), false)
-
-    }  
-   
-        
 
 
 }
 
 /*
 * Triggered when mouse moves within element boundaries
-*/ 
+*/
 function ViewerMouseOut(e) {
     this.style.outline = '';
-    document.getElementById('text').innerHTML = '';
     e.stopPropagation();
 
-    
-    
+
+
 }
 
 /*
 * Triggered when mouse moves within element boundaries
 */
 function ViewerMouseMove(e) {
-    
+
 
     var document = GetCurrentDocument();
-	var block = document.getElementById('text');
+    var block = document.getElementById('ViewerWindow_container');
 
     block.style.position = 'absolute';
 
     //var blockWidth = 332;
-	//var blockHeight = 100;
+    //var blockHeight = 100;
 
-    block.style.left = e.pageX+ 'px';;
-    block.style.top = e.pageY+ 20+ 'px';
+    block.style.left = e.pageX + 'px';;
+    block.style.top = e.pageY + 20 + 'px';
 
 
     e.stopPropagation();
@@ -171,7 +155,7 @@ function ViewerMouseMove(e) {
 class Viewer {
     constructor() {
         this.haveEventListeners = false;
-        this.selectedElement = null;
+        this.currentElement = null;
     }
 
 
@@ -201,21 +185,96 @@ class Viewer {
     }
 
 
-    ViewerWindow = function(){
+    BuildViewerWindow = function () {
+        var document = GetCurrentDocument();
+        var container;
 
-        var container = document.createElement('div');
-		container.id = 'ViewerWindow_container';
+        if (document) {
 
-        var text = document.createElement('div');
-		text.id = 'text';
+            container = document.createElement('div');
+            container.id = 'ViewerWindow_container';
 
-		
-		container.appendChild(text);
+
+            var title = document.createElement('p');
+            title.appendChild(document.createTextNode('CSS'));
+            container.appendChild(title);
+
+            //-----------------------------------------------
+
+            var p = document.createElement('p');
+            p.id = 'ViewerWindow_font-size';
+
+            var spanName = document.createElement('span');
+            spanName.className = 'ViewerWindow_property';
+
+            var spanValue = document.createElement('span');
+            spanValue.className = 'ViewerWindow_value';
+            spanValue.contentEditable = true;
+
+            p.appendChild(spanName);
+            p.appendChild(spanValue);
+
+            container.appendChild(p);
+
+
+            //-----------------------------
+
+            var p = document.createElement('p');
+            p.id = 'ViewerWindow_font-weight';
+
+            var spanName = document.createElement('span');
+            spanName.className = 'ViewerWindow_property';
+
+            var spanValue = document.createElement('span');
+            spanValue.className = 'ViewerWindow_value';
+            spanValue.contentEditable = true;
+
+            p.appendChild(spanName);
+            p.appendChild(spanValue);
+
+            container.appendChild(p);
+
+            //-----------------------------
+
+            var p = document.createElement('p');
+            p.id = 'ViewerWindow_font-style';
+
+            var spanName = document.createElement('span');
+            spanName.className = 'ViewerWindow_property';
+
+            var spanValue = document.createElement('span');
+            spanValue.className = 'ViewerWindow_value';
+            spanValue.contentEditable = true;
+
+            p.appendChild(spanName);
+            p.appendChild(spanValue);
+
+            container.appendChild(p);
+
+
+            //-----------------------------
+
+            var p = document.createElement('p');
+            p.id = 'ViewerWindow_color';
+
+            var spanName = document.createElement('span');
+            spanName.className = 'ViewerWindow_property';
+
+            var spanValue = document.createElement('span');
+            spanValue.className = 'ViewerWindow_value';
+            spanValue.contentEditable = true;
+
+            p.appendChild(spanName);
+            p.appendChild(spanValue);
+
+            container.appendChild(p);
+
+
+
+        }
 
         return container;
     }
-
-
 
 
     // Add event listeners for all elements in the current document
@@ -225,28 +284,54 @@ class Viewer {
 
         for (var i = 0; i < elements.length; i++) {
             //ViewerMouseOver is executed when mouseover event is triggered
-            elements[i].addEventListener("mouseover", ViewerMouseOver, false);
-            elements[i].addEventListener("mouseout", ViewerMouseOut, false);
-            elements[i].addEventListener("mousemove", ViewerMouseMove, false);
+            $(elements[i]).on("mouseover", ViewerMouseOver);
+            $(elements[i]).on("mouseout", ViewerMouseOut);
+            $(elements[i]).on("mousemove", ViewerMouseMove);
         }
         this.haveEventListeners = true;
     }
+
 
     RemoveEventListeners = function () {
         var document = GetCurrentDocument();
         var elements = this.GetAllElements(document.body);
 
         for (var i = 0; i < elements.length; i++) {
-            elements[i].removeEventListener("mouseover", ViewerMouseOver, false);
-            elements[i].removeEventListener("mouseout", ViewerMouseOut, false);
-            elements[i].removeEventListener("mousemove", ViewerMouseMove, false);
+            $(elements[i]).off("mouseover", ViewerMouseOver);
+            $(elements[i]).off("mouseout", ViewerMouseOut);
+            $(elements[i]).off("mousemove", ViewerMouseMove);
         }
         this.haveEventListeners = false;
     }
 
+
+    AddEditEventListeners = function () {
+        $('#ViewerWindow_font-size .ViewerWindow_value').on("input", () => UpdateValue($('#ViewerWindow_font-size .ViewerWindow_value'), 'font-size'))
+
+        $('#ViewerWindow_font-weight .ViewerWindow_value').on("input", () => UpdateValue($('#ViewerWindow_font-weight  .ViewerWindow_value'), 'font-weight'))
+        $('#ViewerWindow_font-style .ViewerWindow_value').on("input", () => UpdateValue($('#ViewerWindow_font-style .ViewerWindow_value'), 'font-style'))
+        $('#ViewerWindow_color .ViewerWindow_value').on("input", () => UpdateValue($('#ViewerWindow_color .ViewerWindow_value'), 'color'))
+
+    }
+
+    RemoveEditEventListeners = function () {
+        $('#ViewerWindow_font-size .ViewerWindow_value').off("input")
+
+        $('#ViewerWindow_font-weight .ViewerWindow_value').off("input")
+        $('#ViewerWindow_font-style .ViewerWindow_value').off("input")
+        $('#ViewerWindow_color .ViewerWindow_value').off("input")
+
+    }
+
+
+
+
     Freeze = function () {
         if (this.haveEventListeners) {
             this.RemoveEventListeners();
+
+            this.AddEditEventListeners();
+
 
             return true;
         }
@@ -256,8 +341,9 @@ class Viewer {
     Unfreeze = function () {
 
         if (!this.haveEventListeners) {
-            // Remove the red outline
             this.AddEventListeners();
+
+            this.RemoveEditEventListeners();
 
             return true;
         }
@@ -265,12 +351,11 @@ class Viewer {
     }
 
 
-    
-    isEnabled = function()
-    {
+
+    isEnabled = function () {
         var document = GetCurrentDocument();
-        
-        if (document.getElementById('Viewer')){
+
+        if (document.getElementById('ViewerWindow_container')) {
             return true;
         }
         return false;
@@ -288,38 +373,32 @@ function Viewer_Keypress(e) {
     if (e.key === 'f') {
         if (viewer.haveEventListeners) {
             viewer.Freeze();
-            //console.log(e)
         }
         else {
             viewer.Unfreeze();
         }
     }
-    if (e.key === 'h') {
-        //console.log(this.selectedElement);
-        //this.selectedElement.style.color = 'red';
-        //console.log("executed")
-        //var elm = this.selectedElement
-        //elm.style.fontSize = '100px';
-    }
-
 }
 
 
 
-/* point of entry */
+// Viewer Instance 
 const viewer = new Viewer()
 
+// Check if VeiwerWindow injected
 var document = GetCurrentDocument()
-var ablock = document.getElementById('Viewer');
+var viewerWindow = document.getElementById('ViewerWindow_container');
 
-if(!ablock){
-    var block = viewer.ViewerWindow();
-    document.body.appendChild(block);
+// If ViewerWindow not injected, inject!
+if (!viewerWindow) {
+    var viewerWindow = viewer.BuildViewerWindow();
+    document.body.appendChild(viewerWindow);
+    viewer.AddEventListeners();
 }
 
 
-viewer.AddEventListeners();
-//viewer.logToConsole();
+
+
 
 
 document.onkeydown = Viewer_Keypress;

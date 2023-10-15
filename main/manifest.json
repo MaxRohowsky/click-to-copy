@@ -14,15 +14,11 @@
 
   "content_scripts": [
     {
-      "js": ["scripts/viewer.js"],
+      "js": ["scripts/jquery.js","scripts/viewer.js"],
       "css" : ["viewer.css"],
       "matches": ["<all_urls>"]
     }
   ]
-
-
-
-
 
 
 
