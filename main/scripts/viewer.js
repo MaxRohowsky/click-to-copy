@@ -132,14 +132,46 @@ function ViewerMouseMove(e) {
 
     var document = GetCurrentDocument();
     var block = document.getElementById('ViewerWindow_container');
+    var pageWidth = window.innerWidth;
+	var pageHeight = window.innerHeight;
+	var blockWidth = document.defaultView.getComputedStyle(block, null).getPropertyValue('width');
+	var blockHeight = document.defaultView.getComputedStyle(block, null).getPropertyValue('height');
+
+    var xOffset =  20;
+    var yOffset = 20;
 
     block.style.position = 'absolute';
 
-    //var blockWidth = 332;
-    //var blockHeight = 100;
+    //console.log(e.pageY)
+    //console.log(parseFloat(blockHeight))
+    console.log("----------------------")
+    //console.log(e.pageY)
+    console.log(e.clientX)
+    console.log(parseFloat(blockWidth))
+    console.log(parseFloat(pageWidth))
+    
 
-    block.style.left = e.pageX + 'px';;
-    block.style.top = e.pageY + 20 + 'px';
+    // Set X position of ViewerWindow
+    if ((e.clientX + parseFloat(blockWidth) + xOffset) > parseFloat(pageWidth)) {
+        //console.log('true')
+		if ((e.clientX - parseFloat(blockWidth) - xOffset) > 0)
+			block.style.left = e.clientX - parseFloat(blockWidth)  - xOffset + 'px';
+		else
+			block.style.left = 0 + 'px';
+	}
+	else
+		block.style.left = (e.pageX + xOffset) + 'px';
+
+    // Set Y position of ViewerWindow
+	if ((e.clientY + parseFloat(blockHeight) + yOffset) > parseFloat(pageHeight)) {
+		if ((e.clientY - parseFloat(blockHeight) - yOffset) > 0)
+			block.style.top = e.pageY - parseFloat(blockHeight)  - yOffset + 'px';
+		else
+			block.style.top = 0 + 'px';
+	}
+	else
+		block.style.top = (e.pageY + yOffset) + 'px';
+
 
 
     e.stopPropagation();
