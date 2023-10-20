@@ -14,7 +14,7 @@
 
   "content_scripts": [
     {
-      "js": ["scripts/jquery.js","scripts/viewer.js"],
+      "js": ["scripts/jquery.js","scripts/utils.js", "scripts/viewer.js"],
       "css" : ["viewer.css", "style/all.min.css"],
       "matches": ["<all_urls>"]
     }

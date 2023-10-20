@@ -1,17 +1,14 @@
-
-
-
 var VIEWER_ELEMENT
 
 var VIEWER_HTML = new Array(
-    'class',
     'id',
+    'class',
     'src',
     'href',
     'alt',
+    'placeholder',
     'width',
     'height',
-    'placeholder',
     'title',
     'type',
     'value'
@@ -48,113 +45,77 @@ var VIEWER_POSITIONING = new Array(
 
 
 var VIEWER_CATEGORIES = {
-    'Typography': VIEWER_TYPOGRAPHY,
-    'Box': VIEWER_BOX,
-    'Position': VIEWER_POSITIONING
+    'Typography':   VIEWER_TYPOGRAPHY,
+    'Box':          VIEWER_BOX,
+    'Position':     VIEWER_POSITIONING
 };
 
 
 
 
-function GetCurrentDocument() {
+function GetCurrentDocument() 
+{
     return window.document;
 }
 
 
 
-function UpdateValue(inputElement, property) {
 
-    // viewer.currentElement.style.fontSize = x.html();
-    viewer.currentElement.style[property] = inputElement.html();
-}
-
-
-
-
-function GetCSSProperty(elementStyle, property) {
-    return elementStyle.getPropertyValue(property)
-}
-
-function GetHTMLAttribute(elementHTML, property) {
-    if (elementHTML[property]) {
-        return elementHTML[property]
-    }
-
-}
-
-
-
-
-function ViewerMouseOver(e) {
+function ViewerMouseOver(e) 
+{
     var document = GetCurrentDocument();
-    var viewerWindow = document.getElementById('CSSViewer_window');
+    var inspectorWindow = document.getElementById('CSSViewer_window');
 
-    // Save element to viewer instance
-    
     viewer.currentElement = this
 
-    // Stop event propagation through DOM
     e.stopPropagation();
 
-    // Outline element
     if (this.tagName != 'body') {
-        //this.style.outline = '1px dotted #f00';
         this.style.setProperty('outline', '1px dotted #f00', 'important');
     }
 
-
-
-    // Get info:
     var elementStyle = document.defaultView.getComputedStyle(this, null);
 
-    // Get info:
 
-    //var node = document.querySelector('#anotherdiv') https://javascript.plainenglish.io/how-to-get-all-attributes-of-an-element-using-javascript-or-jquery-28f362b55ba5#:~:text=Conclusion-,We%20can%20get%20all%20attributes%20of%20an%20element%20with%20JavaScript,the%20value%20of%20the%20property.
 
     var elementHTML;
+    var elementAttributes;
     if (this) {
-        var attributeNodeArray = [...this.attributes];
-        var elementHTML = attributeNodeArray.reduce((elementHTML, attribute) => {
+        elementAttributes = [...this.attributes];
+        var elementHTML = elementAttributes.reduce((elementHTML, attribute) => {
             elementHTML[attribute.name] = attribute.value;
             return elementHTML;
         }, {});
-
     }
 
-
-    //console.log(GetHTMLAttribute(elementHTML, VIEWER_HTML[0]))
-
-    console.log(document.elementsFromPoint(e.clientX, e.clientY));
+ console.log(this.attributes.getNamedItem('id'))
 
 
+    SetHTMLPropertyIfv2(this, 'id',            this.attributes.getNamedItem('id') != null);
+    SetHTMLPropertyIf(elementHTML, 'class',         this.attributes.getNamedItem('class') != null);
+    SetHTMLPropertyIf(elementHTML, 'src',           this.attributes.getNamedItem('src') != null);
+    SetHTMLPropertyIf(elementHTML, 'href',          this.attributes.getNamedItem('href') != null);
+    SetHTMLPropertyIf(elementHTML, 'alt',           this.attributes.getNamedItem('alt') != null);
+    SetHTMLPropertyIf(elementHTML, 'placeholder',   this.attributes.getNamedItem('placeholder') != null);
+    SetHTMLPropertyIf(elementHTML, 'width',         this.attributes.getNamedItem('width') != null);
 
+    SetCSSPropertyIf(elementStyle, 'font-size',     true);
+    SetCSSPropertyIf(elementStyle, 'font-weight',   GetCSSProperty(elementStyle, 'font-weight') != '400');
+    SetCSSPropertyIf(elementStyle, 'font-style',    GetCSSProperty(elementStyle, 'font-style') != 'normal');
+    SetCSSPropertyIf(elementStyle, 'color',         true);
+    SetCSSPropertyIf(elementStyle, 'font-family',   true);
 
+    SetCSSPropertyIf(elementStyle, 'height',        GetCSSProperty(elementStyle, 'height')      != 'auto');
+    SetCSSPropertyIf(elementStyle, 'width',         GetCSSProperty(elementStyle, 'width')      != 'auto');
+    SetCSSPropertyIf(elementStyle, 'border',        true);
+    SetCSSPropertyIf(elementStyle, 'border-top',    true);
+    SetCSSPropertyIf(elementStyle, 'border-right',  true);
 
-
-    // Get info for property:
-
-    //placeholder
-    $('#ViewerWindow_placeholder .ViewerWindow_property').text(VIEWER_HTML[0] + ": ");
-    $('#ViewerWindow_placeholder .ViewerWindow_value').text(GetHTMLAttribute(elementHTML, VIEWER_HTML[0]));
-
-
-    //size
-    $('#ViewerWindow_font-size .ViewerWindow_property').text(VIEWER_TYPOGRAPHY[0] + ": ");
-    $('#ViewerWindow_font-size .ViewerWindow_value').text(GetCSSProperty(elementStyle, VIEWER_TYPOGRAPHY[0]));
-
-    //weight
-    $('#ViewerWindow_font-weight .ViewerWindow_property').text(VIEWER_TYPOGRAPHY[1] + ": ");
-    $('#ViewerWindow_font-weight .ViewerWindow_value').text(GetCSSProperty(elementStyle, VIEWER_TYPOGRAPHY[1]));
-
-    //style
-    $('#ViewerWindow_font-style .ViewerWindow_property').text(VIEWER_TYPOGRAPHY[2] + ": ");
-    $('#ViewerWindow_font-style .ViewerWindow_value').text(GetCSSProperty(elementStyle, VIEWER_TYPOGRAPHY[2]));
-
-    //color
-    $('#ViewerWindow_color .ViewerWindow_property').text(VIEWER_TYPOGRAPHY[3] + ": ");
-    $('#ViewerWindow_color .ViewerWindow_value').text(GetCSSProperty(elementStyle, VIEWER_TYPOGRAPHY[3]));
-
-
+    SetCSSPropertyIf(elementStyle, 'top',           GetCSSProperty(elementStyle, 'top')      != 'auto');
+    SetCSSPropertyIf(elementStyle, 'bottom',        GetCSSProperty(elementStyle, 'bottom')   != 'auto');
+    SetCSSPropertyIf(elementStyle, 'right',         GetCSSProperty(elementStyle, 'right')    != 'auto');
+    SetCSSPropertyIf(elementStyle, 'left',          GetCSSProperty(elementStyle, 'left')     != 'auto');
+    SetCSSPropertyIf(elementStyle, 'z-index',       GetCSSProperty(elementStyle, 'z-index')  != 'auto');
 
 
 
@@ -168,29 +129,20 @@ function ViewerMouseOver(e) {
     }
 
 
-    console.log(getImages(this))
+
+
     var assets = getImages(this);
 
-
-
     for (var i = 0; i < assets.length; i++) {
-        if(assets[i]!=null){
-        var img = document.createElement('img');
-        img.id = 'ViewerWindow_asset';
-        img.src = assets[i];
-        img.width = 50;
-        img.height = 50;
-        $('#ViewerWindow_assets').append(img);
+        if (assets[i] != null) {
+            var img = document.createElement('img');
+            img.id = 'InspectorWindow_asset';
+            img.src = assets[i];
+            img.width = 50;
+            img.height = 50;
+            $('#InspectorWindow_assets').append(img);
+        }
     }
-    //$('#ViewerWindow_asset').attr('src', assets[i]);
-    }
-
-    
-
-
-
-
-
 
 
 
@@ -201,11 +153,10 @@ function ViewerMouseOver(e) {
 /*
 * Triggered when mouse moves within element boundaries
 */
-function ViewerMouseOut(e) 
-{  
-    $('#ViewerWindow_assets').empty();
-    
-    
+function ViewerMouseOut(e) {
+    $('#InspectorWindow_assets').empty();
+    $('#InspectorWindow_value').empty();
+
     this.style.outline = '';
     e.stopPropagation();
 
@@ -216,12 +167,11 @@ function ViewerMouseOut(e)
 /*
 * Triggered when mouse moves within element boundaries
 */
-function ViewerMouseMove(e) 
-{
+function ViewerMouseMove(e) {
 
 
     var document = GetCurrentDocument();
-    var block = document.getElementById('ViewerWindow_container');
+    var block = document.getElementById('InspectorWindow_container');
     var pageWidth = window.innerWidth;
     var pageHeight = window.innerHeight;
     var blockWidth = document.defaultView.getComputedStyle(block, null).getPropertyValue('width');
@@ -236,7 +186,7 @@ function ViewerMouseMove(e)
 
 
 
-    // Set X position of ViewerWindow
+    // Set X position of InspectorWindow
     if ((e.clientX + parseFloat(blockWidth) + xOffset) > parseFloat(pageWidth)) {
         //console.log('true')
         if ((e.clientX - parseFloat(blockWidth) - xOffset) > 0)
@@ -247,7 +197,7 @@ function ViewerMouseMove(e)
     else
         block.style.left = (e.pageX + xOffset) + 'px';
 
-    // Set Y position of ViewerWindow
+    // Set Y position of InspectorWindow
     if ((e.clientY + parseFloat(blockHeight) + yOffset) > parseFloat(pageHeight)) {
         if ((e.clientY - parseFloat(blockHeight) - yOffset) > 0)
             block.style.top = e.pageY - parseFloat(blockHeight) - yOffset + 'px';
@@ -296,133 +246,87 @@ class Viewer {
                 }
             }
         }
-        //console.log(elements)
         return elements;
     }
 
+    
+    BuildHTMLAttribute = function (container, attribute) {
+        var p = document.createElement('p');
+        p.id = 'InspectorWindow_' + attribute;
 
-    BuildViewerWindow = function () {
+        var spanName = document.createElement('span');
+        spanName.className = 'InspectorWindow_attribute';
+
+        var spanValue = document.createElement('span');
+        spanValue.className = 'InspectorWindow_htmlvalue';
+        spanValue.contentEditable = true;
+
+        p.appendChild(spanName);
+        p.appendChild(spanValue);
+
+        container.appendChild(p);
+    }
+
+
+    BuildCSSProperty = function (container, property) {
+        var p = document.createElement('p');
+        p.id = 'InspectorWindow_' + property;
+
+        var spanName = document.createElement('span');
+        spanName.className = 'InspectorWindow_property';
+
+        var spanValue = document.createElement('span');
+        spanValue.className = 'InspectorWindow_cssvalue';
+        spanValue.contentEditable = true;
+
+        p.appendChild(spanName);
+        p.appendChild(spanValue);
+
+        container.appendChild(p);
+    }
+
+
+    BuildInspectorWindow = function () {
         var document = GetCurrentDocument();
         var container;
 
         if (document) {
 
             container = document.createElement('div');
-            container.id = 'ViewerWindow_container';
-
-
-
+            container.id = 'InspectorWindow_container';
 
 
             var title = document.createElement('p');
             title.appendChild(document.createTextNode('HTML'));
             container.appendChild(title);
 
+            for (var i = 0; i < VIEWER_HTML.length; i++) {
+                this.BuildHTMLAttribute(container, VIEWER_HTML[i])
+            }
+
+
+
+
+
             //-----------------------------------------------
-
-            var p = document.createElement('p');
-            p.id = 'ViewerWindow_placeholder';
-
-            var spanName = document.createElement('span');
-            spanName.className = 'ViewerWindow_property';
-
-            var spanValue = document.createElement('span');
-            spanValue.className = 'ViewerWindow_value';
-            spanValue.contentEditable = true;
-
-            p.appendChild(spanName);
-            p.appendChild(spanValue);
-
-            container.appendChild(p);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             var title = document.createElement('p');
             title.appendChild(document.createTextNode('CSS'));
             container.appendChild(title);
 
-            //-----------------------------------------------
+            for (var i = 0; i < VIEWER_TYPOGRAPHY.length; i++) {
+                this.BuildCSSProperty(container, VIEWER_TYPOGRAPHY[i])
+            }
 
-            var p = document.createElement('p');
-            p.id = 'ViewerWindow_font-size';
+            for (var i = 0; i < VIEWER_BOX.length; i++) {
+                this.BuildCSSProperty(container, VIEWER_BOX[i])
+            }
 
-            var spanName = document.createElement('span');
-            spanName.className = 'ViewerWindow_property';
-
-            var spanValue = document.createElement('span');
-            spanValue.className = 'ViewerWindow_value';
-            spanValue.contentEditable = true;
-
-            p.appendChild(spanName);
-            p.appendChild(spanValue);
-
-            container.appendChild(p);
+            for (var i = 0; i < VIEWER_POSITIONING.length; i++) {
+                this.BuildCSSProperty(container, VIEWER_POSITIONING[i])
+            }
 
 
-            //-----------------------------
-
-            var p = document.createElement('p');
-            p.id = 'ViewerWindow_font-weight';
-
-            var spanName = document.createElement('span');
-            spanName.className = 'ViewerWindow_property';
-
-            var spanValue = document.createElement('span');
-            spanValue.className = 'ViewerWindow_value';
-            spanValue.contentEditable = true;
-
-            p.appendChild(spanName);
-            p.appendChild(spanValue);
-
-            container.appendChild(p);
-
-            //-----------------------------
-
-            var p = document.createElement('p');
-            p.id = 'ViewerWindow_font-style';
-
-            var spanName = document.createElement('span');
-            spanName.className = 'ViewerWindow_property';
-
-            var spanValue = document.createElement('span');
-            spanValue.className = 'ViewerWindow_value';
-            spanValue.contentEditable = true;
-
-            p.appendChild(spanName);
-            p.appendChild(spanValue);
-
-            container.appendChild(p);
-
-
-            //-----------------------------
-
-            var p = document.createElement('p');
-            p.id = 'ViewerWindow_color';
-
-            var spanName = document.createElement('span');
-            spanName.className = 'ViewerWindow_property';
-
-            var spanValue = document.createElement('span');
-            spanValue.className = 'ViewerWindow_value';
-            spanValue.contentEditable = true;
-
-            p.appendChild(spanName);
-            p.appendChild(spanValue);
-
-            container.appendChild(p);
 
 
 
@@ -436,12 +340,12 @@ class Viewer {
             //-----------------------------------------------
 
             var assets = document.createElement('div');
-            assets.id = 'ViewerWindow_assets';
+            assets.id = 'InspectorWindow_assets';
 
             container.appendChild(assets)
 
             //var img = document.createElement('img');
-            //img.id = 'ViewerWindow_asset';
+            //img.id = 'InspectorWindow_asset';
             //img.width = 50;
             //img.height = 50;
 
@@ -496,20 +400,28 @@ class Viewer {
 
 
     AddEditEventListeners = function () {
-        $('#ViewerWindow_font-size .ViewerWindow_value').on("input", () => UpdateValue($('#ViewerWindow_font-size .ViewerWindow_value'), 'font-size'))
 
-        $('#ViewerWindow_font-weight .ViewerWindow_value').on("input", () => UpdateValue($('#ViewerWindow_font-weight  .ViewerWindow_value'), 'font-weight'))
-        $('#ViewerWindow_font-style .ViewerWindow_value').on("input", () => UpdateValue($('#ViewerWindow_font-style .ViewerWindow_value'), 'font-style'))
-        $('#ViewerWindow_color .ViewerWindow_value').on("input", () => UpdateValue($('#ViewerWindow_color .ViewerWindow_value'), 'color'))
+        for (var i = 0; i < VIEWER_HTML.length; i++) {
+            (function (index) {
+                $('#InspectorWindow_' + VIEWER_HTML[index] + ' .InspectorWindow_value').on("input", () => {
+                    UpdateHTMLValue($('#InspectorWindow_' + VIEWER_HTML[index] + ' .InspectorWindow_value'), VIEWER_HTML[index]);
+                });
+            })(i);
+        }
+
+
+        $('#InspectorWindow_font-size .InspectorWindow_value').on("input", () => UpdateValue($('#InspectorWindow_font-size .InspectorWindow_value'), 'font-size'))
+        $('#InspectorWindow_font-weight .InspectorWindow_value').on("input", () => UpdateValue($('#InspectorWindow_font-weight  .InspectorWindow_value'), 'font-weight'))
+        $('#InspectorWindow_font-style .InspectorWindow_value').on("input", () => UpdateValue($('#InspectorWindow_font-style .InspectorWindow_value'), 'font-style'))
+        $('#InspectorWindow_color .InspectorWindow_value').on("input", () => UpdateValue($('#InspectorWindow_color .InspectorWindow_value'), 'color'))
 
     }
 
     RemoveEditEventListeners = function () {
-        $('#ViewerWindow_font-size .ViewerWindow_value').off("input")
-
-        $('#ViewerWindow_font-weight .ViewerWindow_value').off("input")
-        $('#ViewerWindow_font-style .ViewerWindow_value').off("input")
-        $('#ViewerWindow_color .ViewerWindow_value').off("input")
+        $('#InspectorWindow_font-size .InspectorWindow_value').off("input")
+        $('#InspectorWindow_font-weight .InspectorWindow_value').off("input")
+        $('#InspectorWindow_font-style .InspectorWindow_value').off("input")
+        $('#InspectorWindow_color .InspectorWindow_value').off("input")
 
     }
 
@@ -545,7 +457,7 @@ class Viewer {
     isEnabled = function () {
         var document = GetCurrentDocument();
 
-        if (document.getElementById('ViewerWindow_container')) {
+        if (document.getElementById('InspectorWindow_container')) {
             return true;
         }
         return false;
@@ -595,17 +507,17 @@ $(function () {
 
         // Check if VeiwerWindow injected
         var document = GetCurrentDocument();
-        var viewerWindow = document.getElementById('ViewerWindow_container');
+        var inspectorWindow = document.getElementById('InspectorWindow_container');
 
-        // If ViewerWindow not injected, inject!
+        // If InspectorWindow not injected, inject!
 
-            if (!viewerWindow) {
-                var viewerWindow = viewer.BuildViewerWindow();
-                document.body.appendChild(viewerWindow);
-                viewer.AddEventListeners();
+        if (!inspectorWindow) {
+            var inspectorWindow = viewer.BuildInspectorWindow();
+            document.body.appendChild(inspectorWindow);
+            viewer.AddEventListeners();
 
-            }
-        
+        }
+
 
     });
 });
