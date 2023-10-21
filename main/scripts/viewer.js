@@ -45,28 +45,28 @@ var VIEWER_POSITIONING = new Array(
 
 
 var VIEWER_CATEGORIES = {
-    'Typography':   VIEWER_TYPOGRAPHY,
-    'Box':          VIEWER_BOX,
-    'Position':     VIEWER_POSITIONING
+    'Typography': VIEWER_TYPOGRAPHY,
+    'Box': VIEWER_BOX,
+    'Position': VIEWER_POSITIONING
 };
 
 
 
 
-function GetCurrentDocument() 
-{
+function GetCurrentDocument() {
     return window.document;
 }
 
 
 
 
-function ViewerMouseOver(e) 
-{
+function ViewerMouseOver(e) {
     var document = GetCurrentDocument();
-    var inspectorWindow = document.getElementById('CSSViewer_window');
 
-    viewer.currentElement = this
+    //var inspectorWindow = document.getElementById('CSSViewer_window');
+    var element = this;
+
+    viewer.currentElement = element
 
     e.stopPropagation();
 
@@ -74,48 +74,34 @@ function ViewerMouseOver(e)
         this.style.setProperty('outline', '1px dotted #f00', 'important');
     }
 
-    var elementStyle = document.defaultView.getComputedStyle(this, null);
 
 
 
-    var elementHTML;
-    var elementAttributes;
-    if (this) {
-        elementAttributes = [...this.attributes];
-        var elementHTML = elementAttributes.reduce((elementHTML, attribute) => {
-            elementHTML[attribute.name] = attribute.value;
-            return elementHTML;
-        }, {});
-    }
+    SetHTMLAttributeIf(element, 'id', element.attributes.getNamedItem('id') != null);
+    SetHTMLAttributeIf(element, 'class', element.attributes.getNamedItem('class') != null);
+    SetHTMLAttributeIf(element, 'src', element.attributes.getNamedItem('src') != null);
+    SetHTMLAttributeIf(element, 'href', element.attributes.getNamedItem('href') != null);
+    SetHTMLAttributeIf(element, 'alt', element.attributes.getNamedItem('alt') != null);
+    SetHTMLAttributeIf(element, 'placeholder', element.attributes.getNamedItem('placeholder') != null);
+    SetHTMLAttributeIf(element, 'width', element.attributes.getNamedItem('width') != null);
 
- console.log(this.attributes.getNamedItem('id'))
+    SetCSSPropertyIf(element, 'font-size', true);
+    SetCSSPropertyIf(element, 'font-weight', GetCSSProperty(element, 'font-weight') != '400');
+    SetCSSPropertyIf(element, 'font-style', GetCSSProperty(element, 'font-style') != 'normal');
+    SetCSSPropertyIf(element, 'color', true);
+    SetCSSPropertyIf(element, 'font-family', true);
 
+    SetCSSPropertyIf(element, 'height', GetCSSProperty(element, 'height') != 'auto');
+    SetCSSPropertyIf(element, 'width', GetCSSProperty(element, 'width') != 'auto');
+    SetCSSPropertyIf(element, 'border', true);
+    SetCSSPropertyIf(element, 'border-top', true);
+    SetCSSPropertyIf(element, 'border-right', true);
 
-    SetHTMLPropertyIfv2(this, 'id',            this.attributes.getNamedItem('id') != null);
-    SetHTMLPropertyIf(elementHTML, 'class',         this.attributes.getNamedItem('class') != null);
-    SetHTMLPropertyIf(elementHTML, 'src',           this.attributes.getNamedItem('src') != null);
-    SetHTMLPropertyIf(elementHTML, 'href',          this.attributes.getNamedItem('href') != null);
-    SetHTMLPropertyIf(elementHTML, 'alt',           this.attributes.getNamedItem('alt') != null);
-    SetHTMLPropertyIf(elementHTML, 'placeholder',   this.attributes.getNamedItem('placeholder') != null);
-    SetHTMLPropertyIf(elementHTML, 'width',         this.attributes.getNamedItem('width') != null);
-
-    SetCSSPropertyIf(elementStyle, 'font-size',     true);
-    SetCSSPropertyIf(elementStyle, 'font-weight',   GetCSSProperty(elementStyle, 'font-weight') != '400');
-    SetCSSPropertyIf(elementStyle, 'font-style',    GetCSSProperty(elementStyle, 'font-style') != 'normal');
-    SetCSSPropertyIf(elementStyle, 'color',         true);
-    SetCSSPropertyIf(elementStyle, 'font-family',   true);
-
-    SetCSSPropertyIf(elementStyle, 'height',        GetCSSProperty(elementStyle, 'height')      != 'auto');
-    SetCSSPropertyIf(elementStyle, 'width',         GetCSSProperty(elementStyle, 'width')      != 'auto');
-    SetCSSPropertyIf(elementStyle, 'border',        true);
-    SetCSSPropertyIf(elementStyle, 'border-top',    true);
-    SetCSSPropertyIf(elementStyle, 'border-right',  true);
-
-    SetCSSPropertyIf(elementStyle, 'top',           GetCSSProperty(elementStyle, 'top')      != 'auto');
-    SetCSSPropertyIf(elementStyle, 'bottom',        GetCSSProperty(elementStyle, 'bottom')   != 'auto');
-    SetCSSPropertyIf(elementStyle, 'right',         GetCSSProperty(elementStyle, 'right')    != 'auto');
-    SetCSSPropertyIf(elementStyle, 'left',          GetCSSProperty(elementStyle, 'left')     != 'auto');
-    SetCSSPropertyIf(elementStyle, 'z-index',       GetCSSProperty(elementStyle, 'z-index')  != 'auto');
+    SetCSSPropertyIf(element, 'top', GetCSSProperty(element, 'top') != 'auto');
+    SetCSSPropertyIf(element, 'bottom', GetCSSProperty(element, 'bottom') != 'auto');
+    SetCSSPropertyIf(element, 'right', GetCSSProperty(element, 'right') != 'auto');
+    SetCSSPropertyIf(element, 'left', GetCSSProperty(element, 'left') != 'auto');
+    SetCSSPropertyIf(element, 'z-index', GetCSSProperty(element, 'z-index') != 'auto');
 
 
 
@@ -145,9 +131,6 @@ function ViewerMouseOver(e)
     }
 
 
-
-
-
 }
 
 /*
@@ -159,8 +142,6 @@ function ViewerMouseOut(e) {
 
     this.style.outline = '';
     e.stopPropagation();
-
-
 
 }
 
@@ -249,7 +230,7 @@ class Viewer {
         return elements;
     }
 
-    
+
     BuildHTMLAttribute = function (container, attribute) {
         var p = document.createElement('p');
         p.id = 'InspectorWindow_' + attribute;
@@ -258,7 +239,7 @@ class Viewer {
         spanName.className = 'InspectorWindow_attribute';
 
         var spanValue = document.createElement('span');
-        spanValue.className = 'InspectorWindow_htmlvalue';
+        spanValue.className = 'InspectorWindow_htmlValue';
         spanValue.contentEditable = true;
 
         p.appendChild(spanName);
@@ -276,7 +257,7 @@ class Viewer {
         spanName.className = 'InspectorWindow_property';
 
         var spanValue = document.createElement('span');
-        spanValue.className = 'InspectorWindow_cssvalue';
+        spanValue.className = 'InspectorWindow_cssValue';
         spanValue.contentEditable = true;
 
         p.appendChild(spanName);
@@ -328,10 +309,6 @@ class Viewer {
 
 
 
-
-
-
-
             //---------------------------------------------
             var title = document.createElement('p');
             title.appendChild(document.createTextNode('Assets'));
@@ -343,26 +320,6 @@ class Viewer {
             assets.id = 'InspectorWindow_assets';
 
             container.appendChild(assets)
-
-            //var img = document.createElement('img');
-            //img.id = 'InspectorWindow_asset';
-            //img.width = 50;
-            //img.height = 50;
-
-            //container.appendChild(img);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         }
 
@@ -403,25 +360,53 @@ class Viewer {
 
         for (var i = 0; i < VIEWER_HTML.length; i++) {
             (function (index) {
-                $('#InspectorWindow_' + VIEWER_HTML[index] + ' .InspectorWindow_value').on("input", () => {
-                    UpdateHTMLValue($('#InspectorWindow_' + VIEWER_HTML[index] + ' .InspectorWindow_value'), VIEWER_HTML[index]);
+                $('#InspectorWindow_' + VIEWER_HTML[index] + ' .InspectorWindow_htmlValue').on("input", () => {
+                    UpdateHTMLValue($('#InspectorWindow_' + VIEWER_HTML[index] + ' .InspectorWindow_htmlValue'), VIEWER_HTML[index]);
                 });
             })(i);
         }
 
+        for (var i = 0; i < VIEWER_TYPOGRAPHY.length; i++) {
+            (function (index) {
+                $('#InspectorWindow_' + VIEWER_TYPOGRAPHY[index] + ' .InspectorWindow_cssValue').on("input", () => {
+                    UpdateCSSValue($('#InspectorWindow_' + VIEWER_TYPOGRAPHY[index] + ' .InspectorWindow_cssValue'), VIEWER_TYPOGRAPHY[index]);
+                });
+            })(i);
+        }
 
-        $('#InspectorWindow_font-size .InspectorWindow_value').on("input", () => UpdateValue($('#InspectorWindow_font-size .InspectorWindow_value'), 'font-size'))
-        $('#InspectorWindow_font-weight .InspectorWindow_value').on("input", () => UpdateValue($('#InspectorWindow_font-weight  .InspectorWindow_value'), 'font-weight'))
-        $('#InspectorWindow_font-style .InspectorWindow_value').on("input", () => UpdateValue($('#InspectorWindow_font-style .InspectorWindow_value'), 'font-style'))
-        $('#InspectorWindow_color .InspectorWindow_value').on("input", () => UpdateValue($('#InspectorWindow_color .InspectorWindow_value'), 'color'))
+        for (var i = 0; i < VIEWER_BOX.length; i++) {
+            (function (index) {
+                $('#InspectorWindow_' + VIEWER_BOX[index] + ' .InspectorWindow_cssValue').on("input", () => {
+                    UpdateCSSValue($('#InspectorWindow_' + VIEWER_BOX[index] + ' .InspectorWindow_cssValue'), VIEWER_BOX[index]);
+                });
+            })(i);
+        }
+
+        for (var i = 0; i < VIEWER_POSITIONING.length; i++) {
+            (function (index) {
+                $('#InspectorWindow_' + VIEWER_POSITIONING[index] + ' .InspectorWindow_cssValue').on("input", () => {
+                    UpdateCSSValue($('#InspectorWindow_' + VIEWER_POSITIONING[index] + ' .InspectorWindow_cssValue'), VIEWER_POSITIONING[index]);
+                });
+            })(i);
+        }
+
+        
+
+
+
+
+        //$('#InspectorWindow_font-size .InspectorWindow_cssValue').on("input", () => UpdateCSSValue($('#InspectorWindow_font-size .InspectorWindow_cssValue'), 'font-size'))
+        //$('#InspectorWindow_font-weight .InspectorWindow_cssValue').on("input", () => UpdateCSSValue($('#InspectorWindow_font-weight  .InspectorWindow_cssValue'), 'font-weight'))
+        //$('#InspectorWindow_font-style .InspectorWindow_cssValue').on("input", () => UpdateCSSValue($('#InspectorWindow_font-style .InspectorWindow_cssValue'), 'font-style'))
+        //$('#InspectorWindow_color .InspectorWindow_cssValue').on("input", () => UpdateCSSValue($('#InspectorWindow_color .InspectorWindow_cssValue'), 'color'))
 
     }
 
     RemoveEditEventListeners = function () {
-        $('#InspectorWindow_font-size .InspectorWindow_value').off("input")
-        $('#InspectorWindow_font-weight .InspectorWindow_value').off("input")
-        $('#InspectorWindow_font-style .InspectorWindow_value').off("input")
-        $('#InspectorWindow_color .InspectorWindow_value').off("input")
+        $('#InspectorWindow_font-size .InspectorWindow_cssValue').off("input")
+        $('#InspectorWindow_font-weight .InspectorWindow_cssValue').off("input")
+        $('#InspectorWindow_font-style .InspectorWindow_cssValue').off("input")
+        $('#InspectorWindow_color .InspectorWindow_cssValue').off("input")
 
     }
 

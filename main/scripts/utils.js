@@ -1,76 +1,51 @@
-function UpdateHTMLValue(inputElement, property) 
+function UpdateHTMLValue(field, attribute) 
 {
-    $(viewer.currentElement).attr(property, inputElement.html());
+    $(viewer.currentElement).attr(attribute, field.html());
 }
 
-function UpdateValue(inputElement, property) 
+function UpdateCSSValue(field, property) 
 {
-    viewer.currentElement.style[property] = inputElement.html();
+    console.log(property);
+    viewer.currentElement.style[property] = field.html();
 }
 
-function GetHTMLAttributeValue(elementHTML, property) 
+function GetCSSProperty(element, property) 
 {
-    if (elementHTML[property]) {
-        return elementHTML[property]
-    }
-
-}
-
-function GetCSSProperty(elementStyle, property) 
-{
+    var elementStyle = document.defaultView.getComputedStyle(element, null);
     return elementStyle.getPropertyValue(property)
 }
 
-function SetHTMLPropertyIfv2(elementHTML, property, condition) 
+function SetHTMLAttributeIf(element, attribute, condition) 
 {
     if(condition){
-        var value = elementHTML.attributes.getNamedItem(property).value
+        var value = element.attributes.getNamedItem(attribute).value
         
-        $('#InspectorWindow_' + property + ' .InspectorWindow_attribute').css('display', 'inline')
-        $('#InspectorWindow_' + property + ' .InspectorWindow_htmlvalue').css('display', 'inline')
+        $('#InspectorWindow_' + attribute + ' .InspectorWindow_attribute').css('display', 'inline')
+        $('#InspectorWindow_' + attribute + ' .InspectorWindow_htmlValue').css('display', 'inline')
 
-        $('#InspectorWindow_' + property + ' .InspectorWindow_attribute').text(property + ": ");
-        $('#InspectorWindow_' + property + ' .InspectorWindow_htmlvalue').text( value );
+        $('#InspectorWindow_' + attribute + ' .InspectorWindow_attribute').text(attribute + ": ");
+        $('#InspectorWindow_' + attribute + ' .InspectorWindow_htmlValue').text( value );
     }
     else{
-        $('#InspectorWindow_' + property + ' .InspectorWindow_attribute').css('display', 'none')
-        $('#InspectorWindow_' + property + ' .InspectorWindow_htmlvalue').css('display', 'none')
+        $('#InspectorWindow_' + attribute + ' .InspectorWindow_attribute').css('display', 'none')
+        $('#InspectorWindow_' + attribute + ' .InspectorWindow_htmlValue').css('display', 'none')
     }
-    
 }
 
-function SetHTMLPropertyIf(elementHTML, property, condition) 
+function SetCSSPropertyIf(element, property, condition) 
 {
-    var value = GetHTMLAttributeValue(elementHTML, property)
-
-    if(condition){
-        $('#InspectorWindow_' + property + ' .InspectorWindow_attribute').css('display', 'inline')
-        $('#InspectorWindow_' + property + ' .InspectorWindow_htmlvalue').css('display', 'inline')
-
-        $('#InspectorWindow_' + property + ' .InspectorWindow_attribute').text(property + ": ");
-        $('#InspectorWindow_' + property + ' .InspectorWindow_htmlvalue').text( value );
-    }
-    else{
-        $('#InspectorWindow_' + property + ' .InspectorWindow_attribute').css('display', 'none')
-        $('#InspectorWindow_' + property + ' .InspectorWindow_htmlvalue').css('display', 'none')
-    }
-    
-}
-
-function SetCSSPropertyIf(elementStyle, property, condition) 
-{
-    var value = GetCSSProperty(elementStyle, property)
+    var value = GetCSSProperty(element, property)
 
     if (condition) {
         $('#InspectorWindow_' + property + ' .InspectorWindow_property').css('display', 'inline')
-        $('#InspectorWindow_' + property + ' .InspectorWindow_cssvalue').css('display', 'inline')
+        $('#InspectorWindow_' + property + ' .InspectorWindow_cssValue').css('display', 'inline')
 
         $('#InspectorWindow_' + property + ' .InspectorWindow_property').text(property + ": ");
-        $('#InspectorWindow_' + property + ' .InspectorWindow_cssvalue').text(value);
+        $('#InspectorWindow_' + property + ' .InspectorWindow_cssValue').text(value);
     }
     else {
         $('#InspectorWindow_' + property + ' .InspectorWindow_property').css('display', 'none')
-        $('#InspectorWindow_' + property + ' .InspectorWindow_cssvalue').css('display', 'none')
+        $('#InspectorWindow_' + property + ' .InspectorWindow_cssValue').css('display', 'none')
     }
 
 }
