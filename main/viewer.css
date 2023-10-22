@@ -17,20 +17,70 @@
   }
 
 
+
+#InspectorWindow_container p{
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+
 #InspectorWindow_container {
     max-width: 350px;
     min-width: 300px;
-    background-color: rgba(236, 236, 243, 0.85);
-    border-radius: 15px;
+    border-radius: 8px;
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
-    font-family: 'wotfard-medium', sans-serif;
-    box-shadow: 0px 0px 10px rgba(175, 189, 208, 0.15);
+    background-color: rgba(46, 52, 64, 0.95);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
     position: relative;
     z-index: 9999;
-
 }
 
+
+#InspectorWindow_htmlTitle{
+    color: #de6f37 !important;
+    font-weight: 700;
+}
+
+#InspectorWindow_cssTitle{
+    color: #61aeee !important;
+    font-weight: 700;
+}
+
+#InspectorWindow_assetsTitle{
+    color: #ffc125 !important;
+    font-weight: 700;
+}
+
+#InspectorWindow_htmlTitle,
+#InspectorWindow_cssTitle,
+#InspectorWindow_assetsTitle,
+.InspectorWindow_cssValue,
+.InspectorWindow_htmlValue,
+.InspectorWindow_attribute,
+.InspectorWindow_property {
+    font-family: 'wotfard-medium', sans-serif !important;
+    color: white;
+}
+
+
+.InspectorWindow_attribute {
+    color: #de6f37;
+    font-weight: 400;
+}
+
+.InspectorWindow_property {
+    color: #61aeee;
+    font-weight: 400;
+}
+
+.InspectorWindow_htmlValue {
+    color: white;
+}
+
+.InspectorWindow_cssValue {
+    color: white;
+}
 

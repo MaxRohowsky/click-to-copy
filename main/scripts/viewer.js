@@ -53,20 +53,17 @@ var VIEWER_CATEGORIES = {
 
 
 
-function GetCurrentDocument() {
+function GetCurrentDocument() 
+{
     return window.document;
 }
 
 
-
-
-function ViewerMouseOver(e) {
-    var document = GetCurrentDocument();
-
-    //var inspectorWindow = document.getElementById('CSSViewer_window');
+function ViewerMouseOver(e) 
+{
     var element = this;
-
-    viewer.currentElement = element
+    viewer.currentElement = element;
+    viewer.nrAttributes = 0;
 
     e.stopPropagation();
 
@@ -74,61 +71,9 @@ function ViewerMouseOver(e) {
         this.style.setProperty('outline', '1px dotted #f00', 'important');
     }
 
-
-
-
-    SetHTMLAttributeIf(element, 'id', element.attributes.getNamedItem('id') != null);
-    SetHTMLAttributeIf(element, 'class', element.attributes.getNamedItem('class') != null);
-    SetHTMLAttributeIf(element, 'src', element.attributes.getNamedItem('src') != null);
-    SetHTMLAttributeIf(element, 'href', element.attributes.getNamedItem('href') != null);
-    SetHTMLAttributeIf(element, 'alt', element.attributes.getNamedItem('alt') != null);
-    SetHTMLAttributeIf(element, 'placeholder', element.attributes.getNamedItem('placeholder') != null);
-    SetHTMLAttributeIf(element, 'width', element.attributes.getNamedItem('width') != null);
-
-    SetCSSPropertyIf(element, 'font-size', true);
-    SetCSSPropertyIf(element, 'font-weight', GetCSSProperty(element, 'font-weight') != '400');
-    SetCSSPropertyIf(element, 'font-style', GetCSSProperty(element, 'font-style') != 'normal');
-    SetCSSPropertyIf(element, 'color', true);
-    SetCSSPropertyIf(element, 'font-family', true);
-
-    SetCSSPropertyIf(element, 'height', GetCSSProperty(element, 'height') != 'auto');
-    SetCSSPropertyIf(element, 'width', GetCSSProperty(element, 'width') != 'auto');
-    SetCSSPropertyIf(element, 'border', true);
-    SetCSSPropertyIf(element, 'border-top', true);
-    SetCSSPropertyIf(element, 'border-right', true);
-
-    SetCSSPropertyIf(element, 'top', GetCSSProperty(element, 'top') != 'auto');
-    SetCSSPropertyIf(element, 'bottom', GetCSSProperty(element, 'bottom') != 'auto');
-    SetCSSPropertyIf(element, 'right', GetCSSProperty(element, 'right') != 'auto');
-    SetCSSPropertyIf(element, 'left', GetCSSProperty(element, 'left') != 'auto');
-    SetCSSPropertyIf(element, 'z-index', GetCSSProperty(element, 'z-index') != 'auto');
-
-
-
-
-
-    function getImages(el, includeDuplicates = false) {
-        const images = [...el.getElementsByTagName('img')].map(img =>
-            img.getAttribute('src')
-        );
-        return includeDuplicates ? images : [...new Set(images)];
-    }
-
-
-
-
-    var assets = getImages(this);
-
-    for (var i = 0; i < assets.length; i++) {
-        if (assets[i] != null) {
-            var img = document.createElement('img');
-            img.id = 'InspectorWindow_asset';
-            img.src = assets[i];
-            img.width = 50;
-            img.height = 50;
-            $('#InspectorWindow_assets').append(img);
-        }
-    }
+    SetHTMLAttributes(element);
+    SetCSSProperties(element);
+    SetAssets(element);
 
 
 }
@@ -164,9 +109,6 @@ function ViewerMouseMove(e) {
     block.style.position = 'absolute';
 
 
-
-
-
     // Set X position of InspectorWindow
     if ((e.clientX + parseFloat(blockWidth) + xOffset) > parseFloat(pageWidth)) {
         //console.log('true')
@@ -200,15 +142,14 @@ function ViewerMouseMove(e) {
 /*
 * Viewer Class
 */
-class Viewer {
+class Viewer 
+{
     constructor() {
         this.haveEventListeners = false;
         this.currentElement = null;
     }
 
 
-
-    // Test on here: JavaScript - Get all images in element - 30 seconds of code https://www.30secondsofcode.org/js/s/get-images/#:~:text=Fetches%20all%20images%20from%20within,elements%20inside%20the%20provided%20element.
     GetAllElements = function (element) {
         var elements = new Array();
 
@@ -231,7 +172,8 @@ class Viewer {
     }
 
 
-    BuildHTMLAttribute = function (container, attribute) {
+    BuildHTMLAttribute = function (container, attribute) 
+    {
         var p = document.createElement('p');
         p.id = 'InspectorWindow_' + attribute;
 
@@ -249,7 +191,8 @@ class Viewer {
     }
 
 
-    BuildCSSProperty = function (container, property) {
+    BuildCSSProperty = function (container, property) 
+    {
         var p = document.createElement('p');
         p.id = 'InspectorWindow_' + property;
 
@@ -267,7 +210,8 @@ class Viewer {
     }
 
 
-    BuildInspectorWindow = function () {
+    BuildInspectorWindow = function () 
+    {
         var document = GetCurrentDocument();
         var container;
 
@@ -276,8 +220,8 @@ class Viewer {
             container = document.createElement('div');
             container.id = 'InspectorWindow_container';
 
-
             var title = document.createElement('p');
+            title.id = 'InspectorWindow_htmlTitle';
             title.appendChild(document.createTextNode('HTML'));
             container.appendChild(title);
 
@@ -285,13 +229,10 @@ class Viewer {
                 this.BuildHTMLAttribute(container, VIEWER_HTML[i])
             }
 
-
-
-
-
             //-----------------------------------------------
 
             var title = document.createElement('p');
+            title.id = 'InspectorWindow_cssTitle';
             title.appendChild(document.createTextNode('CSS'));
             container.appendChild(title);
 
@@ -307,14 +248,11 @@ class Viewer {
                 this.BuildCSSProperty(container, VIEWER_POSITIONING[i])
             }
 
-
-
             //---------------------------------------------
             var title = document.createElement('p');
             title.appendChild(document.createTextNode('Assets'));
+            title.id = 'InspectorWindow_assetsTitle';
             container.appendChild(title);
-
-            //-----------------------------------------------
 
             var assets = document.createElement('div');
             assets.id = 'InspectorWindow_assets';
@@ -326,15 +264,12 @@ class Viewer {
         return container;
     }
 
-
-    // Add event listeners for all elements in the current document
     AddEventListeners = function () {
         var document = GetCurrentDocument();
         var elements = this.GetAllElements(document.body);
 
 
         for (var i = 0; i < elements.length; i++) {
-            //ViewerMouseOver is executed when mouseover event is triggered
             $(elements[i]).on("mouseover", ViewerMouseOver);
             $(elements[i]).on("mouseout", ViewerMouseOut);
             $(elements[i]).on("mousemove", ViewerMouseMove);
@@ -357,7 +292,6 @@ class Viewer {
 
 
     AddEditEventListeners = function () {
-
         for (var i = 0; i < VIEWER_HTML.length; i++) {
             (function (index) {
                 $('#InspectorWindow_' + VIEWER_HTML[index] + ' .InspectorWindow_htmlValue').on("input", () => {
@@ -366,6 +300,7 @@ class Viewer {
             })(i);
         }
 
+        
         for (var i = 0; i < VIEWER_TYPOGRAPHY.length; i++) {
             (function (index) {
                 $('#InspectorWindow_' + VIEWER_TYPOGRAPHY[index] + ' .InspectorWindow_cssValue').on("input", () => {
@@ -389,24 +324,24 @@ class Viewer {
                 });
             })(i);
         }
-
-        
-
-
-
-
-        //$('#InspectorWindow_font-size .InspectorWindow_cssValue').on("input", () => UpdateCSSValue($('#InspectorWindow_font-size .InspectorWindow_cssValue'), 'font-size'))
-        //$('#InspectorWindow_font-weight .InspectorWindow_cssValue').on("input", () => UpdateCSSValue($('#InspectorWindow_font-weight  .InspectorWindow_cssValue'), 'font-weight'))
-        //$('#InspectorWindow_font-style .InspectorWindow_cssValue').on("input", () => UpdateCSSValue($('#InspectorWindow_font-style .InspectorWindow_cssValue'), 'font-style'))
-        //$('#InspectorWindow_color .InspectorWindow_cssValue').on("input", () => UpdateCSSValue($('#InspectorWindow_color .InspectorWindow_cssValue'), 'color'))
-
     }
 
     RemoveEditEventListeners = function () {
-        $('#InspectorWindow_font-size .InspectorWindow_cssValue').off("input")
-        $('#InspectorWindow_font-weight .InspectorWindow_cssValue').off("input")
-        $('#InspectorWindow_font-style .InspectorWindow_cssValue').off("input")
-        $('#InspectorWindow_color .InspectorWindow_cssValue').off("input")
+        for (var i = 0; i < VIEWER_HTML.length; i++) {
+            $('#InspectorWindow_' + VIEWER_HTML[i] + ' .InspectorWindow_htmlValue').off("input");
+        }
+
+        for (var i = 0; i < VIEWER_TYPOGRAPHY.length; i++) {
+            $('#InspectorWindow_' + VIEWER_TYPOGRAPHY[i] + ' .InspectorWindow_htmlValue').off("input");
+        }
+
+        for (var i = 0; i < VIEWER_BOX.length; i++) {
+            $('#InspectorWindow_' + VIEWER_BOX[i] + ' .InspectorWindow_htmlValue').off("input");
+        }
+
+        for (var i = 0; i < VIEWER_POSITIONING.length; i++) {
+            $('#InspectorWindow_' + VIEWER_POSITIONING[i] + ' .InspectorWindow_htmlValue').off("input");
+        }
 
     }
 
@@ -414,27 +349,20 @@ class Viewer {
 
 
     Freeze = function () {
-        if (this.haveEventListeners) {
             this.RemoveEventListeners();
-
             this.AddEditEventListeners();
+            $("#InspectorWindow_container").css("background-color", "rgba(46, 52, 64, 1)");
+            $("#InspectorWindow_container").css("box-shadow", "0px 0px 10px rgba(0, 0, 0, 0.0)");
 
 
-            return true;
-        }
-        return false;
     }
 
     Unfreeze = function () {
-
-        if (!this.haveEventListeners) {
             this.AddEventListeners();
-
             this.RemoveEditEventListeners();
+            $("#InspectorWindow_container").css("background-color", "rgba(46, 52, 64, 0.9)");
+            $("#InspectorWindow_container").css("box-shadow", "0px 0px 10px rgba(0, 0, 0, 0.15)");
 
-            return true;
-        }
-        return false;
     }
 
 
