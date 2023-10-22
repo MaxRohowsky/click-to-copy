@@ -141,3 +141,14 @@ function SetCSSProperties(element)
     SetCSSPropertyIf(element, 'left', GetCSSProperty(element, 'left') != 'auto');
     SetCSSPropertyIf(element, 'z-index', GetCSSProperty(element, 'z-index') != 'auto');
 }
+
+
+
+
+function AddEditEventListenersCSS(property)
+{
+    $('#InspectorWindow_' + property + ' .InspectorWindow_cssValue').on("input", () => {
+        UpdateCSSValue($('#InspectorWindow_' + property + ' .InspectorWindow_cssValue'), property);
+    });
+}
+

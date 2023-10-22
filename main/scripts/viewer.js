@@ -300,7 +300,22 @@ class Viewer
             })(i);
         }
 
-        
+
+
+        var categoryKeys = Object.keys(VIEWER_CATEGORIES);
+
+        for (var i = 0; i < Object.keys(VIEWER_CATEGORIES).length; i++){
+            var cat = VIEWER_CATEGORIES[categoryKeys[i]];
+            for (var j = 0; j < cat.length; j++) {
+                AddEditEventListenersCSS(cat[j])
+             }
+        }
+
+
+
+
+        /*
+
         for (var i = 0; i < VIEWER_TYPOGRAPHY.length; i++) {
             (function (index) {
                 $('#InspectorWindow_' + VIEWER_TYPOGRAPHY[index] + ' .InspectorWindow_cssValue').on("input", () => {
@@ -323,7 +338,7 @@ class Viewer
                     UpdateCSSValue($('#InspectorWindow_' + VIEWER_POSITIONING[index] + ' .InspectorWindow_cssValue'), VIEWER_POSITIONING[index]);
                 });
             })(i);
-        }
+        }*/
     }
 
     RemoveEditEventListeners = function () {
