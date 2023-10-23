@@ -17,10 +17,10 @@
   }
 
 
-
+#InspectorWindow_container span,
 #InspectorWindow_container p{
-    margin-top: 8px;
-    margin-bottom: 8px;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 
@@ -63,6 +63,7 @@
 .InspectorWindow_property {
     font-family: 'wotfard-medium', sans-serif !important;
     color: white;
+    font-size: 12pt;
 }
 
 
@@ -84,3 +85,8 @@
     color: white;
 }
 
+#xSymbol{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
