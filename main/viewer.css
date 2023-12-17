@@ -8,13 +8,7 @@
 }
 
 
-@font-face {
-    font-family: "Font Awesome 5 Free";
-    font-style: normal;
-    font-weight: 400;
-    font-display:block;
-    src: url("css/fa-regular-400.woff2");
-  }
+
 
 
 #InspectorWindow_container span,
