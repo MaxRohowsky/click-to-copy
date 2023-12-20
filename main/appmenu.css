@@ -1,0 +1,42 @@
+.viewerButton {
+    display: inline-block !important;
+    background-color: rgb(67, 67, 76) !important;
+    border: none !important;
+    border-radius: 3px !important;
+    cursor: pointer !important;
+    height: 40px !important;
+    width: 40px !important;
+    padding: 2px !important;
+    margin: 5px !important;
+    transition: background-color 0.3s ease-in-out;
+    position: relative !important;
+}
+
+.viewerButton img {
+    width: 30px !important;
+    height: 30px !important;
+    filter: invert(100%);
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.viewerButton:hover {
+    background-color: #2098de !important;
+}
+
+.viewerButton.active {
+    background-color: #0077be !important;
+}
+
+
+#viewerMenu {
+    position: fixed !important;
+    bottom: 10px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 9999 !important;
+    background: rgb(44, 44, 46) !important;
+    border-radius: 6px !important;
+}

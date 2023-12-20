@@ -3,14 +3,18 @@
   "manifest_version": 3,
   "version": "1.0",
   "description": "Change webpage background color",
+  "action": {
+		"default_popup": "popup.html"
+	  },
   "permissions": [
     "tabs",
+    "scripting",
     "contextMenus" 
   ],
   "content_scripts": [
     {
-      "js": ["scripts/jquery.js","scripts/utils.js", "scripts/viewer.js"],
-      "css" : ["viewer.css", "style/all.min.css"],
+      "js": ["scripts/jquery.js","scripts/utils.js", "scripts/viewer.js", "scripts/bin.js", "scripts/appmenu.js", "scripts/start.js"],
+      "css" : ["appmenu.css",  "viewer.css", "style/all.min.css"],
       "matches": ["<all_urls>"]
     }
   ],

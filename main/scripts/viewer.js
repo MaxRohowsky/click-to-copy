@@ -29,55 +29,55 @@ let VIEWER_TYPOGRAPHY = new Array(
     'font-family',
     'font-letiant',
     'color',
-    'letter-spacing', 
-	'line-height', 
-	'text-decoration', 
-	'text-align', 
-	'text-indent', 
-	'text-transform', 
-	'vertical-align', 
-	'white-space', 
-	'word-spacing'
+    'letter-spacing',
+    'line-height',
+    'text-decoration',
+    'text-align',
+    'text-indent',
+    'text-transform',
+    'vertical-align',
+    'white-space',
+    'word-spacing'
 );
 
 let VIEWER_BOX = new Array(
-	'width',
+    'width',
     'height',
 
-	'border',
-	'border-top',
-	'border-right',
-	'border-bottom', 
-	'border-left',
+    'border',
+    'border-top',
+    'border-right',
+    'border-bottom',
+    'border-left',
 
-	'padding',
+    'padding',
     'padding-top',
-	'padding-right',
-	'padding-bottom', 
-	'padding-left',
+    'padding-right',
+    'padding-bottom',
+    'padding-left',
 
     'margin',
     'margin-top',
-	'margin-right',
-	'margin-bottom', 
-	'margin-left',
+    'margin-right',
+    'margin-bottom',
+    'margin-left',
 
-	'max-height',
-	'min-height',
-	'max-width',
-	'min-width',
+    'max-height',
+    'min-height',
+    'max-width',
+    'min-width',
 );
 
 let VIEWER_POSITIONING = new Array(
-    'position', 
-	'top', 
-	'right', 
-    'bottom', 
-	'left', 
-	'float', 
-	'display', 
-	'clear', 
-	'z-index'
+    'position',
+    'top',
+    'right',
+    'bottom',
+    'left',
+    'float',
+    'display',
+    'clear',
+    'z-index'
 );
 
 let VIEWER_TRANSFORMS = new Array(
@@ -89,52 +89,50 @@ let VIEWER_TRANSFORMS = new Array(
 );
 
 let VIEWER_TABLE = new Array(
-	'border-collapse',
-	'border-spacing',
-	'caption-side',
-	'empty-cells',
-	'table-layout'
+    'border-collapse',
+    'border-spacing',
+    'caption-side',
+    'empty-cells',
+    'table-layout'
 );
 
 let VIEWER_EFFECT = new Array(
-	'transform',
-	'transition',
-	'outline',
-	'outline-offset',
-	'box-sizing',
-	'resize',
-	'text-shadow',
-	'text-overflow',
-	'word-wrap',
-	'box-shadow',
-	'border-top-left-radius',
-	'border-top-right-radius',
-	'border-bottom-left-radius',
-	'border-bottom-right-radius'
+    'transform',
+    'transition',
+    'outline',
+    'outline-offset',
+    'box-sizing',
+    'resize',
+    'text-shadow',
+    'text-overflow',
+    'word-wrap',
+    'box-shadow',
+    'border-top-left-radius',
+    'border-top-right-radius',
+    'border-bottom-left-radius',
+    'border-bottom-right-radius'
 );
 
 
 
 let VIEWER_CATEGORIES = {
-    'Typography':   VIEWER_TYPOGRAPHY,
-    'Box':          VIEWER_BOX,
-    'Position':     VIEWER_POSITIONING,
-    'Transforms':   VIEWER_TRANSFORMS,
-    'Table':        VIEWER_TABLE,
-    'Effect':       VIEWER_EFFECT
+    'Typography': VIEWER_TYPOGRAPHY,
+    'Box': VIEWER_BOX,
+    'Position': VIEWER_POSITIONING,
+    'Transforms': VIEWER_TRANSFORMS,
+    'Table': VIEWER_TABLE,
+    'Effect': VIEWER_EFFECT
 };
 
 
 
 
-function GetCurrentDocument() 
-{
+function GetCurrentDocument() {
     return window.document;
 }
 
 
-function ViewerMouseOver(e) 
-{
+function ViewerMouseOver(e) {
     let element = this;
     viewer.currentElement = element;
     viewer.nrAttributes = 0;
@@ -148,7 +146,6 @@ function ViewerMouseOver(e)
     SetHTMLAttributes(element);
     SetCSSProperties(element);
     SetAssets(element);
-
 
 }
 
@@ -216,8 +213,7 @@ function ViewerMouseMove(e) {
 /*
 * Viewer Class
 */
-class Viewer 
-{
+class Viewer {
     constructor() {
         this.haveEventListeners = false;
         this.currentElement = null;
@@ -246,8 +242,7 @@ class Viewer
     }
 
 
-    BuildHTMLAttribute = function (container, attribute) 
-    {
+    BuildHTMLAttribute = function (container, attribute) {
         let p = document.createElement('p');
         p.id = 'InspectorWindow_' + attribute;
 
@@ -265,8 +260,7 @@ class Viewer
     }
 
 
-    BuildCSSProperty = function (container, property) 
-    {
+    BuildCSSProperty = function (container, property) {
         let p = document.createElement('p');
         p.id = 'InspectorWindow_' + property;
 
@@ -284,8 +278,7 @@ class Viewer
     }
 
 
-    BuildInspectorWindow = function () 
-    {
+    BuildInspectorWindow = function () {
         let document = GetCurrentDocument();
         let container;
 
@@ -378,11 +371,11 @@ class Viewer
 
         let categoryKeys = Object.keys(VIEWER_CATEGORIES);
 
-        for (let i = 0; i < Object.keys(VIEWER_CATEGORIES).length; i++){
+        for (let i = 0; i < Object.keys(VIEWER_CATEGORIES).length; i++) {
             let cat = VIEWER_CATEGORIES[categoryKeys[i]];
             for (let j = 0; j < cat.length; j++) {
                 AddEditEventListenersCSS(cat[j])
-             }
+            }
         }
 
 
@@ -411,18 +404,18 @@ class Viewer
 
 
     Freeze = function () {
-            this.RemoveEventListeners();
-            this.AddEditEventListeners();
+        this.RemoveEventListeners();
+        this.AddEditEventListeners();
 
-            $("#InspectorWindow_container").css("background-color", "rgba(46, 52, 64, 1)");
-            $("#InspectorWindow_container").css("box-shadow", "0px 0px 10px rgba(0, 0, 0, 0.0)");
+        $("#InspectorWindow_container").css("background-color", "rgba(46, 52, 64, 1)");
+        $("#InspectorWindow_container").css("box-shadow", "0px 0px 10px rgba(0, 0, 0, 0.0)");
 
-            let svgx = '<svg id="xSymbol" fill="#ffffff" height="10px" width="10px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 460.775 460.775" xml:space="preserve" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55 c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55 c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505 c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55 l171.117-171.12l171.118,171.12c2.913,2.911,6.866,4.55,10.993,4.55c4.128,0,8.081-1.639,10.992-4.55l32.709-32.719 c6.074-6.075,6.074-15.909,0-21.986L285.08,230.397z"></path> </g></svg>';
-            let $svg = $(svgx);
-            $svg.on('click', function() {
-                $("#InspectorWindow_container").remove();;
-            });
-            $("#InspectorWindow_container").append($svg);
+        let svgx = '<svg id="xSymbol" fill="#ffffff" height="10px" width="10px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 460.775 460.775" xml:space="preserve" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55 c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55 c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505 c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55 l171.117-171.12l171.118,171.12c2.913,2.911,6.866,4.55,10.993,4.55c4.128,0,8.081-1.639,10.992-4.55l32.709-32.719 c6.074-6.075,6.074-15.909,0-21.986L285.08,230.397z"></path> </g></svg>';
+        let $svg = $(svgx);
+        $svg.on('click', function () {
+            $("#InspectorWindow_container").remove();;
+        });
+        $("#InspectorWindow_container").append($svg);
 
 
 
@@ -430,10 +423,10 @@ class Viewer
     }
 
     Unfreeze = function () {
-            this.AddEventListeners();
-            this.RemoveEditEventListeners();
-            $("#InspectorWindow_container").css("background-color", "rgba(46, 52, 64, 0.9)");
-            $("#InspectorWindow_container").css("box-shadow", "0px 0px 10px rgba(0, 0, 0, 0.15)");
+        this.AddEventListeners();
+        this.RemoveEditEventListeners();
+        $("#InspectorWindow_container").css("background-color", "rgba(46, 52, 64, 0.9)");
+        $("#InspectorWindow_container").css("box-shadow", "0px 0px 10px rgba(0, 0, 0, 0.15)");
 
     }
 
@@ -466,130 +459,6 @@ function Viewer_Keypress(e) {
         }
     }
 }
-
-
-
-class AppMenu
-{
-    constructor() {
-        this.a = false;
-        this.b = null;
-    }
-
-    Build = function () {
-
-    }
-
-    Move = function () {
-        
-    }
-
-
-}
-
-
-
-let viewer;
-
-$(function () {
-
-    let appMenu = $('<div id="viewerMenu"></div>'); // Add the id attribute to the div element
-
-
-
-    // Create a new button element
-    let moveButton = $('<button class="viewerButton">Move</button>');
-    let toggleButton = $('<button class="viewerButton"><img src="chrome-extension://laonhdndhpeoachehnobbcjdcnnhlioe/assets/play-icon.svg" alt="Play"></button>');
-    let htmlButton = $('<button class="viewerButton"><img src="chrome-extension://laonhdndhpeoachehnobbcjdcnnhlioe/assets/asset-icon.svg" alt="Pause"></button>');
-    let cssButton = $('<button class="viewerButton">CSS</button>');
-    let assetButton = $('<button class="viewerButton"><img src="chrome-extension://laonhdndhpeoachehnobbcjdcnnhlioe/assets/asset-icon.svg" alt="Asset"></button>');
-    let closeButton = $('<button class="viewerButton"><img src="chrome-extension://laonhdndhpeoachehnobbcjdcnnhlioe/assets/close-icon.svg" alt="Close"></button>');
-
-    appMenu.append(moveButton);
-    appMenu.append(toggleButton);
-    appMenu.append(htmlButton);
-    appMenu.append(cssButton);
-    appMenu.append(assetButton);
-    appMenu.append(closeButton);
-
-
-
-    // Apply simple styling to the buttons
-    $('.viewerButton').css({
-        display: 'inline-block',
-        backgroundColor: '#ccc',
-        color: '#fff',
-        border: 'none',
-        borderRadius: '15px',
-        cursor: 'pointer'
-    });
-
-
-    appMenu.css({
-        position: 'fixed',
-        bottom: '10px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        'z-index': '9999',
-        background: 'rgba(46, 52, 64, 0.9)',
-        cursor: 'move'
-    });
-
-    // Variables to store the initial position of the menu
-    let initialPosX = 0;
-    let initialPosY = 0;
-
-    // Make the appMenu draggable
-    moveButton.on('mousedown', function (e) {
-        // Calculate the initial position of the menu
-        initialPosX = e.clientX;
-        initialPosY = e.clientY;
-
-        $(document).on('mousemove', function (e) {
-            // Calculate the new position of the menu
-            let newPosX = e.clientX - initialPosX;
-            let newPosY = e.clientY - initialPosY;
-
-            // Set the new position of the menu
-            appMenu.css({
-                left: newPosX,
-                top: newPosY
-            });
-        });
-    }).on('mouseup', function () {
-        $(document).off('mousemove');
-    });
-
-    // Add the button to the body of the document
-    $('body').append(appMenu);
-
-    // Add a click event handler to the button
-    toggleButton.on("click", function () {
-
-        // Viewer Instance 
-        viewer = new Viewer();
-
-        // Check if VeiwerWindow injected
-        let document = GetCurrentDocument();
-        let inspectorWindow = document.getElementById('InspectorWindow_container');
-
-        // If InspectorWindow not injected, inject!
-
-        if (!inspectorWindow) {
-            let inspectorWindow = viewer.BuildInspectorWindow();
-            document.body.appendChild(inspectorWindow);
-            viewer.AddEventListeners();
-
-        }
-
-
-    });
-});
-
-
-
-
-
 
 
 
