@@ -1,4 +1,4 @@
-.viewerButton {
+.menuButton {
     display: inline-block !important;
     background-color: rgb(67, 67, 76) !important;
     border: none !important;
@@ -12,7 +12,7 @@
     position: relative !important;
 }
 
-.viewerButton img {
+.menuButton img {
     width: 30px !important;
     height: 30px !important;
     filter: invert(100%);
@@ -22,16 +22,24 @@
     transform: translate(-50%, -50%);
 }
 
-.viewerButton:hover {
+#codeButton:hover,
+#assetButton:hover,
+#editButton:hover,
+#binButton:hover {
     background-color: #2098de !important;
 }
 
-.viewerButton.active {
+
+#closeButton:hover{
+    background-color: #de2029 !important;
+}
+
+.menuButton.active {
     background-color: #0077be !important;
 }
 
 
-#viewerMenu {
+#Menu {
     position: fixed !important;
     bottom: 10px !important;
     left: 50% !important;

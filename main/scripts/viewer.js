@@ -126,7 +126,6 @@ let VIEWER_CATEGORIES = {
 
 
 
-
 function GetCurrentDocument() {
     return window.document;
 }
@@ -442,6 +441,8 @@ class Viewer {
 
     }
 
+    
+
 
 }
 
@@ -450,7 +451,7 @@ class Viewer {
 
 function Viewer_Keypress(e) {
     // f: Freeze or Unfreeze the css viewer if the cssViewer is enabled
-    if (e.key === 'f') {
+    if (e.key === 'f' && viewer) {
         if (viewer.haveEventListeners) {
             viewer.Freeze();
         }
@@ -463,7 +464,6 @@ function Viewer_Keypress(e) {
 
 
 
-document.onkeydown = Viewer_Keypress;
 
 
 
