@@ -13,7 +13,7 @@
   ],
   "content_scripts": [
     {
-      "js": ["scripts/jquery.js","scripts/utils.js", "scripts/viewer.js", "scripts/bin.js", "scripts/appmanager.js", "scripts/start.js"],
+      "js": ["scripts/jquery.js","scripts/utils.js", "scripts/viewer.js", "scripts/bin.js", "scripts/appmanager.js", "scripts/start.js", "scripts/edit.js"],
       "css" : ["appmenu.css",  "viewer.css", "style/all.min.css"],
       "matches": ["<all_urls>"]
     }

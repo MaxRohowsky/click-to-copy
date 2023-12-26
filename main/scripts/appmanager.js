@@ -1,5 +1,6 @@
 let viewer;
 let bin;
+let edit;
 
 class AppManager {
     constructor() {
@@ -11,7 +12,7 @@ class AppManager {
         this.appMenu = $('<div id="Menu" class="appMenu"></div>');
         this.codeButton = this.CreateAppMenuButton("codeButton", "menuButton", this.CodeButton, "code-icon.svg");
         this.assetButton = this.CreateAppMenuButton("assetButton", "menuButton", null, "asset-icon.svg");
-        this.editButton = this.CreateAppMenuButton("editButton", "menuButton", null, "edit-icon.svg");
+        this.editButton = this.CreateAppMenuButton("editButton", "menuButton", this.EditButton, "edit-icon.svg");
         this.binButton = this.CreateAppMenuButton("binButton", "menuButton", this.BinButton, "trash-icon.svg");
         this.closeButton = this.CreateAppMenuButton("closeButton", "menuButton", this.Close, "close-icon.svg");
     }
@@ -53,38 +54,35 @@ class AppManager {
 
 
     BinButton = function () {
-        this.binOn = !this.binOn;
-        
 
+        this.binOn = !this.binOn;
         let buttonElement = document.getElementById('binButton');
 
         if (this.binOn) {
             buttonElement.classList.add('active');
-            //document.body.style.setProperty('cursor', 'default', 'important');
             bin = new Bin();
             bin.AddEventListeners();
         } else {
             buttonElement.classList.remove('active');
-            //document.body.style.removeProperty('cursor');
             bin.RemoveEventListeners();
             bin = null;
         }
-
     }
-
 
 
     EditButton = function () {
         this.editOn = !this.editOn;
-
-        let editButtonElm = document.getElementById('editButton');
+        let buttonElement = document.getElementById('editButton');
 
         if (this.editOn) {
-            editButtonElm.classList.add('active');
+            buttonElement.classList.add('active');
+            edit = new Edit();
+            edit.AddEventListeners();
         } else {
-            editButtonElm.classList.remove('active');
+            buttonElement.classList.remove('active');
+            //edit.RemoveEventListeners();
+            edit = null;
         }
-
     }
 
 
