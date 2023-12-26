@@ -8,7 +8,7 @@ class AppManager {
         this.editOn = false;
         this.binOn = false;
 
-        this.appMenu = $('<div id="Menu"></div>');
+        this.appMenu = $('<div id="Menu" class="appMenu"></div>');
         this.codeButton = this.CreateAppMenuButton("codeButton", "menuButton", this.CodeButton, "code-icon.svg");
         this.assetButton = this.CreateAppMenuButton("assetButton", "menuButton", null, "asset-icon.svg");
         this.editButton = this.CreateAppMenuButton("editButton", "menuButton", null, "edit-icon.svg");
@@ -17,7 +17,7 @@ class AppManager {
     }
 
     CreateAppMenuButton = function (id, cls, handler, img) {
-        const button = $(`<button  ${id ? ` id="${id}"` : ''} ${cls ? ` class="${cls}"` : ''}><img src="chrome-extension://laonhdndhpeoachehnobbcjdcnnhlioe/assets/${img}"></button>`);
+        const button = $(`<button  ${id ? ` id="${id}"` : ''} ${cls ? ` class="${cls}"` : ''}><img class="menuImage" src="chrome-extension://laonhdndhpeoachehnobbcjdcnnhlioe/assets/${img}"></button>`);
 
         if (handler) {
             button.on('click', handler.bind(this));
@@ -31,8 +31,6 @@ class AppManager {
     Inject = function () {
         $('body').append(this.appMenu);
     }
-
-    
 
 
     CodeButton = function () {
@@ -55,28 +53,24 @@ class AppManager {
 
 
     BinButton = function () {
-        //this.Toggle(this.binOn,'binButton')
-
         this.binOn = !this.binOn;
+        
 
         let buttonElement = document.getElementById('binButton');
 
         if (this.binOn) {
-            binButtonElm.classList.add('active');
-
+            buttonElement.classList.add('active');
+            //document.body.style.setProperty('cursor', 'default', 'important');
             bin = new Bin();
             bin.AddEventListeners();
-            console.log('Bin Added');
         } else {
             buttonElement.classList.remove('active');
-
-
+            //document.body.style.removeProperty('cursor');
+            bin.RemoveEventListeners();
+            bin = null;
         }
 
     }
-
-
-
 
 
 
@@ -97,6 +91,8 @@ class AppManager {
     Close = function () {
         this.codeOn = false;
         this.binOn = false;
+
+        console.log(this.binOn);
 
         if (viewer) {
             viewer.RemoveEventListeners();
