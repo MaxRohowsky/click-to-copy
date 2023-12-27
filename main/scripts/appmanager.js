@@ -54,7 +54,11 @@ class AppManager {
 
 
     BinButton = function () {
-
+        //close edit if open
+        if (this.editOn) {
+            this.EditButton();
+        }
+        
         this.binOn = !this.binOn;
         let buttonElement = document.getElementById('binButton');
 
@@ -71,6 +75,11 @@ class AppManager {
 
 
     EditButton = function () {
+        //close bin if open
+        if (this.binOn) {
+            this.BinButton();
+        }
+        
         this.editOn = !this.editOn;
         let buttonElement = document.getElementById('editButton');
 
