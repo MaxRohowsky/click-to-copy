@@ -1,4 +1,4 @@
-class Edit {
+/*class Edit {
 
     constructor() {
         this.haveEventListeners = false;
@@ -94,4 +94,4 @@ class Edit {
 
 
     
-}
+}*/
