@@ -14,8 +14,20 @@ class AppManager {
         this.dropperOn = false;
         this.binOn = false;
 
-        this.appMenu = $('<div id="Menu" class="appMenu"></div>');
-        this.moveButton = this.appMenu.append($(`<div class="vertical-line"></div>`))
+        this.appMenu = $('<div id="Menu" class="appMenu menuInitial"></div>');
+        
+
+        $('body').on('mousemove', function(event) {
+            console.log('x: ' + event.pageX, 'y: ' + event.pageY);
+        });
+
+
+        this.appMenu.draggable();
+        this.moveButton = this.appMenu.append($(`<div class="vertical-line" ></div>`))
+        
+        this.moveButton.on('mousedown', this.DraggableMenu.bind(this));
+        this.moveButton.on('mouseup', this.NonDraggableMenu.bind(this));
+        
         this.textButton = this.CreateAppMenuButton("textButton", "menuButton", this.TextButton, "text-icon.svg");
         this.urlButton = this.CreateAppMenuButton("urlButton", "menuButton", this.UrlButton, "link-icon.svg");
         this.codeButton = this.CreateAppMenuButton("codeButton", "menuButton", this.CodeButton, "code-icon.svg");
@@ -27,6 +39,18 @@ class AppManager {
         this.closeButton = this.CreateAppMenuButton("closeButton", "menuButton", this.Close, "close-icon.svg");
     }
 
+
+    DraggableMenu(){
+        let rect = this.appMenu[0].getBoundingClientRect();
+        this.appMenu.removeClass("menuInitial");
+        this.appMenu.css({top: rect.top, left: rect.left, position: 'fixed'});
+    }
+
+    NonDraggableMenu(){
+        let rect = this.appMenu[0].getBoundingClientRect();
+        this.appMenu.css({top: rect.top, left: rect.left, position: 'fixed'});
+    }
+    //
 
 
     CreateAppMenuButton = function (id, cls, handler, img) {

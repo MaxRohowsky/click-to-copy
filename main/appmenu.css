@@ -53,13 +53,16 @@
 }
 
 #Menu {
-    position: fixed !important;
     display: flex !important;
     flex-direction: row !important;
-    bottom: 10px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
     z-index: 9999 !important;
     background: rgb(44, 44, 46) !important;
     border-radius: 6px !important;
+}
+
+.menuInitial{
+    position: fixed !important;
+    bottom: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
 }
