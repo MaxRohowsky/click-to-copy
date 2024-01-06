@@ -53,6 +53,7 @@
 }
 
 #Menu {
+    position: fixed !important;
     display: flex !important;
     flex-direction: row !important;
     z-index: 9999 !important;
@@ -61,7 +62,6 @@
 }
 
 .menuInitial{
-    position: fixed !important;
     bottom: 20px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
