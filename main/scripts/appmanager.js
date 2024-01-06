@@ -1,6 +1,7 @@
 let text;
 let url;
 let viewer;
+let dropper;
 let bin;
 
 
@@ -10,21 +11,23 @@ class AppManager {
         this.textOn = false;
         this.urlOn = false;
         this.assetOn = false;
+        this.dropperOn = false;
         this.binOn = false;
 
         this.appMenu = $('<div id="Menu" class="appMenu"></div>');
+        this.moveButton = this.appMenu.append($(`<div class="vertical-line"></div>`))
         this.textButton = this.CreateAppMenuButton("textButton", "menuButton", this.TextButton, "text-icon.svg");
         this.urlButton = this.CreateAppMenuButton("urlButton", "menuButton", this.UrlButton, "link-icon.svg");
-        this.htmlButton = this.CreateAppMenuButton("htmlButton", "menuButton", null, "html-icon.svg");
-        this.cssButton = this.CreateAppMenuButton("cssButton", "menuButton", null, "css-icon.svg");
-        //this.codeButton = this.CreateAppMenuButton("codeButton", "menuButton", this.CodeButton, "code-icon.svg");
+        this.codeButton = this.CreateAppMenuButton("codeButton", "menuButton", this.CodeButton, "code-icon.svg");
         this.assetButton = this.CreateAppMenuButton("assetButton", "menuButton", null, "asset-icon.svg");
-        this.colorButton = this.CreateAppMenuButton("colorButton", "menuButton", null, "dropper-icon.svg");
+        this.colorButton = this.CreateAppMenuButton("colorButton", "menuButton", this.DropperButton, "dropper-icon.svg");
 
+        this.historyButton = this.CreateAppMenuButton("historyButton", "menuButton", null, "clipboard-icon.svg");
         this.binButton = this.CreateAppMenuButton("binButton", "menuButton", this.BinButton, "trash-icon.svg");
-        this.historyButton = this.CreateAppMenuButton("historyButton", "menuButton", null, "history-icon.svg");
         this.closeButton = this.CreateAppMenuButton("closeButton", "menuButton", this.Close, "close-icon.svg");
     }
+
+
 
     CreateAppMenuButton = function (id, cls, handler, img) {
         const button = $(`<button  ${id ? ` id="${id}"` : ''} ${cls ? ` class="${cls}"` : ''}><img class="menuImage" src="chrome-extension://laonhdndhpeoachehnobbcjdcnnhlioe/assets/${img}"></button>`);
@@ -78,9 +81,29 @@ class AppManager {
             url.RestoreDefault();
             url = null;
 
-            
+
         }
 
+    }
+
+    DropperButton = function () {
+        this.colorOn = !this.colorOn;
+        this.Toggle(this.colorOn, this.colorButton);
+
+        if (this.colorOn) {
+            /*if (('EyeDropper' in window)) {
+                alert('Your browser supports the EyeDropper API');
+            }*/
+
+            dropper = new Dropper();
+
+
+
+
+        } else {
+            //dropper.RemoveEventListeners();
+            //dropper = null;
+        }
     }
 
 

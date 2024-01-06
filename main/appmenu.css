@@ -12,19 +12,22 @@
     position: relative !important;
 }
 
-.menuButton img {
+.menuImage {
     width: 30px !important;
     height: 30px !important;
-    filter: invert(100%);
+
     position: absolute !important;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
 }
 
+#textButton:hover,
+#urlButton:hover,
 #codeButton:hover,
 #assetButton:hover,
-#editButton:hover,
+#colorButton:hover,
+#historyButton:hover,
 #binButton:hover {
     background-color: #2098de !important;
 }
@@ -35,12 +38,24 @@
 }
 
 .menuButton.active {
-    background-color: #0077be !important;
+    background-color: #005282 !important;
 }
 
+.vertical-line {
+    padding: 2px !important;
+    margin: 5px !important;
+    cursor: grab !important;
+    display: inline-block !important;
+    height: 35px;  /* Adjust as needed */
+    width: 3px;
+    border-radius: 5px;
+    background-color: #d8d8d8;  /* Adjust color as needed */
+}
 
 #Menu {
     position: fixed !important;
+    display: flex !important;
+    flex-direction: row !important;
     bottom: 10px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
