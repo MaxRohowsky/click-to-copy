@@ -21,15 +21,15 @@ class AppManager {
         this.moveButton.on('mousedown', this.DragMenu.bind(this));
         this.moveButton.on('mouseup', this.FreezeMenu.bind(this));
         
-        this.textButton = this.CreateAppMenuButton("textButton", "menuButton", this.TextButton, "text-icon.svg");
-        this.urlButton = this.CreateAppMenuButton("urlButton", "menuButton", this.UrlButton, "link-icon.svg");
-        this.codeButton = this.CreateAppMenuButton("codeButton", "menuButton", this.CodeButton, "code-icon.svg");
-        this.assetButton = this.CreateAppMenuButton("assetButton", "menuButton", null, "asset-icon.svg");
-        this.colorButton = this.CreateAppMenuButton("colorButton", "menuButton", this.DropperButton, "dropper-icon.svg");
+        this.textButton = this.CreateAppMenuButton("textButton", "menuButton", this.TextButton, "text-icon.svg", "Copy Text");
+        this.urlButton = this.CreateAppMenuButton("urlButton", "menuButton", this.UrlButton, "link-icon.svg", "Copy URL");
+        this.codeButton = this.CreateAppMenuButton("codeButton", "menuButton", this.CodeButton, "code-icon.svg", "Copy Code");
+        this.assetButton = this.CreateAppMenuButton("assetButton", "menuButton", null, "asset-icon.svg", "Copy Image");
+        this.colorButton = this.CreateAppMenuButton("colorButton", "menuButton", this.DropperButton, "dropper-icon.svg", "Copy Color");
 
-        this.historyButton = this.CreateAppMenuButton("historyButton", "menuButton", null, "clipboard-icon.svg");
-        this.binButton = this.CreateAppMenuButton("binButton", "menuButton", this.BinButton, "trash-icon.svg");
-        this.closeButton = this.CreateAppMenuButton("closeButton", "menuButton", this.Close, "close-icon.svg");
+        //this.historyButton = this.CreateAppMenuButton("historyButton", "menuButton", null, "clipboard-icon.svg");
+        this.binButton = this.CreateAppMenuButton("binButton", "menuButton", this.BinButton, "trash-icon.svg", "Delete Element");
+        this.closeButton = this.CreateAppMenuButton("closeButton", "menuButton", this.Close, "close-icon.svg", "Close App");
     }
 
 
@@ -46,8 +46,8 @@ class AppManager {
   
 
 
-    CreateAppMenuButton = function (id, cls, handler, img) {
-        const button = $(`<button  ${id ? ` id="${id}"` : ''} ${cls ? ` class="${cls}"` : ''}><img class="menuImage" src="chrome-extension://laonhdndhpeoachehnobbcjdcnnhlioe/assets/${img}"></button>`);
+    CreateAppMenuButton = function (id, cls, handler, img, tooltip) {
+        const button = $(`<button  ${id ? ` id="${id}"` : ''} ${cls ? ` class="${cls}"` : '' } ><img class="menuImage" src="chrome-extension://laonhdndhpeoachehnobbcjdcnnhlioe/assets/${img}"><span class="tooltip">${tooltip}</span></button>`);
 
         if (handler) {
             button.on('click', handler.bind(this));

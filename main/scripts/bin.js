@@ -80,7 +80,8 @@ class Bin {
                 let hasIgnoredClass = classNames.some(className => this.ignoreClasses.includes(className));
 
                 if (!hasIgnoredClass) {
-                    elementToRemove.css('visibility', 'hidden');
+                    elementToRemove.css('display', 'none');
+                    //elementToRemove.css('visibility', 'hidden');
                     console.log('removed');
                 }
                 else {
@@ -89,7 +90,7 @@ class Bin {
             }
             // Remove if no class
             else {
-                elementToRemove.css('visibility', 'hidden');
+                elementToRemove.css('display', 'none');
                 console.log('removed');
             }
         }

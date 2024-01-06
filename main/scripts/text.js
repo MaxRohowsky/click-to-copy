@@ -62,10 +62,24 @@ class Text {
             top: mouseY + 'px'
         });
 
-        copiedMessage.text('copied to the clipboard');
+
+        copiedMessage.css({
+            'background-color': 'rgba(44, 44, 4, 0.95)',
+            'font-size': '16px',
+            'border-radius': '8px',
+            'color': 'rgb(35,226,0)',
+            'padding': '10px',
+            'font-family': 'Arial, Helvetica, sans-serif',
+            'z-index': '99999',
+            'font-weight': 'bold',
+        });
+
+        copiedMessage.text('Copied to Clipboard');
 
         setTimeout(function () {
-            copiedMessage.remove();
+            copiedMessage.fadeOut(500, function() {
+                copiedMessage.remove();
+            });
         }, 3000);
     }
 
