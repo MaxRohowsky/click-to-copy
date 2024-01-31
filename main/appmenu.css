@@ -15,7 +15,6 @@
 .menuImage {
     width: 30px !important;
     height: 30px !important;
-
     position: absolute !important;
     top: 50% !important;
     left: 50% !important;
@@ -28,7 +27,7 @@
 #assetButton:hover,
 #colorButton:hover,
 #historyButton:hover,
-#binButton:hover {
+#clipboardButton:hover {
     background-color: #2098de !important;
 }
 
@@ -38,7 +37,7 @@
 }
 
 .menuButton.active {
-    background-color: #005282 !important;
+    background-color: #2098de !important;
 }
 
 .vertical-line {
@@ -98,3 +97,23 @@
     opacity: 1;
 }
 
+#clipboard_container {
+    height: 400px !important;
+    width: 400px !important;
+    position: fixed !important;
+    display: flex !important;
+    flex-direction: column !important;
+    z-index: 9999 !important;
+    background: rgb(44, 44, 46) !important;
+    border-radius: 6px !important;
+    overflow-y: scroll !important;
+}
+
+.clipboard_item{
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 10px !important;
+    background: rgb(192, 192, 214) !important;
+
+
+}

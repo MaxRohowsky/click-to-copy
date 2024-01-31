@@ -12,14 +12,15 @@ class Url {
 
 
         let linkUrl = this.href;
-        navigator.clipboard.writeText(linkUrl);
+        navigator.clipboard.writeText(linkUrl).then(() => {
+            appManager.clipboard.copiedUrls.push(linkUrl);
+            appManager.clipboard.BuildClipboard();
+        })
+
     }
 
 
     PreventDefault = function () {
-        /*$('a').css('pointer-events', 'initial');
-        let linkUrl = this.href;
-        navigator.clipboard.writeText(linkUrl)*/
         $('a').on('click', this.Testfunction);
     }
 

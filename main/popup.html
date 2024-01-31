@@ -26,6 +26,15 @@
     <script src="scripts/jquery-ui.js"></script>
     <script src="scripts/popup.js"></script>
     <script src="scripts/appmenu.js"></script>
+
+    <!-- inject code -->
+    <script>
+         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, { action: 'injectCode' });
+  });
+    </script>
+
+    
 </body>
 
 </html>

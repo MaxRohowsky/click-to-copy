@@ -37,10 +37,14 @@ class Text {
                 navigator.clipboard.writeText(copyString)
                     .then(() => {
                         this.ShowCopiedMessage(e.clientX, e.clientY);
+                        appManager.clipboard.copiedText.push(copyString);
+                        appManager.clipboard.BuildClipboard();
                     })
                     .catch(err => {
                         console.error('Unable to copy to clipboard', err);
                     });
+                
+                
             }
         })
     }
