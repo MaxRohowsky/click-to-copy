@@ -114,7 +114,7 @@ class AppManager {
             this.TurnAppsOffExcept("url");
             this.url = new Url();
         } else {
-            this.url.RestoreDefault();
+            this.url.Close();
             this.TurnAppsOffExcept();
         }
     }

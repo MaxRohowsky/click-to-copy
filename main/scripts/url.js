@@ -39,8 +39,7 @@ class Url {
         });
     }
 
-    RestoreDefault() {
-        console.log("restore")
+    close() {
         $('a, link, img, iframe, form, div, span').off('click', this.Testfunction);
     }
 }
