@@ -1,6 +1,6 @@
 .menuButton {
     display: inline-block !important;
-    background-color: rgb(67, 67, 76) !important;
+    background-color: rgb(131, 131, 253) !important;
     border: none !important;
     border-radius: 3px !important;
     cursor: pointer !important;
@@ -21,15 +21,7 @@
     transform: translate(-50%, -50%) !important;
 }
 
-#textButton:hover,
-#urlButton:hover,
-#codeButton:hover,
-#assetButton:hover,
-#colorButton:hover,
-#historyButton:hover,
-#clipboardButton:hover {
-    background-color: #2098de !important;
-}
+
 
 
 #closeButton:hover{

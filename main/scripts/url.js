@@ -1,36 +1,46 @@
 class Url {
     constructor() {
-        this.ignoreClasses = ["menuButton", "appMenu", "menuImage"];
-        this.ignoreTags = ["menuButton", "appMenu", "menuImage"];
+        this.PreventDefault();
     }
 
-    Testfunction = function (event) {
-        // Prevent the default behavior (visiting the link)
+    Testfunction(event) {
+        let ignoreClasses = ["menuButton", "appMenu", "menuImage"];
+        let ignoreTags = ["menuButton", "appMenu", "menuImage"];
 
+
+        // If the clicked element has an ignored class or tag, return early
+        for (let ignoreClass of ignoreClasses) {
+            if ($(event.target).hasClass(ignoreClass)) {
+                return;
+            }
+        }
+        if (ignoreTags.includes(event.target.tagName.toLowerCase())) {
+            return;
+        }
+
+        // Prevent the default behavior (visiting the link)
         event.preventDefault();
         event.stopPropagation();
 
-
-        let linkUrl = this.href;
-        navigator.clipboard.writeText(linkUrl).then(() => {
-            appManager.clipboard.copiedUrls.push(linkUrl);
-            appManager.clipboard.BuildClipboard();
-        })
-
+        let linkElement = $(event.target).closest('[href]');
+        console.log(linkElement);
+        if (linkElement.length) {
+            let linkUrl = linkElement.attr('href');
+            navigator.clipboard.writeText(linkUrl).then(() => {
+                console.log(linkUrl);
+                appManager.clipboard.copiedUrls.push(linkUrl);
+            })
+        }
     }
 
-
-    PreventDefault = function () {
-        $('a').on('click', this.Testfunction);
+    PreventDefault() {
+        $('a, link, img, iframe, form, div, span').on('click', (e) => {
+            this.Testfunction(e);
+        });
     }
 
-    RestoreDefault = function () {
+    RestoreDefault() {
         console.log("restore")
-
-        $('a').off('click', this.Testfunction);
-
+        $('a, link, img, iframe, form, div, span').off('click', this.Testfunction);
     }
-
-
-
 }
