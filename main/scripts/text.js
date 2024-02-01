@@ -1,13 +1,13 @@
 class Text {
     constructor() {
-        this.Start();
+        this.start();
     }
 
-    Start() {
+    start() {
         let copiedMessage;
-        let copyString = "";
-        const body = document.body;
-        
+        let   copyString = "";
+        const body       = document.body;
+
 
         $(body).on('mousemove', (e) => {
             copyString = window.getSelection().toString();
@@ -15,18 +15,17 @@ class Text {
 
         $(body).on('mouseup', (e) => {
             if (copyString.length > 1 && copyString != " ") {
+                appManager.clipboard.add(copyString, 'text')
                 navigator.clipboard.writeText(copyString)
-                appManager.clipboard.copiedText.push(copyString)
-                appManager.clipboard.refreshClipboard()
                     .then(() => {
                         if (copiedMessage) {
                             copiedMessage.remove();
                         }
-                        copiedMessage = this.ShowCopiedMessage(e.clientX, e.clientY);
+                        copiedMessage = this.showCopiedMessage(e.clientX, e.clientY);
 
                     })
                     .catch(err => {
-                        console.error('Unable to copy to clipboard', err);
+                        console.error('Unable to copy text to clipboard', err);
                     });
             }
             copyString = "";
@@ -45,7 +44,8 @@ class Text {
 
 
 
-    Close() {
+    close() {
+        console.log('closing text');
         const body = document.body;
         $(body).off('mousemove');
         $(body).off('mouseup');
@@ -53,7 +53,7 @@ class Text {
     }
 
 
-    ShowCopiedMessage (mouseX, mouseY) {
+    showCopiedMessage(mouseX, mouseY) {
         let copiedMessage = $('<div>').addClass('copied-message');
         $('body').append(copiedMessage);
 

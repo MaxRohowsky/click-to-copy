@@ -441,6 +441,11 @@ class Viewer {
 
     }
 
+
+    close(){
+        console.log('closing viewer');
+    }
+
     
 
 

@@ -23,13 +23,15 @@ class Url {
         event.stopPropagation();
 
         let linkElement = $(event.target).closest('[href]');
-        console.log(linkElement);
         if (linkElement.length) {
             let linkUrl = linkElement.attr('href');
-            navigator.clipboard.writeText(linkUrl).then(() => {
-                console.log(linkUrl);
-                appManager.clipboard.copiedUrls.push(linkUrl);
+            navigator.clipboard.writeText(linkUrl)
+            .then(() => {
+                appManager.clipboard.add(linkUrl, 'urls')
             })
+            .catch(err => {
+                console.error('Unable to copy url to clipboard', err);
+            });
         }
     }
 
@@ -40,6 +42,7 @@ class Url {
     }
 
     close() {
-        $('a, link, img, iframe, form, div, span').off('click', this.Testfunction);
+        console.log('closing url');
+        $('a, link, img, iframe, form, div, span').off('click');
     }
 }
