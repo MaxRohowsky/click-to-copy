@@ -24,7 +24,7 @@
 
 
 
-#closeButton:hover{
+#closeButton:hover {
     background-color: #de2029 !important;
 }
 
@@ -37,10 +37,12 @@
     margin: 5px !important;
     cursor: grab !important;
     display: inline-block !important;
-    height: 35px;  /* Adjust as needed */
+    height: 35px;
+    /* Adjust as needed */
     width: 3px;
     border-radius: 5px;
-    background-color: #d8d8d8;  /* Adjust color as needed */
+    background-color: #d8d8d8;
+    /* Adjust color as needed */
 }
 
 #Menu {
@@ -52,7 +54,7 @@
     border-radius: 6px !important;
 }
 
-.menuInitial{
+.menuInitial {
     bottom: 20px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
@@ -62,7 +64,7 @@
     background: rgb(44, 44, 46);
     color: white;
     font-size: 14px;
-    position:  absolute;
+    position: absolute;
     bottom: 50px;
     left: -25px;
     right: -25px;
@@ -81,7 +83,7 @@
     position: absolute;
     bottom: -4px;
     left: 40px;
-  }
+}
 
 .menuButton:hover .tooltip {
     bottom: 50px;
@@ -89,23 +91,137 @@
     opacity: 1;
 }
 
-#clipboard_container {
-    height: 400px !important;
-    width: 400px !important;
+
+
+#clipboard {
+    background-color: rgba(255, 255, 255, 0) !important;
+    width: 320px !important;
     position: fixed !important;
-    display: flex !important;
-    flex-direction: column !important;
     z-index: 9999 !important;
-    background: rgb(44, 44, 46) !important;
-    border-radius: 6px !important;
-    overflow-y: scroll !important;
+    border-radius: 5px;
+    z-index: 9999 !important;
 }
 
-.clipboard_item{
+#clipboard_container {
+    background-color: rgba(255, 255, 255, 0) !important;
+    border-radius: 6px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 400px;
+    max-height: 700px;
+    box-sizing: border-box;
+}
+
+
+#clipboard_top {
+    position: sticky;
+    top: 0;
+    height: 50px;
+    background-color: #32343C;
+    /* Change to your preferred color */
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.clipboard_close_icon {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
+#clipboard_sub {
+    background-color: #1f2937;
+    /* Change to your preferred color */
+    height: 0px;
+}
+
+#clipboard_mid {
+    flex-grow: 1;
+    max-height: 600px;
+    backdrop-filter: blur(3px) !important;
+    background: rgba(73, 72, 72, 0.7) !important;
+    padding-left: 5px;
+    padding-right: 5px;
+    overflow-y: auto;
+}
+
+#clipboard_item_header {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-weight: 400;
+    padding-top: 18px;
+    padding-left: 5px;
+    padding-bottom: 18px;
+}
+
+#clipboard_items {
+    
+}
+
+.clipboard_item {
     justify-content: center !important;
     align-items: center !important;
-    margin: 10px !important;
-    background: rgb(192, 192, 214) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    margin-bottom: 4px !important;
+    background: rgba(169, 169, 169, 0.40) !important;
+    border-radius: 4px;
+    height: 40px;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-weight: 300;
+    font-size: 12px;
+
+}
+
+.clipboard-div {
+    width: 100%;
+    min-height: 10px;
+}
 
 
+
+#clipboard_end {
+    position: sticky;
+    bottom: 0;
+    background-color: #32343C;
+    /* Change to your preferred color */
+    height: 50px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    display: flex;
+    align-items: center;
+    /* This will vertically center the button */
+    justify-content: center;
+    gap: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#clipboard_copy_button {
+    width: 80%;
+    height: 35px;
+    background-color: #29B526;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: white;
+    border-radius: 10px;
+    border: none;
+    /* Removes default button border */
+    cursor: pointer;
+    /* Changes the cursor when hovering over the button */
+}
+
+#clipboard_clear_button {
+    width: 20%;
+    height: 35px;
+    background-color: #ffffff00;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    /* Removes default button border */
+    cursor: pointer;
+    /* Changes the cursor when hovering over the button */
+    padding-top: 3px;
 }
