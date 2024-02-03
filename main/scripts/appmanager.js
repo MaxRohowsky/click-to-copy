@@ -1,3 +1,17 @@
+
+function moveElement(element, initialClass) {
+    let rect = element[0].getBoundingClientRect();
+    element
+        .css({ top: rect.top, left: rect.left })
+        .removeClass(initialClass)
+        .draggable();
+}
+
+function freezeElement(element) {
+    element.draggable("destroy");
+}
+
+
 class AppManager {
     constructor() {
         this.initializeState();
@@ -26,13 +40,13 @@ class AppManager {
         this.appMenu = $('<div>')
             .attr('id', 'Menu')
             .addClass('appMenu menuInitial')
-            .draggable();
+            
 
         this.moveButton = $('<div>')
             .addClass('vertical-line')
             .appendTo(this.appMenu)
-            .on('mousedown', this.dragMenu.bind(this))
-            .on('mouseup', this.freezeMenu.bind(this));
+            .on('mousedown', () => moveElement(this.appMenu, "menuInitial"))
+            .on('mouseup', () => freezeElement(this.appMenu));
     }
 
     setupEventHandlers() {
@@ -51,20 +65,8 @@ class AppManager {
         this.colorButton     = this.createAppMenuButton("colorButton", "menuButton", this.colorButton, "color-icon.svg", "Copy Color");
         this.clipboardButton = this.createAppMenuButton("clipboardButton", "menuButton", this.clipboardButton, "clipboard-icon.svg", "Copied Items");
         this.closeButton     = this.createAppMenuButton("closeButton", "menuButton", this.close, "close-icon.svg", "Close App");
-        
-
-    }
 
 
-    dragMenu() {
-        let rect = this.appMenu[0].getBoundingClientRect();
-        this.appMenu.removeClass("menuInitial");
-        this.appMenu.css({ top: rect.top, left: rect.left });
-    }
-
-    freezeMenu() {
-        let rect = this.appMenu[0].getBoundingClientRect();
-        this.appMenu.css({ top: rect.top, left: rect.left });
     }
 
     createAppMenuButton(id, cls, handler, img, tooltip) {
@@ -100,7 +102,7 @@ class AppManager {
     textButton() {
         this.textOn = !this.textOn;
 
-        if(this.textOn) {
+        if (this.textOn) {
             this.turnAppsOffExcept("text");
             this.text = new Text();
         }
@@ -114,7 +116,7 @@ class AppManager {
 
     urlButton() {
         this.urlOn = !this.urlOn;
-        
+
         if (this.urlOn) {
             this.turnAppsOffExcept("url");
             this.url = new Url();
@@ -128,7 +130,7 @@ class AppManager {
 
     cssButton() {
         this.cssOn = !this.cssOn;
-        
+
 
         if (this.cssOn) {
             this.turnAppsOffExcept("css");
@@ -136,40 +138,40 @@ class AppManager {
 
             let document        = GetCurrentDocument();
             let inspectorWindow = document.getElementById('InspectorWindow_container');
-    
-                    // If InspectorWindow not injected, inject!
+
+              // If InspectorWindow not injected, inject!
             if (!inspectorWindow) {
                 let inspectorWindow = this.css.buildInspectorWindow();
                 document.body.appendChild(inspectorWindow);
                 this.css.addEventListeners();
             }
-                    // Assigning reference but not executing keypress function
+              // Assigning reference but not executing keypress function
             document.onkeydown = Viewer_Keypress;
 
 
-        } else {   
+        } else {
             this.turnAppsOffExcept();
         }
 
 
-                // Check if VeiwerWindow injected
-       
+          // Check if VeiwerWindow injected
+
     }
 
 
     assetButton() {
         this.assetOn = !this.assetOn;
-        
+
 
 
         if (this.assetOn) {
             this.turnAppsOffExcept("asset");
 
-        } 
+        }
         else {
             this.turnAppsOffExcept();
         }
-    
+
     }
 
 
@@ -197,32 +199,28 @@ class AppManager {
             this.turnClipboardOff();
             this.clipboardButton.removeClass('active');
             this.clipboard.clipboard.addClass('hidden');
-            
+
         }
     }
 
     turnClipboardOff() {
         this.clipboardButton.removeClass('active');
-        //this.clipboard.clipboard.toggleClass('hidden')
-          /*this.clipboardOn = false;
-
-        this.clipboard.Close();*/
     }
 
     turnAppsOffExcept(str = undefined) {
         const apps = ['text', 'url', 'css', 'asset', 'color'];
-    
-              // Reset all states, properties and buttons
+
+          // Reset all states, properties and buttons
         apps.forEach(app => {
-            if(this[app] != null){
+            if (this[app] != null) {
                 this[app].close();
             }
             this[app + 'On'] = false;
             this[app]        = null;
             this[app + 'Button'].removeClass('active');
         });
-    
-              // Set the active state, property and button
+
+          // Set the active state, property and button
         if (apps.includes(str)) {
             this[str + 'On'] = true;
             this[str + 'Button'].addClass('active');
