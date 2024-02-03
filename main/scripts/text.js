@@ -15,18 +15,18 @@ class Text {
 
         $(body).on('mouseup', (e) => {
             if (copyString.length > 1 && copyString != " ") {
-                appManager.clipboard.add(copyString, 'text')
                 //navigator.clipboard.writeText(copyString)
-                    .then(() => {
+                appManager.clipboard.add(copyString, 'text')
+                    //.then(() => {
                         if (copiedMessage) {
                             copiedMessage.remove();
                         }
                         copiedMessage = this.showCopiedMessage(e.clientX, e.clientY);
 
-                    })
-                    .catch(err => {
-                        console.error('Unable to copy text to clipboard', err);
-                    });
+                    //})
+                    //.catch(err => {
+                        //console.error('Unable to copy text to clipboard', err);
+                    //});
             }
             copyString = "";
 

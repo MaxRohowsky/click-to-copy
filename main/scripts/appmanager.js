@@ -63,7 +63,7 @@ class AppManager {
         this.cssButton       = this.createAppMenuButton("cssButton", "menuButton", this.cssButton, "code-icon.svg", "Copy Code");
         this.assetButton     = this.createAppMenuButton("assetButton", "menuButton", this.assetButton, "asset-icon.svg", "Copy Image");
         this.colorButton     = this.createAppMenuButton("colorButton", "menuButton", this.colorButton, "color-icon.svg", "Copy Color");
-        this.clipboardButton = this.createAppMenuButton("clipboardButton", "menuButton", this.clipboardButton, "clipboard-icon.svg", "Copied Items");
+        this.clipboardButton = this.createAppMenuButton("clipboardButton", "menuButton", this.clipboardButton, "clipboard-icon.svg", "Clipboard");
         this.closeButton     = this.createAppMenuButton("closeButton", "menuButton", this.close, "close-icon.svg", "Close App");
 
 
@@ -134,7 +134,7 @@ class AppManager {
 
         if (this.cssOn) {
             this.turnAppsOffExcept("css");
-            this.css = new Viewer();
+            this.css = new CssWin();
 
             let document        = GetCurrentDocument();
             let inspectorWindow = document.getElementById('InspectorWindow_container');
