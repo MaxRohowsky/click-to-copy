@@ -31,43 +31,43 @@ class AppManager {
         this.moveButton = $('<div>')
             .addClass('vertical-line')
             .appendTo(this.appMenu)
-            .on('mousedown', this.DragMenu.bind(this))
-            .on('mouseup', this.FreezeMenu.bind(this));
+            .on('mousedown', this.dragMenu.bind(this))
+            .on('mouseup', this.freezeMenu.bind(this));
     }
 
     setupEventHandlers() {
 
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
-                this.TurnAppsOffExcept();
-                this.TurnClipboardOff();
+                this.turnAppsOffExcept();
+                this.turnClipboardOff();
             }
         });
 
-        this.textButton      = this.CreateAppMenuButton("textButton", "menuButton", this.TextButton, "text-icon.svg", "Copy Text");
-        this.urlButton       = this.CreateAppMenuButton("urlButton", "menuButton", this.UrlButton, "link-icon.svg", "Copy URL");
-        this.cssButton       = this.CreateAppMenuButton("cssButton", "menuButton", this.CssButton, "code-icon.svg", "Copy Code");
-        this.assetButton     = this.CreateAppMenuButton("assetButton", "menuButton", this.AssetButton, "asset-icon.svg", "Copy Image");
-        this.colorButton     = this.CreateAppMenuButton("colorButton", "menuButton", this.ColorButton, "color-icon.svg", "Copy Color");
-        this.clipboardButton = this.CreateAppMenuButton("clipboardButton", "menuButton", this.ClipboardButton, "clipboard-icon.svg", "Copied Items");
-        this.closeButton     = this.CreateAppMenuButton("closeButton", "menuButton", this.Close, "close-icon.svg", "Close App");
+        this.textButton      = this.createAppMenuButton("textButton", "menuButton", this.textButton, "text-icon.svg", "Copy Text");
+        this.urlButton       = this.createAppMenuButton("urlButton", "menuButton", this.urlButton, "link-icon.svg", "Copy URL");
+        this.cssButton       = this.createAppMenuButton("cssButton", "menuButton", this.cssButton, "code-icon.svg", "Copy Code");
+        this.assetButton     = this.createAppMenuButton("assetButton", "menuButton", this.assetButton, "asset-icon.svg", "Copy Image");
+        this.colorButton     = this.createAppMenuButton("colorButton", "menuButton", this.colorButton, "color-icon.svg", "Copy Color");
+        this.clipboardButton = this.createAppMenuButton("clipboardButton", "menuButton", this.clipboardButton, "clipboard-icon.svg", "Copied Items");
+        this.closeButton     = this.createAppMenuButton("closeButton", "menuButton", this.close, "close-icon.svg", "Close App");
         
 
     }
 
 
-    DragMenu() {
+    dragMenu() {
         let rect = this.appMenu[0].getBoundingClientRect();
         this.appMenu.removeClass("menuInitial");
         this.appMenu.css({ top: rect.top, left: rect.left });
     }
 
-    FreezeMenu() {
+    freezeMenu() {
         let rect = this.appMenu[0].getBoundingClientRect();
         this.appMenu.css({ top: rect.top, left: rect.left });
     }
 
-    CreateAppMenuButton(id, cls, handler, img, tooltip) {
+    createAppMenuButton(id, cls, handler, img, tooltip) {
         const button = $('<button>')
             .attr('id', id)
             .addClass(cls);
@@ -91,47 +91,47 @@ class AppManager {
     }
 
 
-    Inject() {
+    inject() {
         $('body').append(this.appMenu);
     }
 
 
 
-    TextButton() {
+    textButton() {
         this.textOn = !this.textOn;
 
         if(this.textOn) {
-            this.TurnAppsOffExcept("text");
+            this.turnAppsOffExcept("text");
             this.text = new Text();
         }
         else {
             this.text.close();
-            this.TurnAppsOffExcept();
+            this.turnAppsOffExcept();
         }
     }
 
 
 
-    UrlButton() {
+    urlButton() {
         this.urlOn = !this.urlOn;
         
         if (this.urlOn) {
-            this.TurnAppsOffExcept("url");
+            this.turnAppsOffExcept("url");
             this.url = new Url();
         } else {
             this.url.close();
-            this.TurnAppsOffExcept();
+            this.turnAppsOffExcept();
         }
     }
 
 
 
-    CssButton() {
+    cssButton() {
         this.cssOn = !this.cssOn;
         
 
         if (this.cssOn) {
-            this.TurnAppsOffExcept("css");
+            this.turnAppsOffExcept("css");
             this.css = new Viewer();
 
             let document        = GetCurrentDocument();
@@ -139,16 +139,16 @@ class AppManager {
     
                     // If InspectorWindow not injected, inject!
             if (!inspectorWindow) {
-                let inspectorWindow = this.css.BuildInspectorWindow();
+                let inspectorWindow = this.css.buildInspectorWindow();
                 document.body.appendChild(inspectorWindow);
-                this.css.AddEventListeners();
+                this.css.addEventListeners();
             }
                     // Assigning reference but not executing keypress function
             document.onkeydown = Viewer_Keypress;
 
 
         } else {   
-            this.TurnAppsOffExcept();
+            this.turnAppsOffExcept();
         }
 
 
@@ -157,53 +157,59 @@ class AppManager {
     }
 
 
-    AssetButton() {
+    assetButton() {
         this.assetOn = !this.assetOn;
         
 
 
         if (this.assetOn) {
-            this.TurnAppsOffExcept("asset");
+            this.turnAppsOffExcept("asset");
 
         } 
         else {
-            this.TurnAppsOffExcept();
+            this.turnAppsOffExcept();
         }
     
     }
 
 
-    ColorButton() {
+    colorButton() {
         this.colorOn = !this.colorOn;
 
         if (this.colorOn) {
-            this.TurnAppsOffExcept("color");
+            this.turnAppsOffExcept("color");
             this.color = new Color();
         }
         else {
-            this.TurnAppsOffExcept();
+            this.turnAppsOffExcept();
         }
     }
 
-    ClipboardButton() {
-        this.clipboard = !this.clipboard;
-
+    clipboardButton() {
+        this.clipboardOn = !this.clipboardOn;
+        console.log(this.clipboardOn);
         if (this.clipboardOn) {
-            this.color = new Color();
+
+            this.clipboardButton.addClass('active');
+            this.clipboard.clipboard.removeClass('hidden');
         }
         else {
-            this.TurnClipboardOff();
+            this.turnClipboardOff();
+            this.clipboardButton.removeClass('active');
+            this.clipboard.clipboard.addClass('hidden');
+            
         }
     }
 
-    TurnClipboardOff() {
+    turnClipboardOff() {
         this.clipboardButton.removeClass('active');
+        //this.clipboard.clipboard.toggleClass('hidden')
           /*this.clipboardOn = false;
 
         this.clipboard.Close();*/
     }
 
-    TurnAppsOffExcept(str = undefined) {
+    turnAppsOffExcept(str = undefined) {
         const apps = ['text', 'url', 'css', 'asset', 'color'];
     
               // Reset all states, properties and buttons
@@ -223,16 +229,16 @@ class AppManager {
         }
     }
 
-    Close() {
+    close() {
         this.codeOn = false;
 
         if (this.css) {
-            this.css.RemoveEventListeners();
+            this.css.removeEventListeners();
             this.css = null;
         }
 
         if (this.bin) {
-            this.bin.RemoveEventListeners();
+            this.bin.removeEventListeners();
             this.bin = null;
         }
 

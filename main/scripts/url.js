@@ -4,7 +4,7 @@ class Url {
     }
 
     Testfunction(event) {
-        let ignoreClasses = ["menuButton", "appMenu", "menuImage"];
+        let ignoreClasses = ["menuButton", "appMenu", "menuImage", "clipboard_item", "clipboard_item_type", "clipboard_item_content", "clipboard_item_remove"];
         let ignoreTags = ["menuButton", "appMenu", "menuImage"];
 
 
@@ -25,6 +25,7 @@ class Url {
         let linkElement = $(event.target).closest('[href]');
         if (linkElement.length) {
             let linkUrl = linkElement.attr('href');
+            console.log('linkUrl', linkUrl);
             navigator.clipboard.writeText(linkUrl)
             .then(() => {
                 appManager.clipboard.add(linkUrl, 'urls')
@@ -36,13 +37,13 @@ class Url {
     }
 
     PreventDefault() {
-        $('a, link, img, iframe, form, div, span').on('click', (e) => {
+        $('a').on('click', (e) => {
             this.Testfunction(e);
         });
     }
 
     close() {
         console.log('closing url');
-        $('a, link, img, iframe, form, div, span').off('click');
+        $('a').off('click');
     }
 }

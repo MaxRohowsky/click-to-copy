@@ -5,7 +5,7 @@ chrome.runtime.onMessage.addListener(function (request) {
 
     $(function () {
       appManager = new AppManager();
-      appManager.Inject()
+      appManager.inject()
     });
   }
 });

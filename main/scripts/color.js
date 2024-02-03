@@ -7,12 +7,9 @@ class Color {
     }
 
     start() {
-
-
         $(document).on('click', (e) => {
 
             const eyeDropper = new EyeDropper();
-
             eyeDropper
                 .open()
                 .then((result) => {
@@ -29,7 +26,7 @@ class Color {
 
     close() {
         console.log('closing color');
-        
+
         $(document).off('click');
     }
 

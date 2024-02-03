@@ -1,23 +1,23 @@
 .menuButton {
-    display: inline-block !important;
+    display         : inline-block !important;
     background-color: rgb(131, 131, 253) !important;
-    border: none !important;
-    border-radius: 3px !important;
-    cursor: pointer !important;
-    height: 40px !important;
-    width: 40px !important;
-    padding: 2px !important;
-    margin: 5px !important;
-    transition: background-color 0.3s ease-in-out;
-    position: relative !important;
+    border          : none !important;
+    border-radius   : 3px !important;
+    cursor          : pointer !important;
+    height          : 40px !important;
+    width           : 40px !important;
+    padding         : 2px !important;
+    margin          : 5px !important;
+    transition      : background-color 0.3s ease-in-out;
+    position        : relative !important;
 }
 
 .menuImage {
-    width: 30px !important;
-    height: 30px !important;
-    position: absolute !important;
-    top: 50% !important;
-    left: 50% !important;
+    width    : 30px !important;
+    height   : 30px !important;
+    position : absolute !important;
+    top      : 50% !important;
+    left     : 50% !important;
     transform: translate(-50%, -50%) !important;
 }
 
@@ -34,123 +34,124 @@
 
 .vertical-line {
     padding: 2px !important;
-    margin: 5px !important;
-    cursor: grab !important;
+    margin : 5px !important;
+    cursor : grab !important;
     display: inline-block !important;
-    height: 35px;
-    /* Adjust as needed */
-    width: 3px;
-    border-radius: 5px;
+    height : 35px;
+      /* Adjust as needed */
+    width           : 3px;
+    border-radius   : 5px;
     background-color: #d8d8d8;
-    /* Adjust color as needed */
+      /* Adjust color as needed */
 }
 
 #Menu {
-    position: fixed !important;
-    display: flex !important;
+    position      : fixed !important;
+    display       : flex !important;
     flex-direction: row !important;
-    z-index: 9999 !important;
-    background: rgb(44, 44, 46) !important;
-    border-radius: 6px !important;
+    z-index       : 9999 !important;
+    background    : rgb(44, 44, 46) !important;
+    border-radius : 6px !important;
 }
 
 .menuInitial {
-    bottom: 20px !important;
-    left: 50% !important;
+    bottom   : 20px !important;
+    left     : 50% !important;
     transform: translateX(-50%) !important;
 }
 
 .tooltip {
-    background: rgb(44, 44, 46);
-    color: white;
-    font-size: 14px;
-    position: absolute;
-    bottom: 50px;
-    left: -25px;
-    right: -25px;
-    padding: 3px 3px;
-    visibility: hidden;
-    opacity: 0;
-    transition: all .1s;
+    background   : rgb(44, 44, 46);
+    color        : white;
+    font-size    : 14px;
+    position     : absolute;
+    bottom       : 50px;
+    left         : -25px;
+    right        : -25px;
+    padding      : 3px 3px;
+    visibility   : hidden;
+    opacity      : 0;
+    transition   : all .1s;
     border-radius: 4px;
 }
 
 .tooltip:before {
-    content: '';
-    border-left: 5px solid transparent;
+    content     : '';
+    border-left : 5px solid transparent;
     border-right: 5px solid transparent;
-    border-top: 5px solid rgb(44, 44, 46);
-    position: absolute;
-    bottom: -4px;
-    left: 40px;
+    border-top  : 5px solid rgb(44, 44, 46);
+    position    : absolute;
+    bottom      : -4px;
+    left        : 40px;
 }
 
 .menuButton:hover .tooltip {
-    bottom: 50px;
+    bottom    : 50px;
     visibility: visible;
-    opacity: 1;
+    opacity   : 1;
 }
 
 
 
 #clipboard {
     background-color: rgba(255, 255, 255, 0) !important;
-    width: 320px !important;
-    position: fixed !important;
-    z-index: 9999 !important;
-    border-radius: 5px;
-    z-index: 9999 !important;
+    width           : 320px !important;
+    position        : fixed !important;
+    z-index         : 9999 !important;
+    border-radius   : 5px;
+    z-index         : 9999 !important;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
 
 #clipboard_container {
     background-color: rgba(255, 255, 255, 0) !important;
-    border-radius: 6px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    min-height: 400px;
-    max-height: 700px;
-    box-sizing: border-box;
+    border-radius   : 6px !important;
+    display         : flex !important;
+    flex-direction  : column !important;
+    min-height      : 400px;
+    max-height      : 700px;
+    box-sizing      : border-box;
 }
 
 
 #clipboard_top {
-    position: sticky;
-    top: 0;
-    height: 50px;
+    position        : sticky;
+    top             : 0;
+    height          : 50px;
     background-color: #32343C;
-    /* Change to your preferred color */
-    border-top-left-radius: 5px;
+      /* Change to your preferred color */
+    border-top-left-radius : 5px;
     border-top-right-radius: 5px;
 }
 
 .clipboard_close_icon {
     position: absolute;
-    right: 5px;
-    top: 5px;
+    right   : 5px;
+    top     : 5px;
 }
 
 #clipboard_sub {
     background-color: #1f2937;
-    /* Change to your preferred color */
+      /* Change to your preferred color */
     height: 0px;
 }
 
 #clipboard_mid {
-    flex-grow: 1;
-    max-height: 600px;
+    flex-grow      : 1;
+    max-height     : 600px;
     backdrop-filter: blur(3px) !important;
-    background: rgba(73, 72, 72, 0.7) !important;
-    padding-left: 5px;
-    padding-right: 5px;
-    overflow-y: auto;
+    background     : rgba(37, 37, 37, 0.7) !important;
+    padding-left   : 5px;
+    padding-right  : 5px;
+    overflow-y     : auto;
 }
 
 #clipboard_item_header {
-    font-family: 'Roboto', sans-serif;
-    color: white;
-    font-weight: 400;
-    padding-top: 18px;
-    padding-left: 5px;
+    font-family   : 'Roboto', sans-serif;
+    color         : white;
+    font-weight   : 400;
+    padding-top   : 18px;
+    padding-left  : 5px;
     padding-bottom: 18px;
 }
 
@@ -160,68 +161,92 @@
 
 .clipboard_item {
     justify-content: center !important;
-    align-items: center !important;
-    display: flex !important;
-    flex-direction: column !important;
-    margin-bottom: 4px !important;
-    background: rgba(169, 169, 169, 0.40) !important;
-    border-radius: 4px;
-    height: 40px;
-    font-family: 'Roboto', sans-serif;
-    color: white;
-    font-weight: 300;
-    font-size: 12px;
+    align-items    : center !important;
+    display        : flex !important;
+    flex-direction : row !important;
+    margin-bottom  : 4px !important;
+    background     : rgba(169, 169, 169, 0.40) !important;
+    border-radius  : 4px;
+    height         : 40px;
+    font-family    : 'Roboto', sans-serif;
+    color          : white;
+    font-weight    : 400;
+    font-size      : 14px;
 
 }
 
-.clipboard-div {
+
+.clipboard_item_type {
+    display      : flex;
+    padding-left : 10px;
+    padding-right: 10px;
+}
+
+.clipboard_item_content {
+    display      : inline-block;
+    overflow     : hidden;
+    text-overflow: ellipsis;
+    white-space  : nowrap;
     width: 100%;
-    min-height: 10px;
 }
+
+.clipboard_item_remove {
+    display  : flex;
+    padding  : 5px;
+    transform: scale(0.8);
+}
+
+
 
 
 
 #clipboard_end {
-    position: sticky;
-    bottom: 0;
+    position        : sticky;
+    bottom          : 0;
     background-color: #32343C;
-    /* Change to your preferred color */
-    height: 50px;
-    border-bottom-left-radius: 5px;
+      /* Change to your preferred color */
+    height                    : 50px;
+    border-bottom-left-radius : 5px;
     border-bottom-right-radius: 5px;
-    display: flex;
-    align-items: center;
-    /* This will vertically center the button */
+    display                   : flex;
+    align-items               : center;
+      /* This will vertically center the button */
     justify-content: center;
-    gap: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
+    gap            : 10px;
+    padding-left   : 10px;
+    padding-right  : 10px;
 }
 
 #clipboard_copy_button {
-    width: 80%;
-    height: 35px;
+    width           : 80%;
+    height          : 35px;
     background-color: #29B526;
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
-    color: white;
-    border-radius: 10px;
-    border: none;
-    /* Removes default button border */
+    font-family     : 'Roboto', sans-serif;
+    font-size       : 16px;
+    color           : white;
+    border-radius   : 10px;
+    border          : none;
+      /* Removes default button border */
     cursor: pointer;
-    /* Changes the cursor when hovering over the button */
+      /* Changes the cursor when hovering over the button */
 }
 
 #clipboard_clear_button {
-    width: 20%;
-    height: 35px;
+    width           : 20%;
+    height          : 35px;
     background-color: #ffffff00;
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
-    border-radius: 10px;
-    border: none;
-    /* Removes default button border */
+    font-family     : 'Roboto', sans-serif;
+    font-size       : 16px;
+    border-radius   : 10px;
+    border          : none;
+      /* Removes default button border */
     cursor: pointer;
-    /* Changes the cursor when hovering over the button */
+      /* Changes the cursor when hovering over the button */
     padding-top: 3px;
 }
+
+.hidden {
+    display: none;
+}
+
+
