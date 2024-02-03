@@ -228,23 +228,9 @@ class AppManager {
     }
 
     close() {
-        this.codeOn = false;
-
-        if (this.css) {
-            this.css.removeEventListeners();
-            this.css = null;
-        }
-
-        if (this.bin) {
-            this.bin.removeEventListeners();
-            this.bin = null;
-        }
-
-        let inspectorWindow = document.getElementById('InspectorWindow_container');
-        if (inspectorWindow) {
-            inspectorWindow.remove();
-        }
+        this.clipboard.clipboard.remove();
 
         this.appMenu.remove();
+        
     }
 }

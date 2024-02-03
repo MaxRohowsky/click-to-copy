@@ -33,6 +33,7 @@
     top             : 0;
     height          : 50px;
     background-color: #32343C;
+    display: flex;
       /* Change to your preferred color */
     border-top-left-radius : 5px;
     border-top-right-radius: 5px;
@@ -102,7 +103,18 @@
     text-overflow: ellipsis;
     white-space  : nowrap;
     width: 100%;
+    position: relative;
 }
+
+.clipboard_item_content.overflowing:hover {
+  animation: marquee 5s linear infinite;
+}
+
+@keyframes marquee {
+  0% { text-indent: 0 }
+  100% { text-indent: -100% }
+}
+
 
 .clipboard_item_remove {
     display  : flex;

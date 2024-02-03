@@ -14,8 +14,8 @@ class Color {
                 .open()
                 .then((result) => {
                     this.color = result.sRGBHex;
-
-                    navigator.clipboard.writeText(this.color)
+                    console.log(result);
+                    //navigator.clipboard.writeText(this.color)
                     appManager.clipboard.add(this.color, 'colors')
                 })
 

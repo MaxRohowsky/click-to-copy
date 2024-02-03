@@ -24,15 +24,15 @@ class Url {
 
         let linkElement = $(event.target).closest('[href]');
         if (linkElement.length) {
-            let linkUrl = linkElement.attr('href');
+            let linkUrl = new URL(linkElement.attr('href'), window.location.origin).href;
             console.log('linkUrl', linkUrl);
-            navigator.clipboard.writeText(linkUrl)
-            .then(() => {
+            //navigator.clipboard.writeText(linkUrl)
+            //.then(() => {
                 appManager.clipboard.add(linkUrl, 'urls')
-            })
-            .catch(err => {
-                console.error('Unable to copy url to clipboard', err);
-            });
+            //})
+            //.catch(err => {
+             //   console.error('Unable to copy url to clipboard', err);
+            //});
         }
     }
 

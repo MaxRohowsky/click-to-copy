@@ -85,6 +85,10 @@ class Clipboard {
 
             clipboardItem.append(itemType, itemContent, itemRemove);
             this.clipboardItems.append(clipboardItem);
+
+            if (this.copiedText[i].length > 32) {
+                itemContent.addClass('overflowing');
+            }
         }
         this.lastTextIndex = this.copiedText.length;
 
@@ -93,13 +97,19 @@ class Clipboard {
             let itemType = $('<img>').attr('class', 'clipboard_item_type').attr('src', `${EXTENSION_ID}/assets/link-icon.svg`);
             let itemContent = $('<div>').attr('class', 'clipboard_item_content').text(this.copiedUrls[i]);
             let itemRemove = $('<img>').attr('class', 'clipboard_item_remove').attr('src', `${EXTENSION_ID}/assets/close-classic-icon.svg`);
-
+            
+        
             itemRemove.on('click', function () {
                 $(this).parent().remove();
             });
 
             clipboardItem.append(itemType, itemContent, itemRemove);
             this.clipboardItems.append(clipboardItem);
+
+            if (this.copiedUrls[i].length > 32) {
+                itemContent.addClass('overflowing');
+            }
+
         }
         this.lastUrlIndex = this.copiedUrls.length;
 
@@ -118,6 +128,7 @@ class Clipboard {
             });
             itemContent.prepend(colorCircle);
             let itemRemove = $('<img>').attr('class', 'clipboard_item_remove').attr('src', `${EXTENSION_ID}/assets/close-classic-icon.svg`);
+            
 
             itemRemove.on('click', function () {
                 $(this).parent().remove();

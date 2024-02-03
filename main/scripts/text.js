@@ -16,7 +16,7 @@ class Text {
         $(body).on('mouseup', (e) => {
             if (copyString.length > 1 && copyString != " ") {
                 appManager.clipboard.add(copyString, 'text')
-                navigator.clipboard.writeText(copyString)
+                //navigator.clipboard.writeText(copyString)
                     .then(() => {
                         if (copiedMessage) {
                             copiedMessage.remove();
