@@ -22,7 +22,8 @@ class AppManager {
     initializeState() {
         this.text      = null;
         this.url       = null;
-        this.css       = null;
+        //this.css       = null;
+        this.viewer    = null;
         this.asset     = null
         this.color     = null;
         this.clipboard = null;
@@ -134,22 +135,15 @@ class AppManager {
 
         if (this.cssOn) {
             this.turnAppsOffExcept("css");
-            this.css = new CssWin();
-
-            let document        = GetCurrentDocument();
-            let inspectorWindow = document.getElementById('InspectorWindow_container');
-
-              // If InspectorWindow not injected, inject!
-            if (!inspectorWindow) {
-                let inspectorWindow = this.css.buildInspectorWindow();
-                document.body.appendChild(inspectorWindow);
-                this.css.addEventListeners();
-            }
-              // Assigning reference but not executing keypress function
-            document.onkeydown = Viewer_Keypress;
+            //this.css = new Code();
+            this.viewer = new Viewer();
+            let inspectorWindow = this.viewer.BuildInspectorWindow();
+            document.body.appendChild(inspectorWindow);
+            //this.css.addEventListeners();
 
 
         } else {
+            //this.css.close();
             this.turnAppsOffExcept();
         }
 
