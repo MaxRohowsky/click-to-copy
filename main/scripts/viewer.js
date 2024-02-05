@@ -24,7 +24,7 @@ let VIEWER_HTML = new Array(
 
 let VIEWER_TYPOGRAPHY = new Array(
     'font-size',
-    'font-weight',                      // default: 400
+    'font-weight',  // default: 400
     'font-style',
     'font-family',
     'font-letiant',
@@ -117,46 +117,42 @@ let VIEWER_EFFECT = new Array(
 
 let VIEWER_CATEGORIES = {
     'Typography': VIEWER_TYPOGRAPHY,
-    'Box': VIEWER_BOX,
-    'Position': VIEWER_POSITIONING,
+    'Box'       : VIEWER_BOX,
+    'Position'  : VIEWER_POSITIONING,
     'Transforms': VIEWER_TRANSFORMS,
-    'Table': VIEWER_TABLE,
-    'Effect': VIEWER_EFFECT
+    'Table'     : VIEWER_TABLE,
+    'Effect'    : VIEWER_EFFECT
 };
 
 
-function UpdateHTMLValue(field, attribute) 
-{
+function UpdateHTMLValue(field, attribute) {
     $(appManager.viewer.currentElement).attr(attribute, field.html());
 }
 
-function UpdateCSSValue(field, property) 
-{
+function UpdateCSSValue(field, property) {
     console.log(appManager.viewer.currentElement.style[property]);
     console.log(field.html());
     appManager.viewer.currentElement.style[property] = field.html();
 }
 
-function GetCSSProperty(element, property) 
-{
+function GetCSSProperty(element, property) {
     var elementStyle = document.defaultView.getComputedStyle(element, null);
     return elementStyle.getPropertyValue(property)
 }
 
-function SetHTMLAttributeIf(element, attribute, condition) 
-{
-    if(condition){
+function SetHTMLAttributeIf(element, attribute, condition) {
+    if (condition) {
         var value = element.attributes.getNamedItem(attribute).value
-        
+
         $('#InspectorWindow_' + attribute + ' .InspectorWindow_attribute').css('display', 'inline')
         $('#InspectorWindow_' + attribute + ' .InspectorWindow_htmlValue').css('display', 'inline')
 
         $('#InspectorWindow_' + attribute + ' .InspectorWindow_attribute').text(attribute + ": ");
-        $('#InspectorWindow_' + attribute + ' .InspectorWindow_htmlValue').text( value );
+        $('#InspectorWindow_' + attribute + ' .InspectorWindow_htmlValue').text(value);
 
         return 1;
     }
-    else{
+    else {
         $('#InspectorWindow_' + attribute + ' .InspectorWindow_attribute').css('display', 'none')
         $('#InspectorWindow_' + attribute + ' .InspectorWindow_htmlValue').css('display', 'none')
 
@@ -164,8 +160,7 @@ function SetHTMLAttributeIf(element, attribute, condition)
     }
 }
 
-function SetCSSPropertyIf(element, property, condition) 
-{
+function SetCSSPropertyIf(element, property, condition) {
     var value = GetCSSProperty(element, property)
 
     if (condition) {
@@ -181,35 +176,20 @@ function SetCSSPropertyIf(element, property, condition)
     }
 }
 
-function getImages(element, includeDuplicates = false) 
-{
-    var images = [];
-   
-    images = [...element.getElementsByTagName('img')].map(img =>
-        img.getAttribute('src')
-    );
-
-    if(element.tagName === "IMG"){
-        console.log(element.getAttribute("src"));
-        images.push(element.getAttribute("src"))
-    }
-
-    return includeDuplicates ? images : [...new Set(images)];
-}
 
 
 
-function SetHTMLAttributes(element)
-{
-    appManager.viewer.nrAttributes += SetHTMLAttributeIf(element,    'id',                element.attributes.getNamedItem('id')    != null);
-    appManager.viewer.nrAttributes += SetHTMLAttributeIf(element,    'class',             element.attributes.getNamedItem('class') != null);
-    appManager.viewer.nrAttributes += SetHTMLAttributeIf(element,    'src',               element.attributes.getNamedItem('src')   != null);
-    appManager.viewer.nrAttributes += SetHTMLAttributeIf(element,    'href',              element.attributes.getNamedItem('href')  != null);
-    appManager.viewer.nrAttributes += SetHTMLAttributeIf(element,    'alt',               element.attributes.getNamedItem('alt')   != null);
-    appManager.viewer.nrAttributes += SetHTMLAttributeIf(element,    'placeholder',       element.attributes.getNamedItem('placeholder') != null);
-    appManager.viewer.nrAttributes += SetHTMLAttributeIf(element,    'width',             element.attributes.getNamedItem('width') != null);
 
-    if(appManager.viewer.nrAttributes > 0)
+function SetHTMLAttributes(element) {
+    appManager.viewer.nrAttributes += SetHTMLAttributeIf(element, 'id', element.attributes.getNamedItem('id') != null);
+    appManager.viewer.nrAttributes += SetHTMLAttributeIf(element, 'class', element.attributes.getNamedItem('class') != null);
+    appManager.viewer.nrAttributes += SetHTMLAttributeIf(element, 'src', element.attributes.getNamedItem('src') != null);
+    appManager.viewer.nrAttributes += SetHTMLAttributeIf(element, 'href', element.attributes.getNamedItem('href') != null);
+    appManager.viewer.nrAttributes += SetHTMLAttributeIf(element, 'alt', element.attributes.getNamedItem('alt') != null);
+    appManager.viewer.nrAttributes += SetHTMLAttributeIf(element, 'placeholder', element.attributes.getNamedItem('placeholder') != null);
+    appManager.viewer.nrAttributes += SetHTMLAttributeIf(element, 'width', element.attributes.getNamedItem('width') != null);
+
+    if (appManager.viewer.nrAttributes > 0)
         $('#InspectorWindow_htmlTitle').css('display', 'inline')
     else
         $('#InspectorWindow_htmlTitle').css('display', 'none')
@@ -217,81 +197,55 @@ function SetHTMLAttributes(element)
 
 
 
-function SetAssets(element)
-{
-    var assets = getImages(element);
-
-    for (var i = 0; i < assets.length; i++) {
-        if (assets[i] != null) {
-            var img = document.createElement('img');
-            img.id = 'InspectorWindow_asset';
-            img.src = assets[i];
-            img.width = 50;
-            img.height = 50;
-            $('#InspectorWindow_assets').append(img);
-        }
-    }
-
-    if(assets.length > 0)
-        $('#InspectorWindow_assetsTitle').css('display', 'inline')
-    else
-        $('#InspectorWindow_assetsTitle').css('display', 'none')
-}
 
 
 
 
 
 
+function SetCSSProperties(element) {
 
 
 
 
+    SetCSSPropertyIf(element, 'font-size', true);
+    SetCSSPropertyIf(element, 'font-weight', GetCSSProperty(element, 'font-weight') != '400');
+    SetCSSPropertyIf(element, 'font-style', GetCSSProperty(element, 'font-style') != 'normal');
+    SetCSSPropertyIf(element, 'color', true);
 
-function SetCSSProperties(element)
-{
+    SetCSSPropertyIf(element, 'font-family', true);
+    SetCSSPropertyIf(element, 'font-variant', GetCSSProperty(element, 'text-variant') != 'normal');
+    SetCSSPropertyIf(element, 'line-height', GetCSSProperty(element, 'text-variant') != 'line-height');
 
+    SetCSSPropertyIf(element, 'text-decoration', GetCSSProperty(element, 'text-decoration') != 'none');  //////
 
-
-
-    SetCSSPropertyIf(element, 'font-size',       true);
-    SetCSSPropertyIf(element, 'font-weight',     GetCSSProperty(element, 'font-weight')     != '400');
-    SetCSSPropertyIf(element, 'font-style',      GetCSSProperty(element, 'font-style')      != 'normal');
-    SetCSSPropertyIf(element, 'color',           true);
-
-    SetCSSPropertyIf(element, 'font-family',     true);
-    SetCSSPropertyIf(element, 'font-variant',    GetCSSProperty(element, 'text-variant')    != 'normal');
-    SetCSSPropertyIf(element, 'line-height',     GetCSSProperty(element, 'text-variant')    != 'line-height');
-
-    SetCSSPropertyIf(element, 'text-decoration', GetCSSProperty(element, 'text-decoration') != 'none'); //////
-
-    SetCSSPropertyIf(element, 'text-align',      GetCSSProperty(element, 'text-align')      != 'start');
-    SetCSSPropertyIf(element, 'text-indent',     GetCSSProperty(element, 'text-indent')     != '0px');
-    SetCSSPropertyIf(element, 'text-transform',  GetCSSProperty(element, 'text-transform')  != 'none');
-    SetCSSPropertyIf(element, 'vertical-align',  GetCSSProperty(element, 'vertical-align')  != 'baseline');
-    SetCSSPropertyIf(element, 'white-space',     GetCSSProperty(element, 'white-space')     != 'normal');
-    SetCSSPropertyIf(element, 'word-spacing',    GetCSSProperty(element, 'word-spacing')    != '0px');
+    SetCSSPropertyIf(element, 'text-align', GetCSSProperty(element, 'text-align') != 'start');
+    SetCSSPropertyIf(element, 'text-indent', GetCSSProperty(element, 'text-indent') != '0px');
+    SetCSSPropertyIf(element, 'text-transform', GetCSSProperty(element, 'text-transform') != 'none');
+    SetCSSPropertyIf(element, 'vertical-align', GetCSSProperty(element, 'vertical-align') != 'baseline');
+    SetCSSPropertyIf(element, 'white-space', GetCSSProperty(element, 'white-space') != 'normal');
+    SetCSSPropertyIf(element, 'word-spacing', GetCSSProperty(element, 'word-spacing') != '0px');
 
 
-    SetCSSPropertyIf(element, 'height',          GetCSSProperty(element, 'height')          != 'auto');
-    SetCSSPropertyIf(element, 'width',           GetCSSProperty(element, 'width')           != 'auto');
+    SetCSSPropertyIf(element, 'height', GetCSSProperty(element, 'height') != 'auto');
+    SetCSSPropertyIf(element, 'width', GetCSSProperty(element, 'width') != 'auto');
 
-    //SetCSSPropertyIf(element, 'border', true);
-    //SetCSSPropertyIf(element, 'border-top', true);
-    //SetCSSPropertyIf(element, 'border-right', true);
-    //SetCSSPropertyIf(element, 'border-bottom', true);
-    //SetCSSPropertyIf(element, 'border-left',true);
+      //SetCSSPropertyIf(element, 'border', true);
+      //SetCSSPropertyIf(element, 'border-top', true);
+      //SetCSSPropertyIf(element, 'border-right', true);
+      //SetCSSPropertyIf(element, 'border-bottom', true);
+      //SetCSSPropertyIf(element, 'border-left',true);
 
-    SetCSSPropertyIf(element, 'margin',true);
-
-
-    SetCSSPropertyIf(element, 'padding',true);
+    SetCSSPropertyIf(element, 'margin', true);
 
 
-    SetCSSPropertyIf(element, 'max-height',     GetCSSProperty(element, 'max-height') != 'none');
-    SetCSSPropertyIf(element, 'min-height',     GetCSSProperty(element, 'min-height') != 'none');
-    SetCSSPropertyIf(element, 'max-width',      GetCSSProperty(element, 'max-width') != 'none');
-    SetCSSPropertyIf(element, 'min-width',      GetCSSProperty(element, 'min-width') != 'none');
+    SetCSSPropertyIf(element, 'padding', true);
+
+
+    SetCSSPropertyIf(element, 'max-height', GetCSSProperty(element, 'max-height') != 'none');
+    SetCSSPropertyIf(element, 'min-height', GetCSSProperty(element, 'min-height') != 'none');
+    SetCSSPropertyIf(element, 'max-width', GetCSSProperty(element, 'max-width') != 'none');
+    SetCSSPropertyIf(element, 'min-width', GetCSSProperty(element, 'min-width') != 'none');
 
     SetCSSPropertyIf(element, 'top', GetCSSProperty(element, 'top') != 'auto');
     SetCSSPropertyIf(element, 'bottom', GetCSSProperty(element, 'bottom') != 'auto');
@@ -304,8 +258,7 @@ function SetCSSProperties(element)
 
 
 
-function AddEditEventListenersCSS(property)
-{
+function AddEditEventListenersCSS(property) {
     $('#InspectorWindow_' + property + ' .InspectorWindow_cssValue').on("input", () => {
         UpdateCSSValue($('#InspectorWindow_' + property + ' .InspectorWindow_cssValue'), property);
     });
@@ -320,9 +273,9 @@ function GetCurrentDocument() {
 
 
 function ViewerMouseOver(e) {
-    let element = this;
-    appManager.viewer.currentElement = element;
-    appManager.nrAttributes = 0;
+    let element                          = this;
+        appManager.viewer.currentElement = element;
+        appManager.nrAttributes          = 0;
 
     e.stopPropagation();
 
@@ -336,7 +289,7 @@ function ViewerMouseOver(e) {
 
 }
 
-/*
+  /*
 * Triggered when mouse moves within element boundaries
 */
 function ViewerMouseOut(e) {
@@ -348,17 +301,17 @@ function ViewerMouseOut(e) {
 
 }
 
-/*
+  /*
 * Triggered when mouse moves within element boundaries
 */
 function ViewerMouseMove(e) {
 
 
-    let document = GetCurrentDocument();
-    let block = document.getElementById('InspectorWindow_container');
-    let pageWidth = window.innerWidth;
-    let pageHeight = window.innerHeight;
-    let blockWidth = document.defaultView.getComputedStyle(block, null).getPropertyValue('width');
+    let document    = GetCurrentDocument();
+    let block       = document.getElementById('InspectorWindow_container');
+    let pageWidth   = window.innerWidth;
+    let pageHeight  = window.innerHeight;
+    let blockWidth  = document.defaultView.getComputedStyle(block, null).getPropertyValue('width');
     let blockHeight = document.defaultView.getComputedStyle(block, null).getPropertyValue('height');
 
     let xOffset = 20;
@@ -367,9 +320,9 @@ function ViewerMouseMove(e) {
     block.style.position = 'absolute';
 
 
-    // Set X position of InspectorWindow
+      // Set X position of InspectorWindow
     if ((e.clientX + parseFloat(blockWidth) + xOffset) > parseFloat(pageWidth)) {
-        //console.log('true')
+          //console.log('true')
         if ((e.clientX - parseFloat(blockWidth) - xOffset) > 0)
             block.style.left = e.clientX - parseFloat(blockWidth) - xOffset + 'px';
         else
@@ -378,7 +331,7 @@ function ViewerMouseMove(e) {
     else
         block.style.left = (e.pageX + xOffset) + 'px';
 
-    // Set Y position of InspectorWindow
+      // Set Y position of InspectorWindow
     if ((e.clientY + parseFloat(blockHeight) + yOffset) > parseFloat(pageHeight)) {
         if ((e.clientY - parseFloat(blockHeight) - yOffset) > 0)
             block.style.top = e.pageY - parseFloat(blockHeight) - yOffset + 'px';
@@ -397,14 +350,16 @@ function ViewerMouseMove(e) {
 
 
 
-/*
+  /*
 * Viewer Class
 */
 class Viewer {
     constructor() {
         this.haveEventListeners = false;
-        this.currentElement = null;
+        this.currentElement     = null;
         this.AddEventListeners();
+        this.inspectorWindow = this.BuildInspectorWindow();
+        document.body.appendChild(this.inspectorWindow);
     }
 
 
@@ -431,15 +386,15 @@ class Viewer {
 
 
     BuildHTMLAttribute = function (container, attribute) {
-        let p = document.createElement('p');
-        p.id = 'InspectorWindow_' + attribute;
+        let p    = document.createElement('p');
+            p.id = 'InspectorWindow_' + attribute;
 
-        let spanName = document.createElement('span');
-        spanName.className = 'InspectorWindow_attribute';
+        let spanName           = document.createElement('span');
+            spanName.className = 'InspectorWindow_attribute';
 
-        let spanValue = document.createElement('span');
-        spanValue.className = 'InspectorWindow_htmlValue';
-        spanValue.contentEditable = true;
+        let spanValue                 = document.createElement('span');
+            spanValue.className       = 'InspectorWindow_htmlValue';
+            spanValue.contentEditable = true;
 
         p.appendChild(spanName);
         p.appendChild(spanValue);
@@ -449,15 +404,15 @@ class Viewer {
 
 
     BuildCSSProperty = function (container, property) {
-        let p = document.createElement('p');
-        p.id = 'InspectorWindow_' + property;
+        let p    = document.createElement('p');
+            p.id = 'InspectorWindow_' + property;
 
-        let spanName = document.createElement('span');
-        spanName.className = 'InspectorWindow_property';
+        let spanName           = document.createElement('span');
+            spanName.className = 'InspectorWindow_property';
 
-        let spanValue = document.createElement('span');
-        spanValue.className = 'InspectorWindow_cssValue';
-        spanValue.contentEditable = true;
+        let spanValue                 = document.createElement('span');
+            spanValue.className       = 'InspectorWindow_cssValue';
+            spanValue.contentEditable = true;
 
         p.appendChild(spanName);
         p.appendChild(spanValue);
@@ -472,11 +427,11 @@ class Viewer {
 
         if (document) {
 
-            container = document.createElement('div');
+            container    = document.createElement('div');
             container.id = 'InspectorWindow_container';
 
-            let title = document.createElement('p');
-            title.id = 'InspectorWindow_htmlTitle';
+            let title    = document.createElement('p');
+                title.id = 'InspectorWindow_htmlTitle';
             title.appendChild(document.createTextNode('HTML'));
             container.appendChild(title);
 
@@ -484,10 +439,10 @@ class Viewer {
                 this.BuildHTMLAttribute(container, VIEWER_HTML[i])
             }
 
-            //-----------------------------------------------
+              //-----------------------------------------------
 
-            let title2 = document.createElement('p');
-            title2.id = 'InspectorWindow_cssTitle';
+            let title2    = document.createElement('p');
+                title2.id = 'InspectorWindow_cssTitle';
             title2.appendChild(document.createTextNode('CSS'));
             container.appendChild(title2);
 
@@ -503,14 +458,14 @@ class Viewer {
                 this.BuildCSSProperty(container, VIEWER_POSITIONING[i])
             }
 
-            //---------------------------------------------
+              //---------------------------------------------
             let title3 = document.createElement('p');
             title3.appendChild(document.createTextNode('Assets'));
             title3.id = 'InspectorWindow_assetsTitle';
             container.appendChild(title3);
 
-            let assets = document.createElement('div');
-            assets.id = 'InspectorWindow_assets';
+            let assets    = document.createElement('div');
+                assets.id = 'InspectorWindow_assets';
 
             container.appendChild(assets)
 
@@ -631,11 +586,11 @@ class Viewer {
     }
 
 
-    close(){
+    close() {
         console.log('closing viewer');
     }
 
-    
+
 
 
 }
@@ -644,7 +599,7 @@ class Viewer {
 
 
 function Viewer_Keypress(e) {
-    // f: Freeze or Unfreeze the css viewer if the cssViewer is enabled
+      // f: Freeze or Unfreeze the css viewer if the cssViewer is enabled
     if (e.key === 'f' && appManager.viewer) {
         if (appManager.viewer.haveEventListeners) {
             appManager.viewer.Freeze();

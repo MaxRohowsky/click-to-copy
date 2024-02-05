@@ -31,7 +31,7 @@ class AppManager {
         this.textOn      = false;
         this.urlOn       = false;
         this.assetOn     = false;
-        this.cssOn       = false;
+        this.codeOn       = false;
         this.colorOn     = false;
         this.clipboardOn = false;
         this.clipboard   = new Clipboard();
@@ -61,7 +61,7 @@ class AppManager {
 
         this.textButton      = this.createAppMenuButton("textButton", "menuButton", this.textButton, "text-icon.svg", "Copy Text");
         this.urlButton       = this.createAppMenuButton("urlButton", "menuButton", this.urlButton, "link-icon.svg", "Copy URL");
-        this.cssButton       = this.createAppMenuButton("cssButton", "menuButton", this.cssButton, "code-icon.svg", "Copy Code");
+        this.codeButton       = this.createAppMenuButton("codeButton", "menuButton", this.codeButton, "code-icon.svg", "Copy Code");
         this.assetButton     = this.createAppMenuButton("assetButton", "menuButton", this.assetButton, "asset-icon.svg", "Copy Image");
         this.colorButton     = this.createAppMenuButton("colorButton", "menuButton", this.colorButton, "color-icon.svg", "Copy Color");
         this.clipboardButton = this.createAppMenuButton("clipboardButton", "menuButton", this.clipboardButton, "clipboard-icon.svg", "Clipboard");
@@ -129,15 +129,14 @@ class AppManager {
 
 
 
-    cssButton() {
-        this.cssOn = !this.cssOn;
+    codeButton() {
+        this.codeOn = !this.codeOn;
 
 
-        if (this.cssOn) {
-            this.turnAppsOffExcept("css");
-            //this.css = new Code();
+        if (this.codeOn) {
+            this.turnAppsOffExcept("code");
+
             this.viewer = new Viewer();
-            let inspectorWindow = this.viewer.BuildInspectorWindow();
             document.body.appendChild(inspectorWindow);
             //this.css.addEventListeners();
 
@@ -160,6 +159,11 @@ class AppManager {
 
         if (this.assetOn) {
             this.turnAppsOffExcept("asset");
+            this.asset = new Asset();
+            let inspectorWindow = this.asset.BuildInspectorWindow(); // put this into the viewer class
+            document.body.appendChild(inspectorWindow);
+            //let inspectorWindow = this.asset.BuildInspectorWindow();
+            //document.body.appendChild(inspectorWindow);
 
         }
         else {
@@ -202,7 +206,7 @@ class AppManager {
     }
 
     turnAppsOffExcept(str = undefined) {
-        const apps = ['text', 'url', 'css', 'asset', 'color'];
+        const apps = ['text', 'url', 'code', 'asset', 'color'];
 
           // Reset all states, properties and buttons
         apps.forEach(app => {
