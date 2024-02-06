@@ -126,13 +126,13 @@ let VIEWER_CATEGORIES = {
 
 
 function UpdateHTMLValue(field, attribute) {
-    $(appManager.viewer.currentElement).attr(attribute, field.html());
+    $(appManager.code.currentElement).attr(attribute, field.html());
 }
 
 function UpdateCSSValue(field, property) {
-    console.log(appManager.viewer.currentElement.style[property]);
+    console.log(appManager.code.currentElement.style[property]);
     console.log(field.html());
-    appManager.viewer.currentElement.style[property] = field.html();
+    appManager.code.currentElement.style[property] = field.html();
 }
 
 function GetCSSProperty(element, property) {
@@ -178,80 +178,54 @@ function SetCSSPropertyIf(element, property, condition) {
 
 
 
-
-
 function SetHTMLAttributes(element) {
-    appManager.viewer.nrAttributes += SetHTMLAttributeIf(element, 'id', element.attributes.getNamedItem('id') != null);
-    appManager.viewer.nrAttributes += SetHTMLAttributeIf(element, 'class', element.attributes.getNamedItem('class') != null);
-    appManager.viewer.nrAttributes += SetHTMLAttributeIf(element, 'src', element.attributes.getNamedItem('src') != null);
-    appManager.viewer.nrAttributes += SetHTMLAttributeIf(element, 'href', element.attributes.getNamedItem('href') != null);
-    appManager.viewer.nrAttributes += SetHTMLAttributeIf(element, 'alt', element.attributes.getNamedItem('alt') != null);
-    appManager.viewer.nrAttributes += SetHTMLAttributeIf(element, 'placeholder', element.attributes.getNamedItem('placeholder') != null);
-    appManager.viewer.nrAttributes += SetHTMLAttributeIf(element, 'width', element.attributes.getNamedItem('width') != null);
+    appManager.code.nrAttributes += SetHTMLAttributeIf(element, 'id', element.attributes.getNamedItem('id') != null);
+    appManager.code.nrAttributes += SetHTMLAttributeIf(element, 'class', element.attributes.getNamedItem('class') != null);
+    appManager.code.nrAttributes += SetHTMLAttributeIf(element, 'src', element.attributes.getNamedItem('src') != null);
+    appManager.code.nrAttributes += SetHTMLAttributeIf(element, 'href', element.attributes.getNamedItem('href') != null);
+    appManager.code.nrAttributes += SetHTMLAttributeIf(element, 'alt', element.attributes.getNamedItem('alt') != null);
+    appManager.code.nrAttributes += SetHTMLAttributeIf(element, 'placeholder', element.attributes.getNamedItem('placeholder') != null);
+    appManager.code.nrAttributes += SetHTMLAttributeIf(element, 'width', element.attributes.getNamedItem('width') != null);
 
-    if (appManager.viewer.nrAttributes > 0)
-        $('#InspectorWindow_htmlTitle').css('display', 'inline')
-    else
-        $('#InspectorWindow_htmlTitle').css('display', 'none')
+
+    $('#InspectorWindow_htmlTitle').css('display', 'inline')
+
 }
 
 
 
-
-
-
-
-
-
 function SetCSSProperties(element) {
-
-
-
-
     SetCSSPropertyIf(element, 'font-size', true);
     SetCSSPropertyIf(element, 'font-weight', GetCSSProperty(element, 'font-weight') != '400');
     SetCSSPropertyIf(element, 'font-style', GetCSSProperty(element, 'font-style') != 'normal');
     SetCSSPropertyIf(element, 'color', true);
-
     SetCSSPropertyIf(element, 'font-family', true);
     SetCSSPropertyIf(element, 'font-variant', GetCSSProperty(element, 'text-variant') != 'normal');
     SetCSSPropertyIf(element, 'line-height', GetCSSProperty(element, 'text-variant') != 'line-height');
-
-    SetCSSPropertyIf(element, 'text-decoration', GetCSSProperty(element, 'text-decoration') != 'none');  //////
-
+    SetCSSPropertyIf(element, 'text-decoration', GetCSSProperty(element, 'text-decoration') != 'none');
     SetCSSPropertyIf(element, 'text-align', GetCSSProperty(element, 'text-align') != 'start');
     SetCSSPropertyIf(element, 'text-indent', GetCSSProperty(element, 'text-indent') != '0px');
     SetCSSPropertyIf(element, 'text-transform', GetCSSProperty(element, 'text-transform') != 'none');
     SetCSSPropertyIf(element, 'vertical-align', GetCSSProperty(element, 'vertical-align') != 'baseline');
     SetCSSPropertyIf(element, 'white-space', GetCSSProperty(element, 'white-space') != 'normal');
     SetCSSPropertyIf(element, 'word-spacing', GetCSSProperty(element, 'word-spacing') != '0px');
-
-
     SetCSSPropertyIf(element, 'height', GetCSSProperty(element, 'height') != 'auto');
     SetCSSPropertyIf(element, 'width', GetCSSProperty(element, 'width') != 'auto');
-
-      //SetCSSPropertyIf(element, 'border', true);
-      //SetCSSPropertyIf(element, 'border-top', true);
-      //SetCSSPropertyIf(element, 'border-right', true);
-      //SetCSSPropertyIf(element, 'border-bottom', true);
-      //SetCSSPropertyIf(element, 'border-left',true);
-
+    //SetCSSPropertyIf(element, 'border', true);
+    //SetCSSPropertyIf(element, 'border-top', true);
+    //SetCSSPropertyIf(element, 'border-right', true);
+    //SetCSSPropertyIf(element, 'border-bottom', true);
+    //SetCSSPropertyIf(element, 'border-left',true);
     SetCSSPropertyIf(element, 'margin', true);
-
-
     SetCSSPropertyIf(element, 'padding', true);
-
-
     SetCSSPropertyIf(element, 'max-height', GetCSSProperty(element, 'max-height') != 'none');
     SetCSSPropertyIf(element, 'min-height', GetCSSProperty(element, 'min-height') != 'none');
     SetCSSPropertyIf(element, 'max-width', GetCSSProperty(element, 'max-width') != 'none');
     SetCSSPropertyIf(element, 'min-width', GetCSSProperty(element, 'min-width') != 'none');
-
     SetCSSPropertyIf(element, 'top', GetCSSProperty(element, 'top') != 'auto');
     SetCSSPropertyIf(element, 'bottom', GetCSSProperty(element, 'bottom') != 'auto');
     SetCSSPropertyIf(element, 'right', GetCSSProperty(element, 'right') != 'auto');
     SetCSSPropertyIf(element, 'left', GetCSSProperty(element, 'left') != 'auto');
-
     SetCSSPropertyIf(element, 'z-index', GetCSSProperty(element, 'z-index') != 'auto');
 }
 
@@ -274,7 +248,7 @@ function GetCurrentDocument() {
 
 function ViewerMouseOver(e) {
     let element                          = this;
-        appManager.viewer.currentElement = element;
+        appManager.code.currentElement = element;
         appManager.nrAttributes          = 0;
 
     e.stopPropagation();
@@ -285,7 +259,6 @@ function ViewerMouseOver(e) {
 
     SetHTMLAttributes(element);
     SetCSSProperties(element);
-    SetAssets(element);
 
 }
 
@@ -293,7 +266,6 @@ function ViewerMouseOver(e) {
 * Triggered when mouse moves within element boundaries
 */
 function ViewerMouseOut(e) {
-    $('#InspectorWindow_assets').empty();
     $('#InspectorWindow_value').empty();
 
     this.style.outline = '';
@@ -353,13 +325,14 @@ function ViewerMouseMove(e) {
   /*
 * Viewer Class
 */
-class Viewer {
+class Code {
     constructor() {
         this.haveEventListeners = false;
         this.currentElement     = null;
         this.AddEventListeners();
         this.inspectorWindow = this.BuildInspectorWindow();
         document.body.appendChild(this.inspectorWindow);
+
     }
 
 
@@ -458,16 +431,7 @@ class Viewer {
                 this.BuildCSSProperty(container, VIEWER_POSITIONING[i])
             }
 
-              //---------------------------------------------
-            let title3 = document.createElement('p');
-            title3.appendChild(document.createTextNode('Assets'));
-            title3.id = 'InspectorWindow_assetsTitle';
-            container.appendChild(title3);
 
-            let assets    = document.createElement('div');
-                assets.id = 'InspectorWindow_assets';
-
-            container.appendChild(assets)
 
         }
 
@@ -600,12 +564,12 @@ class Viewer {
 
 function Viewer_Keypress(e) {
       // f: Freeze or Unfreeze the css viewer if the cssViewer is enabled
-    if (e.key === 'f' && appManager.viewer) {
-        if (appManager.viewer.haveEventListeners) {
-            appManager.viewer.Freeze();
+    if (e.key === 'f' && appManager.code) {
+        if (appManager.code.haveEventListeners) {
+            appManager.code.Freeze();
         }
         else {
-            appManager.viewer.Unfreeze();
+            appManager.code.Unfreeze();
         }
     }
 }

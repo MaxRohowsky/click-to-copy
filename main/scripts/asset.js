@@ -144,7 +144,9 @@ class Asset {
         e.stopPropagation();
 
     }
-
+    close() {
+        console.log('closing viewer');
+    }
 
 
 
