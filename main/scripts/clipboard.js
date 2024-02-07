@@ -1,5 +1,7 @@
 const EXTENSION_ID = 'chrome-extension://laonhdndhpeoachehnobbcjdcnnhlioe';
 
+const IGNORE_CLASSES = ["appMenu", "menuBUtton", "menuImage", "clipboard"]
+
 class Clipboard {
     constructor() {
         this.copiedText = [];
@@ -8,9 +10,7 @@ class Clipboard {
         this.lastTextIndex = 0;
         this.lastUrlIndex = 0;
         this.lastColorIndex = 0;
-        this.clipboard = $('<div>')
-        .attr('id', 'clipboard')
-        .addClass('hidden clipboardInitial');
+        this.clipboard = $('<div>').attr('id', 'clipboard').addClass('clipboard hidden clipboardInitial');
         this.clipboardContainer = $('<div>').attr('id', 'clipboard_container');
         this.clipboardTop = $('<div>').attr('id', 'clipboard_top');
         this.clipboardSub = $('<div>').attr('id', 'clipboard_sub');
@@ -21,7 +21,6 @@ class Clipboard {
         this.clipboardCopyButton = $('<button>').attr('id', 'clipboard_copy_button').text('Copy');
         this.clipboardClearButton = $('<button>').attr('id', 'clipboard_clear_button');
         this.buildClipboard();
-
     }
 
     buildClipboard() {
@@ -42,59 +41,40 @@ class Clipboard {
                 appManager.clipboardOn = false;
             });
 
-        const moveIcon = $('<img>')
-            .addClass('clipboard_move_icon')
-            .attr('src', `${EXTENSION_ID}/assets/close-classic-icon.svg`)
-            .on('mousedown', () => moveElement(this.clipboard, "clipboardInitial"))
-            .on('mouseup', () => freezeElement(this.clipboard));
-
-
-
         this.clipboard.append(this.clipboardContainer);
-
         this.clipboardContainer.append(this.clipboardTop);
         this.clipboardTop.append(closeIcon);
-        this.clipboardTop.append(moveIcon);
-
+        this.clipboardTop
+            .on('mousedown', () => moveElement(this.clipboard, "clipboardInitial"))
+            .on('mouseup', () => freezeElement(this.clipboard));
         this.clipboardContainer.append(this.clipboardSub);
-
         this.clipboardContainer.append(this.clipboardMid);
-        this.clipboardMid.append(this.clipboardItemHeader);
-        this.clipboardMid.append(this.clipboardItems);
-
+        this.clipboardMid.append(this.clipboardItemHeader, this.clipboardItems);
         this.clipboardContainer.append(this.clipboardEnd);
-        this.clipboardEnd.append(this.clipboardCopyButton);
-        this.clipboardCopyButton.on('click', () => {
-            let filteredTextArray = this.copiedText.filter(item => item !== null);
-            let filteredUrlsArray = this.copiedUrls.filter(item => item !== null);
-            let filteredColorsArray = this.copiedColors.filter(item => item !== null);
-            let textToCopy = filteredTextArray.join('\n'); 
-            let urlsToCopy = filteredUrlsArray.join('\n'); 
-            let colorsToCopy = filteredColorsArray.join('\n');
-            let combinedText = textToCopy + '\n' + urlsToCopy  + '\n' +  colorsToCopy;
-            console.log(filteredUrlsArray);
-            navigator.clipboard.writeText(combinedText)
-                .then(() => {
-                    console.log('Text copied to clipboard');
-                })
-                .catch(err => {
-                    console.error('Failed to copy text: ', err);
-                });
-        });
-
-
-
-
-
-
-
-        this.clipboardEnd.append(this.clipboardClearButton);
+        this.clipboardEnd.append(this.clipboardCopyButton, this.clipboardClearButton);
+        this.clipboardCopyButton.on('click', this.writeToClipboard.bind(this));
         this.clipboardClearButton.append(trashIcon);
-
-
 
         $('body').append(this.clipboard);
 
+    }
+
+    writeToClipboard() {
+        let filteredTextArray = this.copiedText.filter(item => item !== null);
+        let filteredUrlsArray = this.copiedUrls.filter(item => item !== null);
+        let filteredColorsArray = this.copiedColors.filter(item => item !== null);
+        let textToCopy = filteredTextArray.join('\n');
+        let urlsToCopy = filteredUrlsArray.join('\n');
+        let colorsToCopy = filteredColorsArray.join('\n');
+        let combinedText = textToCopy + '\n' + urlsToCopy + '\n' + colorsToCopy;
+
+        navigator.clipboard.writeText(combinedText)
+            .then(() => {
+                console.log('Text copied to clipboard');
+            })
+            .catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
     }
 
     refresh() {
@@ -106,7 +86,7 @@ class Clipboard {
             let itemContent = $('<div>').attr('class', 'clipboard_item_content').text(this.copiedText[i]);
             let itemRemove = $('<img>').attr('class', 'clipboard_item_remove').attr('src', `${EXTENSION_ID}/assets/close-classic-icon.svg`);
 
-            
+
             itemRemove.on('click', function () {
                 $(this).parent().remove();
                 self.copiedText[i] = null;
@@ -126,8 +106,8 @@ class Clipboard {
             let itemType = $('<img>').attr('class', 'clipboard_item_type').attr('src', `${EXTENSION_ID}/assets/link-icon.svg`);
             let itemContent = $('<div>').attr('class', 'clipboard_item_content').text(this.copiedUrls[i]);
             let itemRemove = $('<img>').attr('class', 'clipboard_item_remove').attr('src', `${EXTENSION_ID}/assets/close-classic-icon.svg`);
-            
-        
+
+
             itemRemove.on('click', function () {
                 $(this).parent().remove();
                 self.copiedUrls[i] = null;
@@ -159,7 +139,7 @@ class Clipboard {
             });
             itemContent.prepend(colorCircle);
             let itemRemove = $('<img>').attr('class', 'clipboard_item_remove').attr('src', `${EXTENSION_ID}/assets/close-classic-icon.svg`);
-            
+
 
             itemRemove.on('click', function () {
                 $(this).parent().remove();

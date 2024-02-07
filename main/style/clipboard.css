@@ -38,6 +38,7 @@
       /* Change to your preferred color */
     border-top-left-radius : 5px;
     border-top-right-radius: 5px;
+    cursor: grab;
 }
 
 .clipboard_close_icon {

@@ -47,13 +47,13 @@ class AppManager {
             .on('mousedown', () => moveElement(this.appMenu, "menuInitial"))
             .on('mouseup', () => freezeElement(this.appMenu));
 
-        this.textButton = this.createAppMenuButton("textButton", "menuButton", "text-icon.svg", "Copy Text");
-        this.urlButton = this.createAppMenuButton("urlButton", "menuButton", "link-icon.svg", "Copy URL");
-        this.codeButton = this.createAppMenuButton("codeButton", "menuButton", "code-icon.svg", "Copy Code");
-        this.assetButton = this.createAppMenuButton("assetButton", "menuButton", "asset-icon.svg", "Copy Image");
-        this.colorButton = this.createAppMenuButton("colorButton", "menuButton", "color-icon.svg", "Copy Color");
+        this.textButton      = this.createAppMenuButton("textButton", "menuButton", "text-icon.svg", "Copy Text");
+        this.urlButton       = this.createAppMenuButton("urlButton", "menuButton", "link-icon.svg", "Copy URL");
+        this.codeButton      = this.createAppMenuButton("codeButton", "menuButton", "code-icon.svg", "Copy Code");
+        this.assetButton     = this.createAppMenuButton("assetButton", "menuButton", "asset-icon.svg", "Copy Image");
+        this.colorButton     = this.createAppMenuButton("colorButton", "menuButton", "color-icon.svg", "Copy Color");
         this.clipboardButton = this.createAppMenuButton("clipboardButton", "menuButton", "clipboard-icon.svg", "Clipboard");
-        this.closeButton = this.createAppMenuButton("closeButton", "menuButton", "close-icon.svg", "Close App");
+        this.closeButton     = this.createAppMenuButton("closeButton", "menuButton", "close-icon.svg", "Close App");
     }
 
     setupEventHandlers() {

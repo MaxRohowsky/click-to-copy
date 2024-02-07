@@ -11,14 +11,14 @@
 
 
 
-#InspectorWindow_container span,
-#InspectorWindow_container p{
+#InspectorWindow span,
+#InspectorWindow p{
     margin-top: 0px;
     margin-bottom: 0px;
 }
 
 
-#InspectorWindow_container {
+#InspectorWindow {
     max-width: 350px;
     min-width: 300px;
     border-radius: 8px;

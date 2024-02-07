@@ -117,48 +117,19 @@ let VIEWER_EFFECT = new Array(
 
 let VIEWER_CATEGORIES = {
     'Typography': VIEWER_TYPOGRAPHY,
-    'Box'       : VIEWER_BOX,
-    'Position'  : VIEWER_POSITIONING,
+    'Box': VIEWER_BOX,
+    'Position': VIEWER_POSITIONING,
     'Transforms': VIEWER_TRANSFORMS,
-    'Table'     : VIEWER_TABLE,
-    'Effect'    : VIEWER_EFFECT
+    'Table': VIEWER_TABLE,
+    'Effect': VIEWER_EFFECT
 };
 
-
-function UpdateHTMLValue(field, attribute) {
-    $(appManager.code.currentElement).attr(attribute, field.html());
-}
-
-function UpdateCSSValue(field, property) {
-    console.log(appManager.code.currentElement.style[property]);
-    console.log(field.html());
-    appManager.code.currentElement.style[property] = field.html();
-}
 
 function GetCSSProperty(element, property) {
     var elementStyle = document.defaultView.getComputedStyle(element, null);
     return elementStyle.getPropertyValue(property)
 }
 
-function SetHTMLAttributeIf(element, attribute, condition) {
-    if (condition) {
-        var value = element.attributes.getNamedItem(attribute).value
-
-        $('#InspectorWindow_' + attribute + ' .InspectorWindow_attribute').css('display', 'inline')
-        $('#InspectorWindow_' + attribute + ' .InspectorWindow_htmlValue').css('display', 'inline')
-
-        $('#InspectorWindow_' + attribute + ' .InspectorWindow_attribute').text(attribute + ": ");
-        $('#InspectorWindow_' + attribute + ' .InspectorWindow_htmlValue').text(value);
-
-        return 1;
-    }
-    else {
-        $('#InspectorWindow_' + attribute + ' .InspectorWindow_attribute').css('display', 'none')
-        $('#InspectorWindow_' + attribute + ' .InspectorWindow_htmlValue').css('display', 'none')
-
-        return 0;
-    }
-}
 
 function SetCSSPropertyIf(element, property, condition) {
     var value = GetCSSProperty(element, property)
@@ -175,23 +146,6 @@ function SetCSSPropertyIf(element, property, condition) {
         $('#InspectorWindow_' + property + ' .InspectorWindow_cssValue').css('display', 'none')
     }
 }
-
-
-
-function SetHTMLAttributes(element) {
-    appManager.code.nrAttributes += SetHTMLAttributeIf(element, 'id', element.attributes.getNamedItem('id') != null);
-    appManager.code.nrAttributes += SetHTMLAttributeIf(element, 'class', element.attributes.getNamedItem('class') != null);
-    appManager.code.nrAttributes += SetHTMLAttributeIf(element, 'src', element.attributes.getNamedItem('src') != null);
-    appManager.code.nrAttributes += SetHTMLAttributeIf(element, 'href', element.attributes.getNamedItem('href') != null);
-    appManager.code.nrAttributes += SetHTMLAttributeIf(element, 'alt', element.attributes.getNamedItem('alt') != null);
-    appManager.code.nrAttributes += SetHTMLAttributeIf(element, 'placeholder', element.attributes.getNamedItem('placeholder') != null);
-    appManager.code.nrAttributes += SetHTMLAttributeIf(element, 'width', element.attributes.getNamedItem('width') != null);
-
-
-    $('#InspectorWindow_htmlTitle').css('display', 'inline')
-
-}
-
 
 
 function SetCSSProperties(element) {
@@ -230,41 +184,33 @@ function SetCSSProperties(element) {
 }
 
 
-
-
-function AddEditEventListenersCSS(property) {
-    $('#InspectorWindow_' + property + ' .InspectorWindow_cssValue').on("input", () => {
-        UpdateCSSValue($('#InspectorWindow_' + property + ' .InspectorWindow_cssValue'), property);
-    });
-}
-
-
-
-
 function GetCurrentDocument() {
     return window.document;
 }
 
 
 function ViewerMouseOver(e) {
-    let element                          = this;
-        appManager.code.currentElement = element;
-        appManager.nrAttributes          = 0;
+    let element = this;
+    appManager.code.currentElement = element;
+    appManager.nrAttributes = 0;
 
     e.stopPropagation();
 
-    if (this.tagName != 'body') {
+    if (this.tagName != 'body' && !IGNORE_CLASSES.some(cls => $(element).hasClass(cls))) {
         this.style.setProperty('outline', '1px dotted #f00', 'important');
     }
 
-    SetHTMLAttributes(element);
+    if(!IGNORE_CLASSES.some(cls => $(element).hasClass(cls))){
+        $('#InspectorWindow').css("display", "block");
+    } else {
+        $('#InspectorWindow').css("display", "none");
+    }
+
     SetCSSProperties(element);
 
 }
 
-  /*
-* Triggered when mouse moves within element boundaries
-*/
+
 function ViewerMouseOut(e) {
     $('#InspectorWindow_value').empty();
 
@@ -273,79 +219,67 @@ function ViewerMouseOut(e) {
 
 }
 
-  /*
-* Triggered when mouse moves within element boundaries
-*/
+
 function ViewerMouseMove(e) {
-
-
-    let document    = GetCurrentDocument();
-    let block       = document.getElementById('InspectorWindow_container');
-    let pageWidth   = window.innerWidth;
-    let pageHeight  = window.innerHeight;
-    let blockWidth  = document.defaultView.getComputedStyle(block, null).getPropertyValue('width');
-    let blockHeight = document.defaultView.getComputedStyle(block, null).getPropertyValue('height');
+    let block = $('#InspectorWindow');
+    let pageWidth = window.innerWidth;
+    let pageHeight = window.innerHeight;
+    let blockWidth = $(block).width();
+    let blockHeight = $(block).height();
 
     let xOffset = 20;
     let yOffset = 20;
 
-    block.style.position = 'absolute';
+    block.css('position', 'absolute');
 
 
-      // Set X position of InspectorWindow
+    // Set X position of InspectorWindow
     if ((e.clientX + parseFloat(blockWidth) + xOffset) > parseFloat(pageWidth)) {
-          //console.log('true')
         if ((e.clientX - parseFloat(blockWidth) - xOffset) > 0)
-            block.style.left = e.clientX - parseFloat(blockWidth) - xOffset + 'px';
+            block.css('left', e.clientX - parseFloat(blockWidth) - xOffset + 'px');
         else
-            block.style.left = 0 + 'px';
+            block.css('left', '0px');
     }
     else
-        block.style.left = (e.pageX + xOffset) + 'px';
+        block.css('left', (e.pageX + xOffset) + 'px');
 
-      // Set Y position of InspectorWindow
+    // Set Y position of InspectorWindow
     if ((e.clientY + parseFloat(blockHeight) + yOffset) > parseFloat(pageHeight)) {
         if ((e.clientY - parseFloat(blockHeight) - yOffset) > 0)
-            block.style.top = e.pageY - parseFloat(blockHeight) - yOffset + 'px';
+            block.css('top', e.pageY - parseFloat(blockHeight) - yOffset + 'px');
         else
-            block.style.top = 0 + 'px';
+            block.css('top', '0px');
     }
     else
-        block.style.top = (e.pageY + yOffset) + 'px';
+        block.css('top', (e.pageY + yOffset) + 'px');
 
-
-
-    e.stopPropagation();
+    //e.stopPropagation(); // Stop the event from bubbling up the DOM tree - but here it interferes with the movability of clipboard
 
 
 }
 
 
 
-  /*
-* Viewer Class
-*/
 class Code {
     constructor() {
         this.haveEventListeners = false;
-        this.currentElement     = null;
+        this.currentElement = null;
+        this.inspector = null;
+        this.BuildInspectorWindow();
         this.AddEventListeners();
-        this.inspectorWindow = this.BuildInspectorWindow();
-        document.body.appendChild(this.inspectorWindow);
-
     }
 
 
-    GetAllElements = function (element) {
+    GetAllElements(element) {
         let elements = new Array();
 
-        if (element && element.hasChildNodes()) {
+        if (element && element.hasChildNodes() && !IGNORE_CLASSES.some(cls => $(element).hasClass(cls))) {
             elements.push(element);
 
             let childs = element.childNodes;
 
             for (let i = 0; i < childs.length; i++) {
-                if (childs[i].hasChildNodes()) {
+                if (childs[i].hasChildNodes() && !IGNORE_CLASSES.some(cls => $(childs[i]).hasClass(cls))) {
                     elements = elements.concat(this.GetAllElements(childs[i]));
                 }
                 else if (childs[i].nodeType == 1) {
@@ -358,87 +292,53 @@ class Code {
     }
 
 
-    BuildHTMLAttribute = function (container, attribute) {
-        let p    = document.createElement('p');
-            p.id = 'InspectorWindow_' + attribute;
+    BuildCSSProperty(container, property) {
+        let p = $('<p>').attr('id', 'InspectorWindow_' + property);
 
-        let spanName           = document.createElement('span');
-            spanName.className = 'InspectorWindow_attribute';
+        let spanName = $('<span>').addClass('InspectorWindow_property');
 
-        let spanValue                 = document.createElement('span');
-            spanValue.className       = 'InspectorWindow_htmlValue';
-            spanValue.contentEditable = true;
+        let spanValue = $('<span>')
+            .addClass('InspectorWindow_cssValue')
+            .attr('contentEditable', true);
 
-        p.appendChild(spanName);
-        p.appendChild(spanValue);
+        p.append(spanName);
+        p.append(spanValue);
 
-        container.appendChild(p);
+        $(container).append(p);
     }
 
 
-    BuildCSSProperty = function (container, property) {
-        let p    = document.createElement('p');
-            p.id = 'InspectorWindow_' + property;
-
-        let spanName           = document.createElement('span');
-            spanName.className = 'InspectorWindow_property';
-
-        let spanValue                 = document.createElement('span');
-            spanValue.className       = 'InspectorWindow_cssValue';
-            spanValue.contentEditable = true;
-
-        p.appendChild(spanName);
-        p.appendChild(spanValue);
-
-        container.appendChild(p);
-    }
-
-
-    BuildInspectorWindow = function () {
+    BuildInspectorWindow() {
         let document = GetCurrentDocument();
-        let container;
 
         if (document) {
 
-            container    = document.createElement('div');
-            container.id = 'InspectorWindow_container';
+            this.inspector = $('<div>').attr('id', 'InspectorWindow');
 
-            let title    = document.createElement('p');
-                title.id = 'InspectorWindow_htmlTitle';
-            title.appendChild(document.createTextNode('HTML'));
-            container.appendChild(title);
 
-            for (let i = 0; i < VIEWER_HTML.length; i++) {
-                this.BuildHTMLAttribute(container, VIEWER_HTML[i])
-            }
-
-              //-----------------------------------------------
-
-            let title2    = document.createElement('p');
-                title2.id = 'InspectorWindow_cssTitle';
-            title2.appendChild(document.createTextNode('CSS'));
-            container.appendChild(title2);
+            let title2 = $('p').attr('id', 'InspectorWindow_htmlTitle');
+            title2.append(document.createTextNode('CSS'));
+            this.inspector.append(title2);
 
             for (let i = 0; i < VIEWER_TYPOGRAPHY.length; i++) {
-                this.BuildCSSProperty(container, VIEWER_TYPOGRAPHY[i])
+                this.BuildCSSProperty(this.inspector, VIEWER_TYPOGRAPHY[i])
             }
 
             for (let i = 0; i < VIEWER_BOX.length; i++) {
-                this.BuildCSSProperty(container, VIEWER_BOX[i])
+                this.BuildCSSProperty(this.inspector, VIEWER_BOX[i])
             }
 
             for (let i = 0; i < VIEWER_POSITIONING.length; i++) {
-                this.BuildCSSProperty(container, VIEWER_POSITIONING[i])
+                this.BuildCSSProperty(this.inspector, VIEWER_POSITIONING[i])
             }
 
-
-
         }
+        $('body').append(this.inspector);
 
-        return container;
     }
 
-    AddEventListeners = function () {
+    AddEventListeners() {
+        this.haveEventListeners = true;
         let document = GetCurrentDocument();
         let elements = this.GetAllElements(document);
 
@@ -448,13 +348,13 @@ class Code {
             $(elements[i]).on("mouseout", ViewerMouseOut);
             $(elements[i]).on("mousemove", ViewerMouseMove);
         }
-        this.haveEventListeners = true;
+
     }
 
 
-    RemoveEventListeners = function () {
+    RemoveEventListeners() {
         let document = GetCurrentDocument();
-        let elements = this.GetAllElements(document.body);
+        let elements = this.GetAllElements(document);
 
         for (let i = 0; i < elements.length; i++) {
             $(elements[i]).off("mouseover", ViewerMouseOver);
@@ -465,93 +365,14 @@ class Code {
     }
 
 
-    AddEditEventListeners = function () {
-        for (let i = 0; i < VIEWER_HTML.length; i++) {
-            (function (index) {
-                $('#InspectorWindow_' + VIEWER_HTML[index] + ' .InspectorWindow_htmlValue').on("input", () => {
-                    UpdateHTMLValue($('#InspectorWindow_' + VIEWER_HTML[index] + ' .InspectorWindow_htmlValue'), VIEWER_HTML[index]);
-                });
-            })(i);
-        }
 
 
-
-        let categoryKeys = Object.keys(VIEWER_CATEGORIES);
-
-        for (let i = 0; i < Object.keys(VIEWER_CATEGORIES).length; i++) {
-            let cat = VIEWER_CATEGORIES[categoryKeys[i]];
-            for (let j = 0; j < cat.length; j++) {
-                AddEditEventListenersCSS(cat[j])
-            }
-        }
-
-
-    }
-
-    RemoveEditEventListeners = function () {
-        for (let i = 0; i < VIEWER_HTML.length; i++) {
-            $('#InspectorWindow_' + VIEWER_HTML[i] + ' .InspectorWindow_htmlValue').off("input");
-        }
-
-        for (let i = 0; i < VIEWER_TYPOGRAPHY.length; i++) {
-            $('#InspectorWindow_' + VIEWER_TYPOGRAPHY[i] + ' .InspectorWindow_htmlValue').off("input");
-        }
-
-        for (let i = 0; i < VIEWER_BOX.length; i++) {
-            $('#InspectorWindow_' + VIEWER_BOX[i] + ' .InspectorWindow_htmlValue').off("input");
-        }
-
-        for (let i = 0; i < VIEWER_POSITIONING.length; i++) {
-            $('#InspectorWindow_' + VIEWER_POSITIONING[i] + ' .InspectorWindow_htmlValue').off("input");
-        }
-
-    }
-
-
-
-
-    Freeze = function () {
-        this.RemoveEventListeners();
-        this.AddEditEventListeners();
-
-        $("#InspectorWindow_container").css("background-color", "rgba(46, 52, 64, 1)");
-        $("#InspectorWindow_container").css("box-shadow", "0px 0px 10px rgba(0, 0, 0, 0.0)");
-
-        let svgx = '<svg id="xSymbol" fill="#ffffff" height="10px" width="10px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 460.775 460.775" xml:space="preserve" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55 c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55 c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505 c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55 l171.117-171.12l171.118,171.12c2.913,2.911,6.866,4.55,10.993,4.55c4.128,0,8.081-1.639,10.992-4.55l32.709-32.719 c6.074-6.075,6.074-15.909,0-21.986L285.08,230.397z"></path> </g></svg>';
-        let $svg = $(svgx);
-        $svg.on('click', function () {
-            $("#InspectorWindow_container").remove();;
-        });
-        $("#InspectorWindow_container").append($svg);
-
-
-
-
-    }
-
-    Unfreeze = function () {
-        this.AddEventListeners();
-        this.RemoveEditEventListeners();
-        $("#InspectorWindow_container").css("background-color", "rgba(46, 52, 64, 0.9)");
-        $("#InspectorWindow_container").css("box-shadow", "0px 0px 10px rgba(0, 0, 0, 0.15)");
-
-    }
-
-
-
-    isEnabled = function () {
-        let document = GetCurrentDocument();
-
-        if (document.getElementById('InspectorWindow_container')) {
-            return true;
-        }
-        return false;
-
-    }
 
 
     close() {
         console.log('closing viewer');
+        this.RemoveEventListeners();
+        this.inspector.remove();
     }
 
 
@@ -561,18 +382,6 @@ class Code {
 
 
 
-
-function Viewer_Keypress(e) {
-      // f: Freeze or Unfreeze the css viewer if the cssViewer is enabled
-    if (e.key === 'f' && appManager.code) {
-        if (appManager.code.haveEventListeners) {
-            appManager.code.Freeze();
-        }
-        else {
-            appManager.code.Unfreeze();
-        }
-    }
-}
 
 
 
