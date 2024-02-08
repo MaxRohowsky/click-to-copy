@@ -1,6 +1,8 @@
 class Url {
     constructor() {
         this.PreventDefault();
+        //this.addScrollListener();
+        
     }
 
     Testfunction(event) {
@@ -36,14 +38,22 @@ class Url {
         }
     }
 
+    addScrollListener() {
+        $(window).on('scroll', () => {
+            $('a').addClass('dashed_outline')
+            // Add your on scroll logic here
+        });
+    }
+
     PreventDefault() {
-        $('a').on('click', (e) => {
+        $('a').addClass('dashed_outline')
+        .on('click', (e) => {
             this.Testfunction(e);
         });
     }
 
     close() {
         console.log('closing url');
-        $('a').off('click');
+        $('a').off('click').removeClass('dashed_outline');
     }
 }

@@ -1,9 +1,9 @@
-#ipsum{
-    color: green;
+#lorem{
+    color: rgb(21, 201, 21);
+    outline: 1px solid rgb(0, 0, 194);
 }
 
-@media (max-width: 900px) {
+
     #ipsum{
-        color: blue; /* Change color to blue */
+        color: rgb(182, 182, 229); /* Change color to blue */
     }
-}

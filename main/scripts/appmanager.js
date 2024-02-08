@@ -23,13 +23,13 @@ class AppManager {
         this.text = null;
         this.url = null;
         this.code = null;
-        this.asset = null
+        //this.asset = null
         this.color = null;
         this.clipboard = null;
 
         this.textOn = false;
         this.urlOn = false;
-        this.assetOn = false;
+        //this.assetOn = false;
         this.codeOn = false;
         this.colorOn = false;
         this.clipboardOn = false;
@@ -48,10 +48,10 @@ class AppManager {
             .on('mouseup', () => freezeElement(this.appMenu));
 
         this.textButton      = this.createAppMenuButton("textButton", "menuButton", "text-icon.svg", "Copy Text");
-        this.urlButton       = this.createAppMenuButton("urlButton", "menuButton", "link-icon.svg", "Copy URL");
+        this.urlButton       = this.createAppMenuButton("urlButton", "menuButton", "link-icon.svg", "Copy URLs");
         this.codeButton      = this.createAppMenuButton("codeButton", "menuButton", "code-icon.svg", "Copy Code");
-        this.assetButton     = this.createAppMenuButton("assetButton", "menuButton", "asset-icon.svg", "Copy Image");
-        this.colorButton     = this.createAppMenuButton("colorButton", "menuButton", "color-icon.svg", "Copy Color");
+        //this.assetButton     = this.createAppMenuButton("assetButton", "menuButton", "asset-icon.svg", "Copy Image");
+        this.colorButton     = this.createAppMenuButton("colorButton", "menuButton", "color-icon.svg", "Copy Colors");
         this.clipboardButton = this.createAppMenuButton("clipboardButton", "menuButton", "clipboard-icon.svg", "Clipboard");
         this.closeButton     = this.createAppMenuButton("closeButton", "menuButton", "close-icon.svg", "Close App");
     }
@@ -68,7 +68,7 @@ class AppManager {
         this.textButton.on('click', () => this.handleButtonClick("text", Text));
         this.urlButton.on('click', () => this.handleButtonClick("url", Url));
         this.codeButton.on('click', () => this.handleButtonClick("code", Code));
-        this.assetButton.on('click', () => this.handleButtonClick("asset", Asset));
+        //this.assetButton.on('click', () => this.handleButtonClick("asset", Asset));
         this.colorButton.on('click', () => this.handleButtonClick("color", Color));
         this.clipboardButton.on('click', this.handleClipboardButtonClick.bind(this));
         this.closeButton.on('click', this.close.bind(this));
@@ -78,7 +78,7 @@ class AppManager {
 
         const image = $('<img>')
             .addClass('menuImage')
-            .attr('src', `chrome-extension://laonhdndhpeoachehnobbcjdcnnhlioe/assets/${img}`);
+            .attr('src', chrome.runtime.getURL(`assets/${img}`)); 
 
         const tooltipSpan = $('<span>')
             .addClass('tooltip')
@@ -110,7 +110,7 @@ class AppManager {
     }
 
     turnAppsOffExcept(str = undefined) {
-        const apps = ['text', 'url', 'code', 'asset', 'color'];
+        const apps = ['text', 'url', 'code', 'color'];
 
 
         apps.forEach(app => {

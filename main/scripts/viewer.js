@@ -27,7 +27,6 @@ let VIEWER_TYPOGRAPHY = new Array(
     'font-weight',  // default: 400
     'font-style',
     'font-family',
-    'font-letiant',
     'color',
     'letter-spacing',
     'line-height',
@@ -97,7 +96,6 @@ let VIEWER_TABLE = new Array(
 );
 
 let VIEWER_EFFECT = new Array(
-    'transform',
     'transition',
     'outline',
     'outline-offset',
@@ -131,9 +129,7 @@ function GetCSSProperty(element, property) {
 }
 
 
-function SetCSSPropertyIf(element, property, condition) {
-    var value = GetCSSProperty(element, property)
-
+function SetCSSPropertyValueIf(element, property, value, condition) {
     if (condition) {
         $('#InspectorWindow_' + property + ' .InspectorWindow_property').css('display', 'inline')
         $('#InspectorWindow_' + property + ' .InspectorWindow_cssValue').css('display', 'inline')
@@ -148,40 +144,115 @@ function SetCSSPropertyIf(element, property, condition) {
 }
 
 
-function SetCSSProperties(element) {
-    SetCSSPropertyIf(element, 'font-size', true);
-    SetCSSPropertyIf(element, 'font-weight', GetCSSProperty(element, 'font-weight') != '400');
-    SetCSSPropertyIf(element, 'font-style', GetCSSProperty(element, 'font-style') != 'normal');
-    SetCSSPropertyIf(element, 'color', true);
-    SetCSSPropertyIf(element, 'font-family', true);
-    SetCSSPropertyIf(element, 'font-variant', GetCSSProperty(element, 'text-variant') != 'normal');
-    SetCSSPropertyIf(element, 'line-height', GetCSSProperty(element, 'text-variant') != 'line-height');
-    SetCSSPropertyIf(element, 'text-decoration', GetCSSProperty(element, 'text-decoration') != 'none');
-    SetCSSPropertyIf(element, 'text-align', GetCSSProperty(element, 'text-align') != 'start');
-    SetCSSPropertyIf(element, 'text-indent', GetCSSProperty(element, 'text-indent') != '0px');
-    SetCSSPropertyIf(element, 'text-transform', GetCSSProperty(element, 'text-transform') != 'none');
-    SetCSSPropertyIf(element, 'vertical-align', GetCSSProperty(element, 'vertical-align') != 'baseline');
-    SetCSSPropertyIf(element, 'white-space', GetCSSProperty(element, 'white-space') != 'normal');
-    SetCSSPropertyIf(element, 'word-spacing', GetCSSProperty(element, 'word-spacing') != '0px');
-    SetCSSPropertyIf(element, 'height', GetCSSProperty(element, 'height') != 'auto');
-    SetCSSPropertyIf(element, 'width', GetCSSProperty(element, 'width') != 'auto');
-    //SetCSSPropertyIf(element, 'border', true);
-    //SetCSSPropertyIf(element, 'border-top', true);
-    //SetCSSPropertyIf(element, 'border-right', true);
-    //SetCSSPropertyIf(element, 'border-bottom', true);
-    //SetCSSPropertyIf(element, 'border-left',true);
-    SetCSSPropertyIf(element, 'margin', true);
-    SetCSSPropertyIf(element, 'padding', true);
-    SetCSSPropertyIf(element, 'max-height', GetCSSProperty(element, 'max-height') != 'none');
-    SetCSSPropertyIf(element, 'min-height', GetCSSProperty(element, 'min-height') != 'none');
-    SetCSSPropertyIf(element, 'max-width', GetCSSProperty(element, 'max-width') != 'none');
-    SetCSSPropertyIf(element, 'min-width', GetCSSProperty(element, 'min-width') != 'none');
-    SetCSSPropertyIf(element, 'top', GetCSSProperty(element, 'top') != 'auto');
-    SetCSSPropertyIf(element, 'bottom', GetCSSProperty(element, 'bottom') != 'auto');
-    SetCSSPropertyIf(element, 'right', GetCSSProperty(element, 'right') != 'auto');
-    SetCSSPropertyIf(element, 'left', GetCSSProperty(element, 'left') != 'auto');
-    SetCSSPropertyIf(element, 'z-index', GetCSSProperty(element, 'z-index') != 'auto');
+function rgbToHex(rgb) {
+    // Remove the "rgb(" prefix and ")" suffix, and split by comma
+    const parts = rgb.slice(4, -1).split(',');
+
+    // Convert each part to a hexadecimal string and pad with zeros if necessary
+    const hexParts = parts.map(part => {
+        const hex = parseInt(part, 10).toString(16);
+        return hex.length === 1 ? '0' + hex : hex;
+    });
+
+    // Join the hexadecimal parts into a single string and prefix with "#"
+    return '#' + hexParts.join('');
 }
+
+//Ctrl d and alt a / ctrl shift l
+function updateTypography(element) {
+    
+    SetCSSPropertyValueIf(element, 'font-size'          ,       GetCSSProperty(element, 'font-size')              ,      true);
+    SetCSSPropertyValueIf(element, 'font-weight'        ,       GetCSSProperty(element, 'font-weight')            ,      GetCSSProperty(element, 'font-weight')     != '400');
+    SetCSSPropertyValueIf(element, 'font-style'         ,       GetCSSProperty(element, 'font-style')             ,      GetCSSProperty(element, 'font-style')      != 'normal');
+    SetCSSPropertyValueIf(element, 'font-family'        ,       GetCSSProperty(element, 'font-family')            ,      true);
+    SetCSSPropertyValueIf(element, 'color'              ,       rgbToHex(GetCSSProperty(element, 'color'))        ,      rgbToHex(GetCSSProperty(element, 'color')) != '#000000');
+    SetCSSPropertyValueIf(element, 'letter-spacing'     ,       GetCSSProperty(element, 'letter-spacing')         ,      GetCSSProperty(element, 'letter-spacing')  != 'normal');
+    SetCSSPropertyValueIf(element, 'line-height'        ,       GetCSSProperty(element, 'line-height')            ,      GetCSSProperty(element, 'line-height')     != 'normal');
+    SetCSSPropertyValueIf(element, 'text-decoration'    ,       GetCSSProperty(element, 'text-decoration')        ,      GetCSSProperty(element, 'text-decoration') != 'none solid rgb(0, 0, 0)');
+    SetCSSPropertyValueIf(element, 'text-align'         ,       GetCSSProperty(element, 'text-align')             ,      GetCSSProperty(element, 'text-align')      != 'start');
+    SetCSSPropertyValueIf(element, 'text-indent'        ,       GetCSSProperty(element, 'text-indent')            ,      GetCSSProperty(element, 'text-indent')     != '0px');
+    SetCSSPropertyValueIf(element, 'text-transform'     ,       GetCSSProperty(element, 'text-transform')         ,      GetCSSProperty(element, 'text-transform')  != 'none');
+    SetCSSPropertyValueIf(element, 'vertical-align'     ,       GetCSSProperty(element, 'vertical-align')         ,      GetCSSProperty(element, 'vertical-align')  != 'baseline');
+    SetCSSPropertyValueIf(element, 'white-space'        ,       GetCSSProperty(element, 'white-space')            ,      GetCSSProperty(element, 'white-space')     != 'normal');
+    SetCSSPropertyValueIf(element, 'word-spacing'       ,       GetCSSProperty(element, 'word-spacing')           ,      GetCSSProperty(element, 'word-spacing')    != '0px');
+}
+
+function updateBox(element) {
+    SetCSSPropertyValueIf(element, 'width'              ,       GetCSSProperty(element, 'font-size')              ,      GetCSSProperty(element, 'width')           != 'auto');
+    SetCSSPropertyValueIf(element, 'height'             ,       GetCSSProperty(element, 'font-size')              ,      GetCSSProperty(element, 'height')          != 'auto');
+    SetCSSPropertyValueIf(element, 'margin'             ,       GetCSSProperty(element, 'font-size')              ,      GetCSSProperty(element, 'margin')          != '0px');
+    SetCSSPropertyValueIf(element, 'padding'            ,       GetCSSProperty(element, 'font-size')              ,      GetCSSProperty(element, 'padding')         != '0px');
+    SetCSSPropertyValueIf(element, 'max-height'         ,       GetCSSProperty(element, 'font-size')              ,      GetCSSProperty(element, 'max-height')      != 'none');
+    SetCSSPropertyValueIf(element, 'min-height'         ,       GetCSSProperty(element, 'font-size')              ,      GetCSSProperty(element, 'min-height')      != '0px');
+    SetCSSPropertyValueIf(element, 'max-width'          ,       GetCSSProperty(element, 'font-size')              ,      GetCSSProperty(element, 'max-width')       != 'none');    
+    SetCSSPropertyValueIf(element, 'min-width'          ,       GetCSSProperty(element, 'font-size')              ,      GetCSSProperty(element, 'min-width')       != '0px');
+    
+}
+
+function updatePositioning(element) {
+    SetCSSPropertyValueIf(element, 'position'           ,       GetCSSProperty(element, 'position')               ,      GetCSSProperty(element, 'position')        != 'static');
+
+
+    SetCSSPropertyValueIf(element, 'top'                ,       GetCSSProperty(element, 'top')                    ,      GetCSSProperty(element, 'top')             != 'auto');
+    SetCSSPropertyValueIf(element, 'bottom'             ,       GetCSSProperty(element, 'bottom')                 ,      GetCSSProperty(element, 'bottom')          != 'auto');
+    SetCSSPropertyValueIf(element, 'right'              ,       GetCSSProperty(element, 'right')                  ,      GetCSSProperty(element, 'right')           != 'auto');
+    SetCSSPropertyValueIf(element, 'left'               ,       GetCSSProperty(element, 'left')                   ,      GetCSSProperty(element, 'left')            != 'auto');
+    
+
+
+    SetCSSPropertyValueIf(element, 'float'              ,       GetCSSProperty(element, 'float')                  ,      GetCSSProperty(element, 'float')           != 'none');
+    SetCSSPropertyValueIf(element, 'display'            ,       GetCSSProperty(element, 'display')                ,      GetCSSProperty(element, 'display')         != 'block');
+    SetCSSPropertyValueIf(element, 'clear'              ,       GetCSSProperty(element, 'clear')                  ,      GetCSSProperty(element, 'clear')           != 'none');
+    SetCSSPropertyValueIf(element, 'z-index'            ,       GetCSSProperty(element, 'z-index')                ,      GetCSSProperty(element, 'z-index')         != 'auto');
+}
+
+
+function updateTransforms(element) {
+    console.log(GetCSSProperty(element, 'skew' ));
+    SetCSSPropertyValueIf(element, 'transform'           ,       GetCSSProperty(element, 'transform')               ,      GetCSSProperty(element, 'transform')        != 'none');
+    SetCSSPropertyValueIf(element, 'translate'           ,       GetCSSProperty(element, 'translate')               ,      GetCSSProperty(element, 'translate')        != 'none');
+    SetCSSPropertyValueIf(element, 'rotate'              ,       GetCSSProperty(element, 'rotate')                  ,      GetCSSProperty(element, 'rotate')           != 'none');
+    SetCSSPropertyValueIf(element, 'scale'               ,       GetCSSProperty(element, 'scale')                   ,      GetCSSProperty(element, 'scale')            != 'none');
+    SetCSSPropertyValueIf(element, 'skew'                ,       GetCSSProperty(element, 'skew')                    ,      GetCSSProperty(element, 'skew')             != '');
+}
+
+
+function updateTable(element) {
+    SetCSSPropertyValueIf(element, 'border-collapse'     ,       GetCSSProperty(element, 'border-collapse')         ,       GetCSSProperty(element, 'border-collapse') != 'separate');
+    SetCSSPropertyValueIf(element, 'border-spacing'      ,       GetCSSProperty(element, 'border-spacing')          ,       GetCSSProperty(element, 'border-spacing')  != '0px 0px');
+    SetCSSPropertyValueIf(element, 'caption-side'        ,       GetCSSProperty(element, 'caption-side')            ,       GetCSSProperty(element, 'caption-side')    != 'top');
+    SetCSSPropertyValueIf(element, 'empty-cells'         ,       GetCSSProperty(element, 'empty-cells')             ,       GetCSSProperty(element, 'empty-cells')     != 'show');
+    SetCSSPropertyValueIf(element, 'table-layout'        ,       GetCSSProperty(element, 'table-layout')            ,       GetCSSProperty(element, 'table-layout')    != 'auto');
+}
+
+function updateEffect(element) {
+    console.log(GetCSSProperty(element, 'border-top-left-radius'));
+    SetCSSPropertyValueIf(element, 'transform'            ,       GetCSSProperty(element, 'transform')                ,      GetCSSProperty(element, 'transform')        != 'none');
+    SetCSSPropertyValueIf(element, 'transition'           ,       GetCSSProperty(element, 'transition')               ,      GetCSSProperty(element, 'transition')       != 'all 0s ease 0s');
+    SetCSSPropertyValueIf(element, 'outline'              ,       GetCSSProperty(element, 'outline')                  ,      GetCSSProperty(element, 'outline')          != 'none 0px');
+    SetCSSPropertyValueIf(element, 'outline-offset'       ,       GetCSSProperty(element, 'outline-offset')           ,      GetCSSProperty(element, 'outline-offset')   != '0px');
+    SetCSSPropertyValueIf(element, 'box-sizing'           ,       GetCSSProperty(element, 'box-sizing')               ,      GetCSSProperty(element, 'box-sizing')       != 'content-box');
+    SetCSSPropertyValueIf(element, 'resize'               ,       GetCSSProperty(element, 'resize')                   ,      GetCSSProperty(element, 'resize')           != 'none');
+    SetCSSPropertyValueIf(element, 'text-shadow'          ,       GetCSSProperty(element, 'text-shadow')              ,      GetCSSProperty(element, 'text-shadow')      != 'none');
+    SetCSSPropertyValueIf(element, 'text-overflow'        ,       GetCSSProperty(element, 'text-overflow')            ,      GetCSSProperty(element, 'text-overflow')    != 'clip');
+    SetCSSPropertyValueIf(element, 'word-wrap'            ,       GetCSSProperty(element, 'word-wrap')                ,      GetCSSProperty(element, 'word-wrap')        != 'normal');
+    SetCSSPropertyValueIf(element, 'box-shadow'           ,       GetCSSProperty(element, 'box-shadow')               ,      GetCSSProperty(element, 'box-shadow')       != 'none');
+    SetCSSPropertyValueIf(element, 'border-top-left-radius',      GetCSSProperty(element, 'border-top-left-radius')  ,      GetCSSProperty(element, 'border-top-left-radius') != '0px');
+    SetCSSPropertyValueIf(element, 'border-top-right-radius',     GetCSSProperty(element, 'border-top-right-radius') ,      GetCSSProperty(element, 'border-top-right-radius') != '0px');
+    SetCSSPropertyValueIf(element, 'border-bottom-left-radius',   GetCSSProperty(element, 'border-bottom-left-radius'),    GetCSSProperty(element, 'border-bottom-left-radius') != '0px');
+    SetCSSPropertyValueIf(element, 'border-bottom-right-radius',  GetCSSProperty(element, 'border-bottom-right-radius'),   GetCSSProperty(element, 'border-bottom-right-radius') != '0px');
+}
+
+
+
+function updateMisc(element) {
+    SetCSSPropertyValueIf(element, 'top',     GetCSSProperty(element, 'top') != 'auto');
+    SetCSSPropertyValueIf(element, 'bottom',  GetCSSProperty(element, 'bottom') != 'auto');
+    SetCSSPropertyValueIf(element, 'right',   GetCSSProperty(element, 'right') != 'auto');
+    SetCSSPropertyValueIf(element, 'left',    GetCSSProperty(element, 'left') != 'auto');
+    SetCSSPropertyValueIf(element, 'z-index', GetCSSProperty(element, 'z-index') != 'auto');
+}
+
 
 
 function GetCurrentDocument() {
@@ -206,8 +277,13 @@ function ViewerMouseOver(e) {
         $('#InspectorWindow').css("display", "none");
     }
 
-    SetCSSProperties(element);
-
+    updateTypography(element);
+    updateBox(element);
+    updatePositioning(element);
+    updateTransforms(element);
+    updateTable(element);
+    updateEffect(element);
+    updateMisc(element);
 }
 
 
@@ -224,8 +300,8 @@ function ViewerMouseMove(e) {
     let block = $('#InspectorWindow');
     let pageWidth = window.innerWidth;
     let pageHeight = window.innerHeight;
-    let blockWidth = $(block).width();
-    let blockHeight = $(block).height();
+    let blockWidth = $(block).outerWidth(true);
+    let blockHeight = $(block).outerWidth(true);
 
     let xOffset = 20;
     let yOffset = 20;
@@ -316,9 +392,6 @@ class Code {
             this.inspector = $('<div>').attr('id', 'InspectorWindow');
 
 
-            let title2 = $('p').attr('id', 'InspectorWindow_htmlTitle');
-            title2.append(document.createTextNode('CSS'));
-            this.inspector.append(title2);
 
             for (let i = 0; i < VIEWER_TYPOGRAPHY.length; i++) {
                 this.BuildCSSProperty(this.inspector, VIEWER_TYPOGRAPHY[i])
@@ -332,8 +405,20 @@ class Code {
                 this.BuildCSSProperty(this.inspector, VIEWER_POSITIONING[i])
             }
 
+            for (let i = 0; i < VIEWER_TRANSFORMS.length; i++) {
+                this.BuildCSSProperty(this.inspector, VIEWER_TRANSFORMS[i])
+            }
+
+            for (let i = 0; i < VIEWER_TABLE.length; i++) {
+                this.BuildCSSProperty(this.inspector, VIEWER_TABLE[i])
+            }
+
+            for (let i = 0; i < VIEWER_EFFECT.length; i++) {
+                this.BuildCSSProperty(this.inspector, VIEWER_EFFECT[i])
+            }
+
         }
-        $('body').append(this.inspector);
+        $('html').append(this.inspector);
 
     }
 
