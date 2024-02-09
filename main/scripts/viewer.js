@@ -39,6 +39,23 @@ let VIEWER_TYPOGRAPHY = new Array(
     'word-spacing'
 );
 
+const TYPOGRAPHY = {
+    'font-size':        '',
+    'font-weight':      '400',
+    'font-style':       'normal',
+    'font-family':      '',
+    'color':            '#000000',
+    'letter-spacing':   'normal',
+    'line-height':      'normal',
+    'text-decoration':  'none solid rgb(0, 0, 0)',
+    'text-align':       'start',
+    'text-indent':      '0px',
+    'text-transform':   'none',
+    'vertical-align':   'baseline',
+    'white-space':      'normal',
+    'word-spacing':     '0px'
+};
+
 let VIEWER_BOX = new Array(
     'width',
     'height',
@@ -136,6 +153,9 @@ function SetCSSPropertyValueIf(element, property, value, condition) {
 
         $('#InspectorWindow_' + property + ' .InspectorWindow_property').text(property + ": ");
         $('#InspectorWindow_' + property + ' .InspectorWindow_cssValue').text(value);
+
+        //console.log(property + ": " + value);
+        
     }
     else {
         $('#InspectorWindow_' + property + ' .InspectorWindow_property').css('display', 'none')
@@ -178,14 +198,14 @@ function updateTypography(element) {
 }
 
 function updateBox(element) {
-    SetCSSPropertyValueIf(element, 'width'              ,       GetCSSProperty(element, 'font-size')              ,      GetCSSProperty(element, 'width')           != 'auto');
-    SetCSSPropertyValueIf(element, 'height'             ,       GetCSSProperty(element, 'font-size')              ,      GetCSSProperty(element, 'height')          != 'auto');
-    SetCSSPropertyValueIf(element, 'margin'             ,       GetCSSProperty(element, 'font-size')              ,      GetCSSProperty(element, 'margin')          != '0px');
-    SetCSSPropertyValueIf(element, 'padding'            ,       GetCSSProperty(element, 'font-size')              ,      GetCSSProperty(element, 'padding')         != '0px');
-    SetCSSPropertyValueIf(element, 'max-height'         ,       GetCSSProperty(element, 'font-size')              ,      GetCSSProperty(element, 'max-height')      != 'none');
-    SetCSSPropertyValueIf(element, 'min-height'         ,       GetCSSProperty(element, 'font-size')              ,      GetCSSProperty(element, 'min-height')      != '0px');
-    SetCSSPropertyValueIf(element, 'max-width'          ,       GetCSSProperty(element, 'font-size')              ,      GetCSSProperty(element, 'max-width')       != 'none');    
-    SetCSSPropertyValueIf(element, 'min-width'          ,       GetCSSProperty(element, 'font-size')              ,      GetCSSProperty(element, 'min-width')       != '0px');
+    SetCSSPropertyValueIf(element, 'width'              ,       GetCSSProperty(element, 'width')                  ,      GetCSSProperty(element, 'width')           != 'auto');
+    SetCSSPropertyValueIf(element, 'height'             ,       GetCSSProperty(element, 'height')                 ,      GetCSSProperty(element, 'height')          != 'auto');
+    SetCSSPropertyValueIf(element, 'margin'             ,       GetCSSProperty(element, 'margin')                 ,      GetCSSProperty(element, 'margin')          != '0px');
+    SetCSSPropertyValueIf(element, 'padding'            ,       GetCSSProperty(element, 'padding')                ,      GetCSSProperty(element, 'padding')         != '0px');
+    SetCSSPropertyValueIf(element, 'max-height'         ,       GetCSSProperty(element, 'max-height')             ,      GetCSSProperty(element, 'max-height')      != 'none');
+    SetCSSPropertyValueIf(element, 'min-height'         ,       GetCSSProperty(element, 'min-height')             ,      GetCSSProperty(element, 'min-height')      != '0px');
+    SetCSSPropertyValueIf(element, 'max-width'          ,       GetCSSProperty(element, 'max-width')              ,      GetCSSProperty(element, 'max-width')       != 'none');    
+    SetCSSPropertyValueIf(element, 'min-width'          ,       GetCSSProperty(element, 'min-width')              ,      GetCSSProperty(element, 'min-width')       != '0px');
     
 }
 
@@ -208,7 +228,6 @@ function updatePositioning(element) {
 
 
 function updateTransforms(element) {
-    console.log(GetCSSProperty(element, 'skew' ));
     SetCSSPropertyValueIf(element, 'transform'           ,       GetCSSProperty(element, 'transform')               ,      GetCSSProperty(element, 'transform')        != 'none');
     SetCSSPropertyValueIf(element, 'translate'           ,       GetCSSProperty(element, 'translate')               ,      GetCSSProperty(element, 'translate')        != 'none');
     SetCSSPropertyValueIf(element, 'rotate'              ,       GetCSSProperty(element, 'rotate')                  ,      GetCSSProperty(element, 'rotate')           != 'none');
@@ -226,10 +245,9 @@ function updateTable(element) {
 }
 
 function updateEffect(element) {
-    console.log(GetCSSProperty(element, 'border-top-left-radius'));
     SetCSSPropertyValueIf(element, 'transform'            ,       GetCSSProperty(element, 'transform')                ,      GetCSSProperty(element, 'transform')        != 'none');
     SetCSSPropertyValueIf(element, 'transition'           ,       GetCSSProperty(element, 'transition')               ,      GetCSSProperty(element, 'transition')       != 'all 0s ease 0s');
-    SetCSSPropertyValueIf(element, 'outline'              ,       GetCSSProperty(element, 'outline')                  ,      GetCSSProperty(element, 'outline')          != 'none 0px');
+    SetCSSPropertyValueIf(element, 'outline'              ,       GetCSSProperty(element, 'outline')                  ,      GetCSSProperty(element, 'outline')          != 'rgb(0, 0, 0) none 0px');
     SetCSSPropertyValueIf(element, 'outline-offset'       ,       GetCSSProperty(element, 'outline-offset')           ,      GetCSSProperty(element, 'outline-offset')   != '0px');
     SetCSSPropertyValueIf(element, 'box-sizing'           ,       GetCSSProperty(element, 'box-sizing')               ,      GetCSSProperty(element, 'box-sizing')       != 'content-box');
     SetCSSPropertyValueIf(element, 'resize'               ,       GetCSSProperty(element, 'resize')                   ,      GetCSSProperty(element, 'resize')           != 'none');
@@ -267,10 +285,6 @@ function ViewerMouseOver(e) {
 
     e.stopPropagation();
 
-    if (this.tagName != 'body' && !IGNORE_CLASSES.some(cls => $(element).hasClass(cls))) {
-        this.style.setProperty('outline', '1px dotted #f00', 'important');
-    }
-
     if(!IGNORE_CLASSES.some(cls => $(element).hasClass(cls))){
         $('#InspectorWindow').css("display", "block");
     } else {
@@ -284,7 +298,15 @@ function ViewerMouseOver(e) {
     updateTable(element);
     updateEffect(element);
     updateMisc(element);
+
+
+
+    if (this.tagName != 'body' && !IGNORE_CLASSES.some(cls => $(element).hasClass(cls))) {
+        this.style.setProperty('outline', '1px dotted #f00', 'important');
+    }
 }
+
+
 
 
 function ViewerMouseOut(e) {
@@ -297,10 +319,10 @@ function ViewerMouseOut(e) {
 
 
 function ViewerMouseMove(e) {
-    let block = $('#InspectorWindow');
-    let pageWidth = window.innerWidth;
-    let pageHeight = window.innerHeight;
-    let blockWidth = $(block).outerWidth(true);
+    let block       = $('#InspectorWindow');
+    let pageWidth   = window.innerWidth;
+    let pageHeight  = window.innerHeight;
+    let blockWidth  = $(block).outerWidth(true);
     let blockHeight = $(block).outerWidth(true);
 
     let xOffset = 20;
@@ -340,6 +362,13 @@ class Code {
     constructor() {
         this.haveEventListeners = false;
         this.currentElement = null;
+        this.currentElementStyle = null;
+
+        this.element = null;
+        this.elementComputedStyle = null;
+        this.elementNonDefaultStyle = {};
+        this.viewerWin = null;
+
         this.inspector = null;
         this.BuildInspectorWindow();
         this.AddEventListeners();
@@ -371,7 +400,8 @@ class Code {
     BuildCSSProperty(container, property) {
         let p = $('<p>').attr('id', 'InspectorWindow_' + property);
 
-        let spanName = $('<span>').addClass('InspectorWindow_property');
+        let spanName = $('<span>')
+            .addClass('InspectorWindow_property');
 
         let spanValue = $('<span>')
             .addClass('InspectorWindow_cssValue')
@@ -427,19 +457,97 @@ class Code {
         let document = GetCurrentDocument();
         let elements = this.GetAllElements(document);
 
+        $(document).on("click", (e) => this.viewerMouseClick(e));
 
         for (let i = 0; i < elements.length; i++) {
+            $(elements[i]).on("mouseover", (e) => this.viewerMouseOver(e));
+            $(elements[i]).on("mouseout", (e) => this.viewerMouseOut(e));
+
             $(elements[i]).on("mouseover", ViewerMouseOver);
             $(elements[i]).on("mouseout", ViewerMouseOut);
             $(elements[i]).on("mousemove", ViewerMouseMove);
+            
         }
 
     }
 
 
+    viewerMouseOver(e) {
+        console.log('mouse over');
+        this.element = e.target;
+        this.elementComputedStyle = document.defaultView.getComputedStyle(this.element, null);
+
+        this.getNonDefaultStyle(this.elementComputedStyle, TYPOGRAPHY)
+        console.log(this.elementNonDefaultStyle);
+
+        this.showNonDefaultStyle();
+
+
+    }
+
+    viewerMouseOut(e) {
+        console.log('mouse out');
+        this.elementNonDefaultStyle = {};
+        this.viewerWin.remove();
+    }
+
+        //$('#InspectorWindow_' + property + ' .InspectorWindow_property').text(property + ": ");
+    //$('#InspectorWindow_' + property + ' .InspectorWindow_cssValue').text(value);
+
+    showNonDefaultStyle() {
+        this.viewerWin = $('<div>');
+
+        for (let key in this.elementNonDefaultStyle) {
+
+            let $p = $('<p>').attr('id', 'InspectorWindow_' + key);;
+            //this.viewerWin.append($p);
+
+            let $property = $('<span>')
+                .attr('id', 'InspectorWindow_' + key)
+                .addClass('InspectorWindow_property')
+                .text(`${key}: `);
+
+            let $value = $('<span>')
+                .attr('id', 'InspectorWindow_' + this.elementNonDefaultStyle[key])
+                .addClass('InspectorWindow_cssValue')
+                .text(this.elementNonDefaultStyle[key]);
+
+            $p.append($property, $value);
+            this.viewerWin.append($p);
+
+        }
+    
+        $('body').append(this.viewerWin);
+    }
+    
+
+    viewerMouseClick(e) {
+        let element = e.target
+        let elementComputedStyle = document.defaultView.getComputedStyle(element, null);
+        this.getNonDefaultStyle(elementComputedStyle, TYPOGRAPHY) 
+    }
+
+    getNonDefaultStyle(elementComputedStyle, styleGroup) {
+
+        for (let property in styleGroup) {
+            
+            let value = elementComputedStyle[`${property}`];
+            let standard = styleGroup[property];
+            
+            if(value != standard){
+                this.elementNonDefaultStyle[property] = value;
+                //console.log(this.elementViewerStyle);
+            }
+        }
+    }
+
+
+
     RemoveEventListeners() {
         let document = GetCurrentDocument();
         let elements = this.GetAllElements(document);
+
+        $(document).off("click", this.viewerMouseClick);
 
         for (let i = 0; i < elements.length; i++) {
             $(elements[i]).off("mouseover", ViewerMouseOver);

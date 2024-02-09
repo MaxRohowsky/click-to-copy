@@ -1,16 +1,3 @@
-
-
-@font-face {
-    font-family: 'wotfard-medium';
-    src: url('font/wotfard-regular.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
-
-
-
-
-
 #InspectorWindow span,
 #InspectorWindow p{
     margin-top: 0px;
@@ -19,65 +6,33 @@
 
 
 #InspectorWindow {
-    max-width: 350px;
+    max-width: 380px;
     min-width: 300px;
-    border-radius: 8px;
+    border-radius: 3px;
     padding: 10px;
-    background-color: rgba(46, 52, 64, 0.95);
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
     position: absolute;
     z-index: 9999;
 }
 
 
-#InspectorWindow_htmlTitle{
-    color: #de6f37 !important;
-    font-weight: 700;
-}
-
-#InspectorWindow_cssTitle{
-    color: #61aeee !important;
-    font-weight: 700;
-}
-
-#InspectorWindow_assetsTitle{
-    color: #ffc125 !important;
-    font-weight: 700;
-}
-
-#InspectorWindow_htmlTitle,
-#InspectorWindow_cssTitle,
-#InspectorWindow_assetsTitle,
 .InspectorWindow_cssValue,
-.InspectorWindow_htmlValue,
-.InspectorWindow_attribute,
 .InspectorWindow_property {
-    font-family: 'wotfard-medium', sans-serif !important;
-    color: white;
-    font-size: 12pt;
-}
+    font-family: monospace;
 
-
-.InspectorWindow_attribute {
-    color: #de6f37;
-    font-weight: 400;
+    color: rgb(0, 0, 0);
+    font-size: 11pt;
 }
 
 .InspectorWindow_property {
-    color: #61aeee;
-    font-weight: 400;
+    color: #2b83ca;
+
+    font-weight: 600;
 }
 
-.InspectorWindow_htmlValue {
-    color: white;
-}
 
 .InspectorWindow_cssValue {
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
-#xSymbol{
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
