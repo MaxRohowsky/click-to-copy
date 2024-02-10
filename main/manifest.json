@@ -4,14 +4,17 @@
   "version": "1.0",
   "description": "Change webpage background color",
   "action": {
-    "default_popup": "popup.html"
+
   },
   "permissions": [
     "tabs",
     "scripting",
     "contextMenus",
-    "storage"
+    "activeTab"
   ],
+  "background": {
+    "service_worker": "background.js"
+  },
   "content_scripts": [
     {
       "js": [

@@ -1,4 +1,7 @@
 
+
+
+
 function moveElement(element, initialClass) {
     let rect = element[0].getBoundingClientRect();
     element
@@ -78,7 +81,8 @@ class AppManager {
 
         const image = $('<img>')
             .addClass('menuImage')
-            .attr('src', chrome.runtime.getURL(`assets/${img}`)); 
+            .attr('src', `${EXTENSION_ID}/assets/${img}`)
+            //.attr('src', chrome.runtime.getURL(`assets/${img}`)); 
 
         const tooltipSpan = $('<span>')
             .addClass('tooltip')
@@ -154,3 +158,9 @@ class AppManager {
         this.appMenu.remove();
     }
 }
+
+
+//let appm = new AppManager();
+//appm.inject()
+
+console.log('appmanager.js loaded');

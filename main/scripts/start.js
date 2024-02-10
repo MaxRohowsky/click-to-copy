@@ -1,12 +1,8 @@
-let appManager;
-
-chrome.runtime.onMessage.addListener(function (request) {
-  if (request.action === 'injectCode') {
-
-    $(function () {
-      appManager = new AppManager();
-      appManager.inject()
-    });
-  }
+//let appManager;
+/*
+$(function () {
+  appManager = new AppManager();
+  appManager.inject()
 });
 
+*/
