@@ -16,7 +16,7 @@
     z-index: 9999;
 }
 
-
+#InspectorWindow_Identifier,
 .InspectorWindow_cssValue,
 .InspectorWindow_property {
     font-family: monospace;
@@ -25,9 +25,9 @@
     font-size: 11pt;
 }
 
+#InspectorWindow_Identifier,
 .InspectorWindow_property {
     color: #2b83ca;
-
     font-weight: 600;
 }
 

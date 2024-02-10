@@ -1,6 +1,6 @@
 const EXTENSION_ID = 'chrome-extension://laonhdndhpeoachehnobbcjdcnnhlioe';
 
-const IGNORE_CLASSES = ["appMenu", "menuBUtton", "menuImage", "clipboard"]
+const IGNORE_CLASSES = ["appMenu", "menuButton", "menuImage", "clipboard"]
 
 class Clipboard {
     constructor() {
