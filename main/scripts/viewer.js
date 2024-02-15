@@ -246,7 +246,7 @@ class Code {
     mouseClick(e) {
         //console.log(JSON.stringify(this.elementNonDefaultStyle, null, 4));
         //let textToCopy = JSON.stringify(this.elementNonDefaultStyle, null, 4);
-        if (this.identifier !== null) {
+        if (this.identifier !== null && IGNORE_CLASSES.every(cls => !$(this.element).hasClass(cls))) {
             appManager.clipboard.add(this.identifier, 'code');
             console.log("click");
         }

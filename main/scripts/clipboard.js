@@ -23,17 +23,17 @@ class Clipboard {
 
     buildClipboard() {
         this.clipboard = createElement('div', 'clipboard', ['clipboard', 'hidden', 'clipboardInitial']);
-        this.clipboardContainer = createElement('div', 'clipboard_container');
-        this.clipboardTop = createElement('div', 'clipboard_top');
-        this.clipboardMid = createElement('div', 'clipboard_mid');
-        this.clipboardItemHeader = createElement('div', 'clipboard_item_header', [], 'Clipboard');
-        this.clipboardItems = createElement('div', 'clipboard_items');
-        this.clipboardEnd = createElement('div', 'clipboard_end');
-        this.clipboardCopyButton = createElement('button', 'clipboard_copy_button', [], 'Copy');
-        this.clipboardClearButton = createElement('button', 'clipboard_clear_button');
+        this.clipboardContainer = createElement('div', 'clipboard_container', ['clipboard']);
+        this.clipboardTop = createElement('div', 'clipboard_top', ['clipboard']);
+        this.clipboardMid = createElement('div', 'clipboard_mid', ['clipboard']);
+        this.clipboardItemHeader = createElement('div', 'clipboard_item_header', ['clipboard'], 'Clipboard');
+        this.clipboardItems = createElement('div', 'clipboard_items', ['clipboard']);
+        this.clipboardEnd = createElement('div', 'clipboard_end', ['clipboard']);
+        this.clipboardCopyButton = createElement('button', 'clipboard_copy_button', ['clipboard'], 'Copy');
+        this.clipboardClearButton = createElement('button', 'clipboard_clear_button', ['clipboard']);
 
         const trashIcon = createElement('img')
-            .addClass('clipboard_trash_icon')
+            .addClass('clipboard', 'clipboard_trash_icon')
             .attr('src', `${EXTENSION_ID}/assets/trash-icon.svg`)
             .on("click", () => {
                 this.clipboardItems.empty();
@@ -41,7 +41,7 @@ class Clipboard {
             });
 
         const closeIcon = createElement('img')
-            .addClass('clipboard_close_icon')
+            .addClass('clipboard', 'clipboard_close_icon')
             .attr('src', `${EXTENSION_ID}/assets/close-classic-icon.svg`)
             .on('click', () => {
                 this.clipboard.addClass('hidden')
@@ -80,6 +80,7 @@ class Clipboard {
                 console.error('Failed to copy text: ', err);
             });
     }
+
 
     refresh() {
         let i = (this.copiedText.length + this.copiedUrls.length + this.copiedColors.length + this.copiedCode.length) % 4; // This will cycle through 0, 1, 2, 3 as this.count increases

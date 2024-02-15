@@ -50,7 +50,8 @@ class AppManager {
             .appendTo(this.appMenu)
             .on('mousedown', () => moveElement(this.appMenu, "menuInitial"))
             .on('mouseup', () => freezeElement(this.appMenu));
-
+            
+        //this.gridButton      = this.createAppMenuButton("gridButton", "menuButton", "grid-icon.svg", "Grid");
         this.textButton      = this.createAppMenuButton("textButton", "menuButton", "text-icon.svg", "Copy Text");
         this.urlButton       = this.createAppMenuButton("urlButton", "menuButton", "link-icon.svg", "Copy URLs");
         this.codeButton      = this.createAppMenuButton("codeButton", "menuButton", "code-icon.svg", "Copy Code");
@@ -73,6 +74,7 @@ class AppManager {
             }
         });
 
+        //this.gridButton.on('click', () => this.handleButtonClick("grid", Grid));
         this.textButton.on('click', () => this.handleButtonClick("text", Text));
         this.urlButton.on('click', () => this.handleButtonClick("url", Url));
         this.codeButton.on('click', () => this.handleButtonClick("code", Code));
