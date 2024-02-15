@@ -1,7 +1,4 @@
-alert('Hello, world!');
-
-
-
+// This handles the injection of the appManager into the page
 $(function () {
     //let appManager;
     if ($("#Menu").length === 0) {

@@ -6,7 +6,7 @@ const TYPOGRAPHY = {
     'color': '#000000',
     'letter-spacing': 'normal',
     'line-height': 'normal',
-    'text-decoration': 'none solid rgb(0, 0, 0)',
+    'text-decoration': 'none',
     'text-align': 'start',
     'text-indent': '0px',
     'text-transform': 'none',
@@ -19,21 +19,25 @@ const TYPOGRAPHY = {
 const BOX = {
     'width': 'auto',
     'height': 'auto',
+
     'border': '0px none rgb(0, 0, 0)',
-    'border-top': '0px none rgb(0, 0, 0)',
+    /*'border-top': '0px none rgb(0, 0, 0)',
     'border-right': '0px none rgb(0, 0, 0)',
     'border-bottom': '0px none rgb(0, 0, 0)',
-    'border-left': '0px none rgb(0, 0, 0)',
+    'border-left': '0px none rgb(0, 0, 0)',*/
+
     'padding': '0px',
-    'padding-top': '0px',
+    /*'padding-top': '0px',
     'padding-right': '0px',
     'padding-bottom': '0px',
-    'padding-left': '0px',
+    'padding-left': '0px',*/
+
     'margin': '0px',
-    'margin-top': '0px',
+    /*'margin-top': '0px',
     'margin-right': '0px',
     'margin-bottom': '0px',
-    'margin-left': '0px',
+    'margin-left': '0px',*/
+
     'max-height': 'none',
     'min-height': '0px',
     'max-width': 'none',
@@ -83,10 +87,12 @@ const EFFECT = {
     'text-overflow': 'clip',
     'word-wrap': 'normal',
     'box-shadow': 'none',
-    'border-top-left-radius': '0px',
+
+    'border-radius': '0px',
+    /*'border-top-left-radius': '0px',
     'border-top-right-radius': '0px',
     'border-bottom-left-radius': '0px',
-    'border-bottom-right-radius': '0px'
+    'border-bottom-right-radius': '0px'*/
 };
 
 
@@ -136,6 +142,7 @@ function rgbToHex(rgb) {
 class Code {
     constructor() {
         this.element = null;
+        this.identifier = null;
         this.elementComputedStyle = null;
         this.elementNonDefaultStyle = {};
         this.viewer = $('<div>').attr('id', 'InspectorWindow');
@@ -237,13 +244,17 @@ class Code {
     }
 
     mouseClick(e) {
-        console.log(JSON.stringify(this.elementNonDefaultStyle, null, 4));
-        let textToCopy = JSON.stringify(this.elementNonDefaultStyle, null, 4);
-        navigator.clipboard.writeText(textToCopy).then(function() {
+        //console.log(JSON.stringify(this.elementNonDefaultStyle, null, 4));
+        //let textToCopy = JSON.stringify(this.elementNonDefaultStyle, null, 4);
+        if (this.identifier !== null) {
+            appManager.clipboard.add(this.identifier, 'code');
+            console.log("click");
+        }
+        /*navigator.clipboard.writeText(this.identifier).then(function() {
             console.log('Copying to clipboard was successful!');
         }, function(err) {
             console.error('Could not copy text: ', err);
-        });
+        });*/
     }
 
 
@@ -255,10 +266,11 @@ class Code {
     fillViewer() {
         let idText = this.element.id ? ' #' + this.element.id : '';
         let classText = this.element.className ? ' .' + this.element.className : '';
+        this.identifier = '<' + this.element.tagName.toLowerCase() + '>' + idText + classText;
 
         let $identifier = $('<p>')
             .attr('id', 'InspectorWindow_Identifier')
-            .text('<' + this.element.tagName.toLowerCase() + '>' + idText + classText);
+            .text(this.identifier);
 
         this.viewer.append($identifier);
 

@@ -29,6 +29,7 @@ class AppManager {
         //this.asset = null
         this.color = null;
         this.clipboard = null;
+        this.clipboardIcon =  "clipboard-icon-0.svg"
 
         this.textOn = false;
         this.urlOn = false;
@@ -55,8 +56,12 @@ class AppManager {
         this.codeButton      = this.createAppMenuButton("codeButton", "menuButton", "code-icon.svg", "Copy Code");
         //this.assetButton     = this.createAppMenuButton("assetButton", "menuButton", "asset-icon.svg", "Copy Image");
         this.colorButton     = this.createAppMenuButton("colorButton", "menuButton", "color-icon.svg", "Copy Colors");
-        this.clipboardButton = this.createAppMenuButton("clipboardButton", "menuButton", "clipboard-icon.svg", "Clipboard");
+        this.clipboardButton = this.createAppMenuButton("clipboardButton", "menuButton", this.clipboardIcon, "Clipboard");
         this.closeButton     = this.createAppMenuButton("closeButton", "menuButton", "close-icon.svg", "Close App");
+    }
+
+    updateClipboardIcon() {
+        this.clipboardButton.find('img').attr('src', `${EXTENSION_ID}/assets/${this.clipboardIcon}`);
     }
 
     setupEventHandlers() {
@@ -135,9 +140,8 @@ class AppManager {
 
     handleClipboardButtonClick() {
         this.clipboardOn = !this.clipboardOn;
-        console.log(this.clipboardOn);
-        if (this.clipboardOn) {
 
+        if (this.clipboardOn) {
             this.clipboardButton.addClass('active');
             this.clipboard.clipboard.removeClass('hidden');
         }

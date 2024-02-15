@@ -6,4 +6,6 @@
 
     #ipsum{
         color: rgb(182, 182, 229); /* Change color to blue */
+        padding-left: 20px;
+        padding-right: 5px;
     }
