@@ -19,18 +19,25 @@ class Clipboard {
         this.buildClipboard();
     }
 
-    
+
 
     buildClipboard() {
         this.clipboard = createElement('div', 'clipboard', ['clipboard', 'hidden', 'clipboardInitial']);
         this.clipboardContainer = createElement('div', 'clipboard_container', ['clipboard']);
         this.clipboardTop = createElement('div', 'clipboard_top', ['clipboard']);
         this.clipboardMid = createElement('div', 'clipboard_mid', ['clipboard']);
-        this.clipboardItemHeader = createElement('div', 'clipboard_item_header', ['clipboard'], 'Clipboard');
+        this.clipboardFilter = createElement('div', 'clipboard_filter', ['clipboard']);
         this.clipboardItems = createElement('div', 'clipboard_items', ['clipboard']);
         this.clipboardEnd = createElement('div', 'clipboard_end', ['clipboard']);
         this.clipboardCopyButton = createElement('button', 'clipboard_copy_button', ['clipboard'], 'Copy');
         this.clipboardClearButton = createElement('button', 'clipboard_clear_button', ['clipboard']);
+
+        const filters = ['current', 'all', 'text', 'urls', 'css', 'colors'];
+        const filtersButtons = filters.map(name =>
+            createElement('button', `clipboard_filter_${name}_button`, ['clipboard'], name)
+        );
+
+        this.clipboardFilter.append(...filtersButtons);
 
         const trashIcon = createElement('img')
             .addClass('clipboard', 'clipboard_trash_icon')
@@ -54,7 +61,7 @@ class Clipboard {
                 this.clipboardTop.append(closeIcon)
                     .on('mousedown', () => moveElement(this.clipboard, "clipboardInitial"))
                     .on('mouseup', () => freezeElement(this.clipboard)),
-                this.clipboardMid.append(this.clipboardItemHeader, this.clipboardItems),
+                this.clipboardMid.append(this.clipboardFilter, this.clipboardItems),
                 this.clipboardEnd.append(this.clipboardCopyButton.on('click', this.writeToClipboard.bind(this)), this.clipboardClearButton.append(trashIcon))
             )
         );
@@ -64,14 +71,14 @@ class Clipboard {
 
     writeToClipboard() {
         const filterAndJoin = array => array.filter(item => item !== null).join('\n');
-    
+
         const combinedText = [
             filterAndJoin(this.copiedText),
             filterAndJoin(this.copiedUrls),
             filterAndJoin(this.copiedColors),
             filterAndJoin(this.copiedCode)
         ].join('\n');
-    
+
         navigator.clipboard.writeText(combinedText)
             .then(() => {
                 console.log('Text copied to clipboard');
@@ -125,7 +132,7 @@ class Clipboard {
 
         for (let i = this.lastColorIndex; i < this.copiedColors.length; i++) {
             createClipboardItem(this.copiedColors[i], i, 'color-icon.svg', this.copiedColors);
-            
+
             const colorCircle = $('<div>').css({
                 'background-color': this.copiedColors[i],
                 'border-radius': '50%',
@@ -134,9 +141,9 @@ class Clipboard {
                 'height': '12px',
                 'margin-right': '5px',
             });
-        
+
             $('.clipboard_item_content').last().prepend(colorCircle);
-        
+
         }
         this.lastColorIndex = this.copiedColors.length;
 
@@ -144,7 +151,7 @@ class Clipboard {
         for (let i = this.lastCodeIndex; i < this.copiedCode.length; i++) {
             console.log(this.copiedCode);
             createClipboardItem(this.copiedCode[i], i, 'code-icon.svg', this.copiedCode);
-        }  
+        }
         this.lastCodeIndex = this.copiedCode.length;
 
     }

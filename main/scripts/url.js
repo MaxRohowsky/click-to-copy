@@ -1,6 +1,6 @@
 class Url {
     constructor() {
-        this.PreventDefault();
+        this.addEventListeners();
         //this.addScrollListener();
         
     }
@@ -45,7 +45,7 @@ class Url {
         });
     }
 
-    PreventDefault() {
+    addEventListeners() {
         $('a').addClass('dashed_outline')
         .on('click', (e) => {
             this.Testfunction(e);
