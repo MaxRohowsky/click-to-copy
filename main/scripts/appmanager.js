@@ -53,7 +53,7 @@ class AppManager {
             
         //this.gridButton      = this.createAppMenuButton("gridButton", "menuButton", "grid-icon.svg", "Grid");
         this.textButton      = this.createAppMenuButton("textButton", "menuButton", "text-icon.svg", "Copy Text");
-        this.urlButton       = this.createAppMenuButton("urlButton", "menuButton", "link-icon.svg", "Copy URLs");
+        this.urlButton       = this.createAppMenuButton("urlButton", "menuButton", "url-icon.svg", "Copy URLs");
         this.codeButton      = this.createAppMenuButton("codeButton", "menuButton", "code-icon.svg", "Copy Code");
         //this.assetButton     = this.createAppMenuButton("assetButton", "menuButton", "asset-icon.svg", "Copy Image");
         this.colorButton     = this.createAppMenuButton("colorButton", "menuButton", "color-icon.svg", "Copy Colors");
@@ -61,9 +61,7 @@ class AppManager {
         this.closeButton     = this.createAppMenuButton("closeButton", "menuButton", "close-icon.svg", "Close App");
     }
 
-    updateClipboardIcon() {
-        this.clipboardButton.find('img').attr('src', `${EXTENSION_ID}/assets/${this.clipboardIcon}`);
-    }
+
 
     setupEventHandlers() {
 

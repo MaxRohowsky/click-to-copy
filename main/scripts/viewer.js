@@ -129,16 +129,6 @@ function rgbToHex(rgb) {
 
 
 
-
-
-
-
-
-
-
-
-
-
 class Code {
     constructor() {
         this.element = null;
@@ -205,13 +195,6 @@ class Code {
         }
         else
             viewer.css('top', viewerY + 'px');
-
-
-        
-
-
-       
-
     }
 
     mouseOver(e) {
@@ -244,17 +227,11 @@ class Code {
     }
 
     mouseClick(e) {
-        //console.log(JSON.stringify(this.elementNonDefaultStyle, null, 4));
-        //let textToCopy = JSON.stringify(this.elementNonDefaultStyle, null, 4);
         if (this.identifier !== null && IGNORE_CLASSES.every(cls => !$(this.element).hasClass(cls))) {
-            appManager.clipboard.add(this.identifier, 'code');
-            console.log("click");
+            let copiedCSS = new CopiedCSS('code', JSON.stringify(this.elementNonDefaultStyle, null, 4), this.identifier);
+            appManager.clipboard.copiedObjs.push(copiedCSS);
+            appManager.clipboard.refreshClipboard();
         }
-        /*navigator.clipboard.writeText(this.identifier).then(function() {
-            console.log('Copying to clipboard was successful!');
-        }, function(err) {
-            console.error('Could not copy text: ', err);
-        });*/
     }
 
 

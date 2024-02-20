@@ -1,25 +1,61 @@
 const EXTENSION_ID = 'chrome-extension://laonhdndhpeoachehnobbcjdcnnhlioe';
 
-const IGNORE_CLASSES = ["appMenu", "menuButton", "menuImage", "clipboard"]
+const IGNORE_CLASSES = ["appMenu", "menuButton", "menuImage", "clipboard", "clipboard_item", "clipboard_item_type", "clipboard_item_content", "clipboard_item_remove", "vertical-line"];
 
 function createElement(type, id, classes = [], text = '') {
     return $(`<${type}>`).attr('id', id).addClass(classes).text(text);
 }
 
+
+class CopiedObj {
+    //static lastIndex = -1;
+
+    constructor(type, content) {
+        //this.index = ++CopiedObj.lastIndex;
+        this.isDisplayed = true;
+        this.inClipboard = false;
+        this.type = type;
+        this.content = content;
+    }
+    
+    /*static resetIndex() {
+        CopiedObj.lastIndex = -1;
+    }*/
+
+}
+
+
+class CopiedCSS extends CopiedObj {
+    constructor(type, content, snippet) {
+        super(type, content);
+        this.snippet = snippet;
+    }
+}
+
+
 class Clipboard {
     constructor() {
-        this.copiedText = [];
-        this.copiedUrls = [];
-        this.copiedColors = [];
-        this.copiedCode = [];
-        this.lastTextIndex = 0;
-        this.lastUrlIndex = 0;
-        this.lastColorIndex = 0;
-        this.lastCodeIndex = 0;
+        this.copiedObjs = []; 
         this.buildClipboard();
     }
 
+    filter(type) {
+        this.copiedObjs.forEach(obj => {
+            if (obj.type === type) {
+                obj.isDisplayed = true;
+            } else {
+                obj.isDisplayed = false;
+            }
+        });
+        this.refreshClipboard();
+    }
 
+    nofilter() {
+        this.copiedObjs.forEach(obj => {
+            obj.isDisplayed = true;
+        });
+        this.refreshClipboard();
+    }
 
     buildClipboard() {
         this.clipboard = createElement('div', 'clipboard', ['clipboard', 'hidden', 'clipboardInitial']);
@@ -32,12 +68,33 @@ class Clipboard {
         this.clipboardCopyButton = createElement('button', 'clipboard_copy_button', ['clipboard'], 'Copy');
         this.clipboardClearButton = createElement('button', 'clipboard_clear_button', ['clipboard']);
 
-        const filters = ['current', 'all', 'text', 'urls', 'css', 'colors'];
-        const filtersButtons = filters.map(name =>
-            createElement('button', `clipboard_filter_${name}_button`, ['clipboard'], name)
-        );
 
-        this.clipboardFilter.append(...filtersButtons);
+        const allFilter = createElement('button', 'clipboard_filter_all_button', ['clipboard'], 'all');
+        allFilter.on('click', () => {
+            this.nofilter();
+        });
+
+        const textFilter = createElement('button', 'clipboard_filter_text_button', ['clipboard'], 'text');
+        textFilter.on('click', () => {
+            this.filter('text');
+        });
+
+        const urlsFilter = createElement('button', 'clipboard_filter_urls_button', ['clipboard'], 'urls');
+        urlsFilter.on('click', () => {
+            this.filter('url');
+        });
+
+        const cssFilter = createElement('button', 'clipboard_filter_css_button', ['clipboard'], 'css');
+        cssFilter.on('click', () => {
+            this.filter('code');
+        });
+
+        const colorsFilter = createElement('button', 'clipboard_filter_colors_button', ['clipboard'], 'colors');
+        colorsFilter.on('click', () => {
+            this.filter('color');
+        });
+
+        this.clipboardFilter.append(allFilter, textFilter, urlsFilter, cssFilter, colorsFilter);
 
         const trashIcon = createElement('img')
             .addClass('clipboard', 'clipboard_trash_icon')
@@ -69,6 +126,42 @@ class Clipboard {
         $('body').append(this.clipboard);
     }
 
+    refreshClipboard() {
+        this.updateClipboardIcon();
+        this.clipboardItems.empty();
+        this.copiedObjs.forEach(obj => {
+            if (obj.isDisplayed) {
+                this.addItemToClipboard(obj);
+            }
+        });
+    }
+
+    addItemToClipboard(obj) {
+        const clipboardItem = $('<div>')
+            .attr('class', 'clipboard_item');
+        const itemType = $('<img>')
+            .attr('class', 'clipboard_item_type')
+            .attr('src', `${EXTENSION_ID}/assets/${obj.type}-icon.svg`);
+        const itemContentDiv = $('<div>')
+            .attr('class', 'clipboard_item_content')
+            .text(obj.type === 'code' ? obj.snippet : obj.content);
+        const itemRemove = $('<img>')
+            .attr('class', 'clipboard_item_remove')
+            .attr('src', `${EXTENSION_ID}/assets/close-classic-icon.svg`)
+            .on('click', (event) => {
+                $(event.target).parent().remove();
+                console.log(this.copiedObjs);
+                this.copiedObjs.splice(this.copiedObjs.indexOf(obj), 1);
+            });
+
+        clipboardItem.append(itemType, itemContentDiv, itemRemove);
+        this.clipboardItems.append(clipboardItem);
+
+        if (obj.content.length > 32) {
+            itemContentDiv.addClass('overflowing');
+        }
+    }
+
     writeToClipboard() {
         const filterAndJoin = array => array.filter(item => item !== null).join('\n');
 
@@ -88,105 +181,20 @@ class Clipboard {
             });
     }
 
-
-    refresh() {
-        let i = (this.copiedText.length + this.copiedUrls.length + this.copiedColors.length + this.copiedCode.length) % 4; // This will cycle through 0, 1, 2, 3 as this.count increases
+    updateClipboardIcon() {
+        let i = (this.copiedObjs.length) % 4; // This will cycle through 0, 1, 2, 3 as this.count increases
         appManager.clipboardIcon = `clipboard-icon-${i}.svg`;
-        appManager.updateClipboardIcon();
-
-        const createClipboardItem = (item, index, itemTypeSrc, itemsArray) => {
-            const clipboardItem = $('<div>')
-                .attr('class', 'clipboard_item');
-            const itemType = $('<img>')
-                .attr('class', 'clipboard_item_type')
-                .attr('src', `${EXTENSION_ID}/assets/${itemTypeSrc}`);
-            const itemContent = $('<div>')
-                .attr('class', 'clipboard_item_content')
-                .text(item);
-            const itemRemove = $('<img>')
-                .attr('class', 'clipboard_item_remove')
-                .attr('src', `${EXTENSION_ID}/assets/close-classic-icon.svg`)
-                .on('click', function () {
-                    $(this).parent().remove();
-                    itemsArray[index] = null;
-                });
-
-            clipboardItem.append(itemType, itemContent, itemRemove);
-            this.clipboardItems.append(clipboardItem);
-
-            if (item.length > 32) {
-                itemContent.addClass('overflowing');
-            }
-        };
-
-        for (let i = this.lastTextIndex; i < this.copiedText.length; i++) {
-            createClipboardItem(this.copiedText[i], i, 'text-icon.svg', this.copiedText);
-        }
-        this.lastTextIndex = this.copiedText.length;
-
-        for (let i = this.lastUrlIndex; i < this.copiedUrls.length; i++) {
-            console.log(this.copiedUrls);
-            createClipboardItem(this.copiedUrls[i], i, 'link-icon.svg', this.copiedUrls);
-        }
-        this.lastUrlIndex = this.copiedUrls.length;
-
-        for (let i = this.lastColorIndex; i < this.copiedColors.length; i++) {
-            createClipboardItem(this.copiedColors[i], i, 'color-icon.svg', this.copiedColors);
-
-            const colorCircle = $('<div>').css({
-                'background-color': this.copiedColors[i],
-                'border-radius': '50%',
-                'display': 'inline-block',
-                'width': '12px',
-                'height': '12px',
-                'margin-right': '5px',
-            });
-
-            $('.clipboard_item_content').last().prepend(colorCircle);
-
-        }
-        this.lastColorIndex = this.copiedColors.length;
-
-
-        for (let i = this.lastCodeIndex; i < this.copiedCode.length; i++) {
-            console.log(this.copiedCode);
-            createClipboardItem(this.copiedCode[i], i, 'code-icon.svg', this.copiedCode);
-        }
-        this.lastCodeIndex = this.copiedCode.length;
-
+        appManager.clipboardButton.find('img').attr('src', `${EXTENSION_ID}/assets/${appManager.clipboardIcon}`);
     }
 
 
-    add(val, list) {
-        switch (list) {
-            case 'text':
-                this.copiedText.push(val);
-                break;
-            case 'urls':
-                this.copiedUrls.push(val);
-                break;
-            case 'colors':
-                this.copiedColors.push(val);
-                break;
-            case 'code':
-                this.copiedCode.push(val);
-                console.log(val);
-                break;
-            default:
-                throw new Error('Invalid list specified');
-        }
-        this.refresh();
-    }
-
+    
+    
 
     clear() {
-        this.copiedText = [];
-        this.copiedUrls = [];
-        this.copiedColors = [];
-        this.lastTextIndex = 0;
-        this.lastUrlIndex = 0;
-        this.lastColorIndex = 0;
-        this.refresh();
+        this.copiedObjs = []; 
+        CopiedObj.resetIndex();
+
     }
 
 

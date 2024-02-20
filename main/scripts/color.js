@@ -14,9 +14,11 @@ class Color {
                 .open()
                 .then((result) => {
                     this.color = result.sRGBHex;
-                    console.log(result);
-                    //navigator.clipboard.writeText(this.color)
-                    appManager.clipboard.add(this.color, 'colors')
+                    
+                    let copiedColor = new CopiedObj('color', this.color);
+                    appManager.clipboard.copiedObjs.push(copiedColor);
+                    appManager.clipboard.refreshClipboard();
+
                 })
 
         });
