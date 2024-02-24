@@ -49,8 +49,11 @@
 
 #clipboard_sub {
     background-color: #1f2937;
-      /* Change to your preferred color */
     height: 0px;
+}
+
+.active{
+  color: #29B526;
 }
 
 #clipboard_mid {

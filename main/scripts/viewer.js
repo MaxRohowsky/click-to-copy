@@ -229,8 +229,10 @@ class Code {
     mouseClick(e) {
         if (this.identifier !== null && IGNORE_CLASSES.every(cls => !$(this.element).hasClass(cls))) {
             let copiedCSS = new CopiedCSS('code', JSON.stringify(this.elementNonDefaultStyle, null, 4), this.identifier);
-            appManager.clipboard.copiedObjs.push(copiedCSS);
-            appManager.clipboard.refreshClipboard();
+            
+            appManager.clipboard.instance.copiedObjs.push(copiedCSS);
+            appManager.clipboard.instance.refreshClipboard();
+        
         }
     }
 
@@ -270,8 +272,6 @@ class Code {
             this.viewer.append($p);
 
         }
-
-
     }
 
 
@@ -289,7 +289,6 @@ class Code {
     }
 
 
-
     removeEventListeners() {
         $(document).off("click", this.boundMouseClick);
         $(document).off("mouseover", this.boundMouseOver);
@@ -298,18 +297,12 @@ class Code {
     }
 
 
-
-
-
     close() {
         console.log('closing viewer');
         this.viewer.remove();
         this.removeEventListeners();
         $(this.element).css('outline', 'none');
     }
-
-
-
 
 }
 

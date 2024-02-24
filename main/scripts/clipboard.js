@@ -1,5 +1,3 @@
-
-
 const IGNORE_CLASSES = ["appMenu", "menuButton", "menuImage", "clipboard", "clipboard_item", "clipboard_item_type", "clipboard_item_content", "clipboard_item_remove", "vertical-line"];
 
 function createElement(type, id, classes = [], text = '') {
@@ -8,18 +6,12 @@ function createElement(type, id, classes = [], text = '') {
 
 
 class CopiedObj {
-    //static lastIndex = -1;
-
     constructor(type, content) {
-        //this.index = ++CopiedObj.lastIndex;
-        this.isDisplayed = true;
+        this.isDisplayed = false;
         this.inClipboard = false;
         this.type = type;
         this.content = content;
     }
-    
-
-
 }
 
 
@@ -39,18 +31,11 @@ class Clipboard {
 
     filter(type) {
         this.copiedObjs.forEach(obj => {
-            if (obj.type === type) {
+            if (type === 'all' || obj.type === type) {
                 obj.isDisplayed = true;
             } else {
                 obj.isDisplayed = false;
             }
-        });
-        this.refreshClipboard();
-    }
-
-    nofilter() {
-        this.copiedObjs.forEach(obj => {
-            obj.isDisplayed = true;
         });
         this.refreshClipboard();
     }
@@ -67,32 +52,59 @@ class Clipboard {
         this.clipboardClearButton = createElement('button', 'clipboard_clear_button', ['clipboard']);
 
 
-        const allFilter = createElement('button', 'clipboard_filter_all_button', ['clipboard'], 'all');
-        allFilter.on('click', () => {
-            this.nofilter();
-        });
+        const filters = {
+            all: { button: createElement('button', 'clipboard_filter_all_button', ['clipboard'], 'all'), active: true },
+            text: { button: createElement('button', 'clipboard_filter_text_button', ['clipboard'], 'text'), active: false },
+            url: { button: createElement('button', 'clipboard_filter_urls_button', ['clipboard'], 'urls'), active: false },
+            code: { button: createElement('button', 'clipboard_filter_css_button', ['clipboard'], 'css'), active: false }
+        };
 
-        const textFilter = createElement('button', 'clipboard_filter_text_button', ['clipboard'], 'text');
-        textFilter.on('click', () => {
+        filters.all.button.on('click', () => {
+            Object.values(filters).forEach(filterObj => {
+                filterObj.button.removeClass('active');
+                filterObj.active = false;
+            });
+            filters.all.button.addClass('active');
+            filters.all.active = true;
+            this.filter('all');
+        });
+        
+        filters.text.button.on('click', () => {
+            Object.values(filters).forEach(filterObj => {
+                filterObj.button.removeClass('active');
+                filterObj.active = false;
+            });
+            filters.text.button.addClass('active');
+            filters.text.active = true;
             this.filter('text');
         });
-
-        const urlsFilter = createElement('button', 'clipboard_filter_urls_button', ['clipboard'], 'urls');
-        urlsFilter.on('click', () => {
+        
+        filters.url.button.on('click', () => {
+            Object.values(filters).forEach(filterObj => {
+                filterObj.button.removeClass('active');
+                filterObj.active = false;
+            });
+            filters.url.button.addClass('active');
+            filters.url.active = true;
             this.filter('url');
         });
-
-        const cssFilter = createElement('button', 'clipboard_filter_css_button', ['clipboard'], 'css');
-        cssFilter.on('click', () => {
+        
+        filters.code.button.on('click', () => {
+            Object.values(filters).forEach(filterObj => {
+                filterObj.button.removeClass('active');
+                filterObj.active = false;
+            });
+            filters.code.button.addClass('active');
+            filters.code.active = true;
             this.filter('code');
         });
+        
+        filters.all.button.addClass('active');
+        filters.all.active = true;
 
-        const colorsFilter = createElement('button', 'clipboard_filter_colors_button', ['clipboard'], 'colors');
-        colorsFilter.on('click', () => {
-            this.filter('color');
-        });
 
-        this.clipboardFilter.append(allFilter, textFilter, urlsFilter, cssFilter, colorsFilter);
+        this.clipboardFilter.append(filters.all.button, filters.text.button, filters.url.button, filters.code.button);
+
 
         const trashIcon = createElement('img')
             .addClass('clipboard', 'clipboard_trash_icon')
@@ -124,8 +136,9 @@ class Clipboard {
         $('body').append(this.clipboard);
     }
 
+    /* Adjust clipboard icon, remove all items, and show isDisplayed*/
     refreshClipboard() {
-        this.updateClipboardIcon();
+        appManager.clipboard.incrementImg();
         this.clipboardItems.empty();
         this.copiedObjs.forEach(obj => {
             if (obj.isDisplayed) {
@@ -179,15 +192,6 @@ class Clipboard {
             });
     }
 
-    updateClipboardIcon() {
-        let i = (this.copiedObjs.length) % 4; // This will cycle through 0, 1, 2, 3 as this.count increases
-        appManager.clipboardIcon = `clipboard-icon-${i}.svg`;
-        appManager.clipboardButton.find('img').attr('src', `${EXTENSION_ID}/assets/${appManager.clipboardIcon}`);
-    }
-
-
-    
-    
 
     clear() {
         this.copiedObjs = []; 

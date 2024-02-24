@@ -27,8 +27,8 @@ class Url {
 
 
                 let copiedUrl = new CopiedObj('url', linkUrl);
-                appManager.clipboard.copiedObjs.push(copiedUrl);
-                appManager.clipboard.refreshClipboard();
+                appManager.clipboard.instance.copiedObjs.push(copiedUrl);
+                appManager.clipboard.instance.refreshClipboard();
 
         }
     }

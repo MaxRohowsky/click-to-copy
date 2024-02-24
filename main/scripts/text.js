@@ -22,11 +22,9 @@ class Text {
             if (copiedString.length > 1 && copiedString != " ") {
                 //navigator.clipboard.writeText(copiedString)
 
-
-
                 let copiedText = new CopiedObj('text', copiedString);
-                appManager.clipboard.copiedObjs.push(copiedText);
-                appManager.clipboard.refreshClipboard();
+                appManager.clipboard.instance.copiedObjs.push(copiedText);
+                appManager.clipboard.instance.refreshClipboard();
     
 
             

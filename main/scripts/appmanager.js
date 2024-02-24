@@ -291,10 +291,9 @@ class ClipboardApp {
     constructor(id, appClass) {
         this.id = id;
         this.appClass = appClass;
-        this.img = 'clipboard-icon-0.svg';
-
+        
+        this.imgIndex = 0;
         this.app = appClass.name.toLowerCase();
-
         this.tooltip = "Clipboard";
         this.isOn = false;
         this.button = this.button();
@@ -302,9 +301,9 @@ class ClipboardApp {
     }
 
     button() {
-        const image = $('<img>')
+        this.image = $('<img>')
             .addClass('menuImage')
-            .attr('src', `${EXTENSION_ID}/assets/${this.img}`)
+            .attr('src', `${EXTENSION_ID}/assets/clipboard-icon-${this.imgIndex}.svg`)
 
         const tooltipSpan = $('<span>')
             .addClass('tooltip')
@@ -313,7 +312,7 @@ class ClipboardApp {
         const button = $('<button>')
             .attr('id', this.id)
             .addClass('menuButton')
-            .append(image, tooltipSpan)
+            .append(this.image, tooltipSpan)
             .on('click', () => this.handleClick());
 
         return button;
@@ -325,25 +324,23 @@ class ClipboardApp {
         if (this.isOn) {
             this.button.addClass('active');
             this.instance.clipboard.removeClass('hidden');
-
         }
         else {
             this.button.removeClass('active');
             this.instance.clipboard.addClass('hidden');
         }
-    
-
-
-
 
     }
 
+    incrementImg() {
+        this.imgIndex = this.instance.copiedObjs.length % 4;
+        this.image.attr('src', `${EXTENSION_ID}/assets/clipboard-icon-${this.imgIndex}.svg`);
+    }
 }
 
 
 class AppManager {
     constructor() {
-        //this.initializeState();
         this.appMenu = $('<div>')
             .attr('id', 'Menu')
             .addClass('appMenu menuInitial')
@@ -357,20 +354,35 @@ class AppManager {
         this.text = new App("textButton", Text);
         this.url = new App("urlButton", Url);
         this.code = new App("codeButton", Code);
-        //this.color = new App("colorButton",  Color);
         this.clipboard = new ClipboardApp("clipboardButton", Clipboard);
+
+
+        const image = $('<img>')
+            .addClass('menuImage')
+            .attr('src', `${EXTENSION_ID}/assets/close-icon.svg`)
+
+        const tooltipSpan = $('<span>')
+            .addClass('tooltip')
+            .text("Close App");
+
+        this.closeButton = $('<button>')
+            .attr('id', 'closeButton')
+            .addClass('menuButton')
+            .append(image, tooltipSpan)
+            .on('click', () => this.handleClick());
 
         this.appMenu.append(this.text.button);
         this.appMenu.append(this.url.button);
         this.appMenu.append(this.code.button);
-        //this.appMenu.append(this.color.button);
         this.appMenu.append(this.clipboard.button);
-
-        //this.clipboardIcon =  "clipboard-icon-0.svg"
-        //this.clipboardOn = false;
-        //this.clipboard = new Clipboard();
-
+        this.appMenu.append(this.closeButton);
     }
+
+    close() {
+        this.clipboard.instance.clipboard.remove();
+        this.appMenu.remove();
+    }
+
 
 
     /*
