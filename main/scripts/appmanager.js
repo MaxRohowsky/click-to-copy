@@ -1,7 +1,7 @@
 
 
 
-
+/*
 function moveElement(element, initialClass) {
     let rect = element[0].getBoundingClientRect();
     element
@@ -12,6 +12,27 @@ function moveElement(element, initialClass) {
 
 function freezeElement(element) {
     element.draggable("destroy");
+}
+
+class App{
+    constructor() {
+        this.app = null;
+        this.isOn = false;
+        this.icon = null;
+    }
+
+    launch() {
+        this.isOn = true;
+        this.app.removeClass('hidden');
+        this.icon.addClass('active');
+    }
+
+    close() {
+        this.isOn = false;
+        this.app.addClass('hidden');
+        this.icon.removeClass('active');
+    }
+
 }
 
 
@@ -167,4 +188,256 @@ class AppManager {
 //let appm = new AppManager();
 //appm.inject()
 
-console.log('appmanager.js loaded');
+*/
+
+const EXTENSION_ID = 'chrome-extension://laonhdndhpeoachehnobbcjdcnnhlioe';
+
+function moveElement(element, initialClass) {
+    let rect = element[0].getBoundingClientRect();
+    element
+        .css({ top: rect.top, left: rect.left })
+        .removeClass(initialClass)
+        .draggable();
+}
+
+function freezeElement(element) {
+    element.draggable("destroy");
+}
+
+class App {
+    static allApps = [];
+
+    static tooltip = {
+        text: "Copy Text",
+        url: "Copy URLs",
+        code: "Copy Code",
+        color: "Copy Colors"
+    }
+
+    constructor(id, appClass, img = null) {
+        this.id = id;
+        this.appClass = appClass;
+
+        this.app = appClass.name.toLowerCase();
+        this.img = img ? img : this.app + '-icon.svg';
+        this.tooltip = App.tooltip[this.app];
+        this.isOn = false;
+        this.button = this.button();
+        this.instance = null;
+
+        App.allApps.push(this);
+    }
+
+    button() {
+        const image = $('<img>')
+            .addClass('menuImage')
+            .attr('src', `${EXTENSION_ID}/assets/${this.img}`)
+
+        const tooltipSpan = $('<span>')
+            .addClass('tooltip')
+            .text(this.tooltip);
+
+        const button = $('<button>')
+            .attr('id', this.id)
+            .addClass('menuButton')
+            .append(image, tooltipSpan)
+            .on('click', () => this.handleClick());
+
+        return button;
+    }
+
+    handleClick() {
+        this.isOn = !this.isOn;
+        //console.log(App.allApps);
+        if (this.isOn) {
+            this.closeExceptThis();
+            this.launch();
+        } else {
+            this.closeThis();
+        }
+    }
+
+
+    launch() {
+        console.log('launching', this.app);
+        this.isOn = true;
+        this.instance = new this.appClass();
+        this.button.addClass('active');
+    }
+
+
+    closeThis() {
+        console.log('closing', this.app);
+        this.instance.close();
+        this.instance = null;
+        this.button.removeClass('active');
+        this.isOn = false;
+    }
+    
+    closeExceptThis(){
+        App.allApps.forEach(app => {
+            if (app !== this && app.isOn) {
+                console.log('closing', app.app);
+                app.isOn = false;
+                app.button.removeClass('active');
+                app.instance.close();
+                app.instance = null;
+            }
+        });
+
+    }
+
+}
+
+
+class Clipboard extends App {
+    constructor() {
+        super('clipboardButton', Clipboard, 'clipboard-icon-0.svg');
+    }
+
+    button() {
+        const image = $('<img>')
+            .addClass('clipboardImage')
+            .attr('src', `${EXTENSION_ID}/assets/${this.img}`)
+
+        const tooltipSpan = $('<span>')
+            .addClass('tooltip')
+            .text(this.tooltip);
+
+        const button = $('<button>')
+            .attr('id', this.id)
+            .addClass('clipboardButton')
+            .append(image, tooltipSpan)
+            .on('click', () => this.handleClick());
+
+        return button;
+    }
+
+}
+
+
+class AppManager {
+    constructor() {
+        //this.initializeState();
+        this.appMenu = $('<div>')
+            .attr('id', 'Menu')
+            .addClass('appMenu menuInitial')
+
+        this.moveButton = $('<div>')
+            .addClass('vertical-line')
+            .appendTo(this.appMenu)
+            .on('mousedown', () => moveElement(this.appMenu, "menuInitial"))
+            .on('mouseup', () => freezeElement(this.appMenu));
+
+        this.text = new App("textButton",  Text);
+        this.url = new App("urlButton", Url);
+        this.code = new App("codeButton",  Code);
+        //this.color = new App("colorButton",  Color);
+        this.clipboard = new Clipboard();
+
+        this.appMenu.append(this.text.button);
+        this.appMenu.append(this.url.button);
+        this.appMenu.append(this.code.button);
+        //this.appMenu.append(this.color.button);
+        this.appMenu.append(this.clipboard.button);
+
+        //this.clipboardIcon =  "clipboard-icon-0.svg"
+        //this.clipboardOn = false;
+        //this.clipboard = new Clipboard();
+
+    }
+
+
+    /*
+    setupEventHandlers() {
+        $(document).on('keydown', (event) => {
+            if (event.key === 'Escape') {
+                this.turnAppsOffExcept();
+                this.turnClipboardOff();
+            }
+        });
+
+        this.textButton.on('click', () => this.handleButtonClick("text", Text));
+        this.urlButton.on('click', () => this.handleButtonClick("url", Url));
+        this.codeButton.on('click', () => this.handleButtonClick("code", Code));
+        this.colorButton.on('click', () => this.handleButtonClick("color", Color));
+        this.clipboardButton.on('click', this.handleClipboardButtonClick.bind(this));
+        this.closeButton.on('click', this.close.bind(this));
+    }*/
+
+    /*createAppMenuButton(id, cls, img, tooltip) {
+        const image = $('<img>')
+            .addClass('menuImage')
+            .attr('src', `${EXTENSION_ID}/assets/${img}`)
+
+        const tooltipSpan = $('<span>')
+            .addClass('tooltip')
+            .text(tooltip);
+
+        const button = $('<button>')
+            .attr('id', id)
+            .addClass(cls)
+            .append(image, tooltipSpan);
+
+        this.appMenu.append(button);
+
+        return button;
+    }*/
+
+    inject() {
+        $('body').append(this.appMenu);
+    }
+    /*
+    handleButtonClick(type, instance) {
+        this[type].isOn = !this[type].isOn;
+        if (this[type].isOn) {
+            this.turnAppsOffExcept(`${type}`);
+            this[type].app = new instance();
+            this[type].launch();
+        } else {
+            this[type].close();
+            this.turnAppsOffExcept();
+        }
+    }
+
+    turnAppsOffExcept(str = undefined) {
+        const apps = ['text', 'url', 'code', 'color'];
+
+        apps.forEach(app => {
+            if (this[app].app != null) {
+                this[app].close();
+            }
+            this[app].isOn = false;
+            this[app].app = null;
+            this[app + 'Button'].removeClass('active');
+        });
+
+        if (apps.includes(str)) {
+            this[str].isOn = true;
+            this[str + 'Button'].addClass('active');
+        }
+    }
+
+    handleClipboardButtonClick() {
+        this.clipboard.isOn = !this.clipboard.isOn;
+
+        if (this.clipboard.isOn) {
+            this.clipboardButton.addClass('active');
+            this.clipboard.app.removeClass('hidden');
+        }
+        else {
+            this.turnClipboardOff();
+            this.clipboardButton.removeClass('active');
+            this.clipboard.app.addClass('hidden');
+        }
+    }
+
+    turnClipboardOff() {
+        this.clipboardButton.removeClass('active');
+    }
+
+    close() {
+        this.clipboard.app.remove();
+        this.appMenu.remove();
+    }*/
+}

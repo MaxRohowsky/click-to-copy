@@ -1,4 +1,4 @@
-const EXTENSION_ID = 'chrome-extension://laonhdndhpeoachehnobbcjdcnnhlioe';
+
 
 const IGNORE_CLASSES = ["appMenu", "menuButton", "menuImage", "clipboard", "clipboard_item", "clipboard_item_type", "clipboard_item_content", "clipboard_item_remove", "vertical-line"];
 

@@ -18,6 +18,7 @@ class Color {
                     let copiedColor = new CopiedObj('color', this.color);
                     appManager.clipboard.copiedObjs.push(copiedColor);
                     appManager.clipboard.refreshClipboard();
+                    this.close();
 
                 })
 
@@ -34,4 +35,3 @@ class Color {
 
 
 }
-
