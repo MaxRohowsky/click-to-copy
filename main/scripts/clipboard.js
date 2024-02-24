@@ -18,9 +18,7 @@ class CopiedObj {
         this.content = content;
     }
     
-    /*static resetIndex() {
-        CopiedObj.lastIndex = -1;
-    }*/
+
 
 }
 
@@ -197,6 +195,9 @@ class Clipboard {
 
     }
 
+    close(){
+        console.log('closing clipboard');
+    }
 
 
 

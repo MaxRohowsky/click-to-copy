@@ -214,28 +214,25 @@ class App {
         color: "Copy Colors"
     }
 
-    constructor(id, appClass, img = null) {
+    constructor(id, appClass) {
         this.id = id;
         this.appClass = appClass;
-
         this.app = appClass.name.toLowerCase();
-        this.img = img ? img : this.app + '-icon.svg';
-        this.tooltip = App.tooltip[this.app];
         this.isOn = false;
         this.button = this.button();
         this.instance = null;
 
-        App.allApps.push(this);
+        if (this.constructor === App) App.allApps.push(this);
     }
 
     button() {
         const image = $('<img>')
             .addClass('menuImage')
-            .attr('src', `${EXTENSION_ID}/assets/${this.img}`)
+            .attr('src', `${EXTENSION_ID}/assets/${this.app}-icon.svg`)
 
         const tooltipSpan = $('<span>')
             .addClass('tooltip')
-            .text(this.tooltip);
+            .text(App.tooltip[this.app]);
 
         const button = $('<button>')
             .attr('id', this.id)
@@ -273,8 +270,8 @@ class App {
         this.button.removeClass('active');
         this.isOn = false;
     }
-    
-    closeExceptThis(){
+
+    closeExceptThis() {
         App.allApps.forEach(app => {
             if (app !== this && app.isOn) {
                 console.log('closing', app.app);
@@ -290,14 +287,23 @@ class App {
 }
 
 
-class Clipboard extends App {
-    constructor() {
-        super('clipboardButton', Clipboard, 'clipboard-icon-0.svg');
+class ClipboardApp {
+    constructor(id, appClass) {
+        this.id = id;
+        this.appClass = appClass;
+        this.img = 'clipboard-icon-0.svg';
+
+        this.app = appClass.name.toLowerCase();
+
+        this.tooltip = "Clipboard";
+        this.isOn = false;
+        this.button = this.button();
+        this.instance = new Clipboard();
     }
 
     button() {
         const image = $('<img>')
-            .addClass('clipboardImage')
+            .addClass('menuImage')
             .attr('src', `${EXTENSION_ID}/assets/${this.img}`)
 
         const tooltipSpan = $('<span>')
@@ -306,11 +312,30 @@ class Clipboard extends App {
 
         const button = $('<button>')
             .attr('id', this.id)
-            .addClass('clipboardButton')
+            .addClass('menuButton')
             .append(image, tooltipSpan)
             .on('click', () => this.handleClick());
 
         return button;
+    }
+
+    handleClick() {
+        this.isOn = !this.isOn;
+
+        if (this.isOn) {
+            this.button.addClass('active');
+            this.instance.clipboard.removeClass('hidden');
+
+        }
+        else {
+            this.button.removeClass('active');
+            this.instance.clipboard.addClass('hidden');
+        }
+    
+
+
+
+
     }
 
 }
@@ -329,11 +354,11 @@ class AppManager {
             .on('mousedown', () => moveElement(this.appMenu, "menuInitial"))
             .on('mouseup', () => freezeElement(this.appMenu));
 
-        this.text = new App("textButton",  Text);
+        this.text = new App("textButton", Text);
         this.url = new App("urlButton", Url);
-        this.code = new App("codeButton",  Code);
+        this.code = new App("codeButton", Code);
         //this.color = new App("colorButton",  Color);
-        this.clipboard = new Clipboard();
+        this.clipboard = new ClipboardApp("clipboardButton", Clipboard);
 
         this.appMenu.append(this.text.button);
         this.appMenu.append(this.url.button);
