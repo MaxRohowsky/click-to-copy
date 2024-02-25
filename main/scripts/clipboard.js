@@ -35,6 +35,7 @@ class Clipboard {
     constructor() {
         this.copiedObjs = [];
         this.setFilter = 'all';
+        this.clipboardCount = 0;
         this.buildClipboard();
         this.setEventHandlers();
     }
@@ -54,7 +55,7 @@ class Clipboard {
         
         this.clipboardItems = div('clipboard_items', ['clipboard']);
         this.clipboardEnd = div('clipboard_end', ['clipboard']);
-        this.clipboardCopyButton = div('clipboard_copy_button', ['clipboard']).text('Copy');
+        this.clipboardCopyButton = div('clipboard_copy_button', ['clipboard']).text(`Copy (${this.clipboardCount} Items)`);
         this.clipboardClearButton = div('clipboard_clear_button', ['clipboard']);
         this.trashIcon = img('clipboard_trash_icon', ['clipboard'], `${EXTENSION_ID}/assets/trash-icon.svg`);
         this.closeIcon = img('clipboard_close_icon', ['clipboard'], `${EXTENSION_ID}/assets/close-classic-icon.svg`);
@@ -75,6 +76,7 @@ class Clipboard {
         this.trashIcon.on("click", () => {
             this.clipboardItems.empty();
             this.clear();
+            this.showCount();
         });
         this.closeIcon.on('click', () => {
             this.clipboard.addClass('hidden')
@@ -128,8 +130,16 @@ class Clipboard {
             }
         });
 
+        // Show the count
+        this.showCount();
+
         // Add all objs that have toDisplay set to true
         this.addToDisplayObjs();
+    }
+
+    showCount = () => {
+        this.clipboardCount = this.copiedObjs.filter(obj => obj.toDisplay === true).length;
+        this.clipboardCopyButton.text(`Copy (${this.clipboardCount} Items)`);
     }
 
 
@@ -159,6 +169,7 @@ class Clipboard {
                 $(event.target).parent().remove();
                 console.log(this.copiedObjs);
                 this.copiedObjs.splice(this.copiedObjs.indexOf(obj), 1);
+                this.showCount();
             });
 
         clipboardItem.append(itemType, itemContentDiv, itemRemove);
@@ -172,27 +183,33 @@ class Clipboard {
     writeToClipboard() {
         const filterAndJoin = array => array.filter(item => item !== null).join('\n');
 
-        const combinedText = [
-            filterAndJoin(this.copiedText),
-            filterAndJoin(this.copiedUrls),
-            filterAndJoin(this.copiedColors),
-            filterAndJoin(this.copiedCode)
-        ].join('\n');
+        const copiedText = this.copiedObjs.filter(obj => obj.type === 'text').map(obj => obj.content);
+        const copiedUrls = this.copiedObjs.filter(obj => obj.type === 'url').map(obj => obj.content);
+        const copiedCode = this.copiedObjs.filter(obj => obj.type === 'code').map(obj => obj.content);
 
-        navigator.clipboard.writeText(combinedText)
-            .then(() => {
-                console.log('Text copied to clipboard');
-            })
-            .catch(err => {
-                console.error('Failed to copy text: ', err);
-            });
+
+        if (this.setFilter === 'all') {
+            navigator.clipboard.writeText([
+                filterAndJoin(copiedText),
+                filterAndJoin(copiedUrls),
+                filterAndJoin(copiedCode)
+            ].join('\n'));
+        } else if (this.setFilter === 'text') {
+            navigator.clipboard.writeText(filterAndJoin(copiedText));
+        } else if (this.setFilter === 'url') {
+            navigator.clipboard.writeText(filterAndJoin(copiedUrls));
+        } else if (this.setFilter === 'code') {
+            navigator.clipboard.writeText(filterAndJoin(copiedCode));
+        }
+
+
+
     }
 
 
     clear() {
         this.copiedObjs = []; 
-        CopiedObj.resetIndex();
-
+        this.showCount();
     }
 
     close(){

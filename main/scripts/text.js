@@ -20,7 +20,7 @@ class Text {
         $(body).on('mouseup', (e) => {
 
             if (copiedString.length > 1 && copiedString != " ") {
-                //navigator.clipboard.writeText(copiedString)
+                navigator.clipboard.writeText(copiedString)
 
                 let copiedText = new CopiedObj('text', copiedString);
                 appManager.clipboard.instance.copiedObjs.push(copiedText);

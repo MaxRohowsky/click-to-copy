@@ -23,12 +23,12 @@ class Url {
         let linkElement = $(event.target).closest('[href]');
         if (linkElement.length) {
             let linkUrl = new URL(linkElement.attr('href'), window.location.origin).href;
-            console.log('linkUrl', linkUrl);
 
-
-                let copiedUrl = new CopiedObj('url', linkUrl);
-                appManager.clipboard.instance.copiedObjs.push(copiedUrl);
-                appManager.clipboard.instance.refreshClipboard();
+            navigator.clipboard.writeText(linkUrl)
+            
+            let copiedUrl = new CopiedObj('url', linkUrl);
+            appManager.clipboard.instance.copiedObjs.push(copiedUrl);
+            appManager.clipboard.instance.refreshClipboard();
 
         }
     }

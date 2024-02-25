@@ -229,7 +229,9 @@ class Code {
     mouseClick(e) {
         if (this.identifier !== null && IGNORE_CLASSES.every(cls => !$(this.element).hasClass(cls))) {
             let copiedCSS = new CopiedCSS('code', JSON.stringify(this.elementNonDefaultStyle, null, 4), this.identifier);
-            
+
+            navigator.clipboard.writeText(JSON.stringify(this.elementNonDefaultStyle, null, 4))
+
             appManager.clipboard.instance.copiedObjs.push(copiedCSS);
             appManager.clipboard.instance.refreshClipboard();
         
