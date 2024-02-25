@@ -36,18 +36,18 @@ class App {
     }
 
     button() {
-        const image = $('<img>')
-            .addClass('menuImage')
+        this.image = $('<img>')
+            .addClass('appMenu__button__img')
             .attr('src', `${EXTENSION_ID}/assets/${this.app}-icon.svg`)
 
         const tooltipSpan = $('<span>')
-            .addClass('tooltip')
+            .addClass('appMenu__button__tooltip')
             .text(App.tooltip[this.app]);
 
         const button = $('<button>')
             .attr('id', this.id)
-            .addClass('menuButton')
-            .append(image, tooltipSpan)
+            .addClass('appMenu__button')
+            .append(this.image, tooltipSpan)
             .on('click', () => this.handleClick());
 
         return button;
@@ -112,16 +112,16 @@ class ClipboardApp {
 
     button() {
         this.image = $('<img>')
-            .addClass('menuImage')
+            .addClass('appMenu__button__img')
             .attr('src', `${EXTENSION_ID}/assets/clipboard-icon-${this.imgIndex}.svg`)
 
         const tooltipSpan = $('<span>')
-            .addClass('tooltip')
+            .addClass('appMenu__button__tooltip')
             .text(this.tooltip);
 
         const button = $('<button>')
             .attr('id', this.id)
-            .addClass('menuButton')
+            .addClass('appMenu__button')
             .append(this.image, tooltipSpan)
             .on('click', () => this.handleClick());
 
@@ -152,13 +152,13 @@ class ClipboardApp {
 class AppManager {
     constructor() {
         this.appMenu = $('<div>')
-            .attr('id', 'Menu')
-            .addClass('appMenu menuInitial')
+            .attr('id', 'appMenu')
+            .addClass('appMenu__initial')
 
         this.moveButton = $('<div>')
-            .addClass('vertical-line')
+            .addClass('appMenu__move')
             .appendTo(this.appMenu)
-            .on('mousedown', () => moveElement(this.appMenu, "menuInitial"))
+            .on('mousedown', () => moveElement(this.appMenu, "appMenu__initial"))
             .on('mouseup', () => freezeElement(this.appMenu));
 
         this.text = new App("textButton", Text);
@@ -168,16 +168,16 @@ class AppManager {
 
 
         const image = $('<img>')
-            .addClass('menuImage')
+            .addClass('appMenu__button__img')
             .attr('src', `${EXTENSION_ID}/assets/close-icon.svg`)
 
         const tooltipSpan = $('<span>')
-            .addClass('tooltip')
+            .addClass('appMenu__button__tooltip')
             .text("Close App");
 
         this.closeButton = $('<button>')
-            .attr('id', 'closeButton')
-            .addClass('menuButton')
+            .attr('id', 'appMenu__closeButton')
+            .addClass('appMenu__button')
             .append(image, tooltipSpan)
             .on('click', () => this.close());
 
