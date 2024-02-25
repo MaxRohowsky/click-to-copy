@@ -46,7 +46,7 @@
 
 .appMenu__button {
     display         : inline-block !important;
-    background-color: rgba(186, 230, 255, 0.1) !important;
+    background: rgba(186, 230, 255, 0.1) !important;
     box-shadow: rgba(186, 216, 255, 0.6) 0px 0px 0px 2px;
     border          : none !important;
     border-radius   : 50px !important;
@@ -55,7 +55,7 @@
     width           : 40px !important;
     padding         : 2px !important;
     margin          : 7px !important;
-    transition      : background-color 0.3s ease-in-out, box-shadow 0.2s ease-in-out !important;
+    transition      : background 0.3s ease-in-out, box-shadow 0.2s ease-in-out !important;
     position        : relative !important;
 }
 

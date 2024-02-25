@@ -45,24 +45,26 @@ class Clipboard {
         this.clipboardContainer = div('clipboard_container', ['clipboard']);
         this.clipboardTop = div('clipboard_top', ['clipboard']);
         this.clipboardMid = div('clipboard_mid', ['clipboard']);
-        this.clipboardFilter = div('clipboard_filter', ['clipboard']);
+        this.clipboardFilter = div('', ['clipboardFilter']);
 
-        this.allFilter = button('clipboard_filter_all_button', ['clipboard'], 'all');
+        this.allFilter = button('', ['clipboard__filter'], 'All');
         this.allFilter.addClass('active');
-        this.textFilter = button('clipboard_filter_text_button', ['clipboard'], 'text');
-        this.urlFilter = button('clipboard_filter_urls_button', ['clipboard'], 'urls');
-        this.codeFilter = button('clipboard_filter_css_button', ['clipboard'], 'css');
+        this.textFilter = button('', ['clipboard__filter'], 'Text');
+        this.urlFilter = button('', ['clipboard__filter'], 'URLs');
+        this.codeFilter = button('', ['clipboard__filter'], 'CSS');
         
         this.clipboardItems = div('clipboard_items', ['clipboard']);
         this.clipboardEnd = div('clipboard_end', ['clipboard']);
         this.clipboardCopyButton = div('clipboard_copy_button', ['clipboard']).text(`Copy (${this.clipboardCount} Items)`);
         this.clipboardClearButton = div('clipboard_clear_button', ['clipboard']);
-        this.trashIcon = img('clipboard_trash_icon', ['clipboard'], `${EXTENSION_ID}/assets/trash-icon.svg`);
-        this.closeIcon = img('clipboard_close_icon', ['clipboard'], `${EXTENSION_ID}/assets/close-classic-icon.svg`);
+
+        this.trashIcon = img('', [''], `${EXTENSION_ID}/assets/trash-icon.svg`);
+        this.closeIcon = img('clipboard_close_icon', [''], `${EXTENSION_ID}/assets/close-classic-icon.svg`);
+        this.moveIcon = img('clipboard_move_icon', [''], `${EXTENSION_ID}/assets/move-icon-clipboard.svg`);
 
         this.clipboard.append(this.clipboardContainer);
         this.clipboardContainer.append(this.clipboardTop, this.clipboardMid, this.clipboardEnd);
-        this.clipboardTop.append(this.closeIcon);
+        this.clipboardTop.append(this.moveIcon, this.closeIcon);
         this.clipboardMid.append(this.clipboardFilter, this.clipboardItems);
         this.clipboardFilter.append(this.allFilter, this.textFilter, this.urlFilter, this.codeFilter);
         this.clipboardEnd.append(this.clipboardCopyButton, this.clipboardClearButton);

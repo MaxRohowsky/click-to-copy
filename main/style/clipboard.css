@@ -1,13 +1,12 @@
-
-
 #clipboard {
     background-color: rgba(255, 255, 255, 0) !important;
-    width           : 320px !important;
+    
     position        : fixed !important;
+    display         : flex;
     z-index         : 9999 !important;
-    border-radius   : 5px;
-    z-index         : 9999 !important;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 14px 2px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .clipboardInitial {
@@ -29,42 +28,76 @@
 
 
 #clipboard_top {
-    position        : sticky;
-    top             : 0;
-    height          : 50px;
-    background-color: #32343C;
-    display: flex;
-    border-bottom: 1px solid #1f2937;
-      /* Change to your preferred color */
-    border-top-left-radius : 5px;
-    border-top-right-radius: 5px;
+    position: relative; /* Add this line */
+    height: 50px;
     cursor: grab;
 }
 
-.clipboard_close_icon {
-    position: absolute;
-    right   : 5px;
-    top     : 5px;
+#clipboard_close_icon {
+    position: absolute; /* Add this line */
+    right: 5px;
+    top: 8px;
+    background: rgb(255, 222, 222);
+    border-radius: 100px;
 }
 
+#clipboard_move_icon {
+  position: absolute; /* Add this line */
+  right: 0px;
+  left: 0px;
+  margin: auto;
+  top: 8px;
+  width: 40px;
+  height: 40px;
+
+}
+
+
 #clipboard_sub {
-    background-color: #1f2937;
+    background-color: #ffffff;
     height: 0px;
 }
 
-.active{
-  color: #29B526;
+.clipboardFilter{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 10px;
 }
+
+
+.clipboard__filter{
+  border-radius: 100px;
+  color: #1686f0;
+  font-family  : Arial, Helvetica, sans-serif !important;
+  font-size    : 14px !important;
+  font-weight  : bold !important;
+  width: 60px;
+  border: none;
+  padding: 5px;
+  margin: 5px;
+}
+
+.active {
+  background-color: rgba(186, 222, 255, 0.7) !important;
+  box-shadow: rgba(51, 119, 255, 0.9) 0px 0px 0px 3px;
+}
+
+.clipboard__filter:hover {
+  background-color: rgba(186, 222, 255, 0.7) !important;
+}
+
 
 #clipboard_mid {
     flex-grow      : 1;
     max-height     : 600px;
     backdrop-filter: blur(3px) !important;
-    background     : rgba(37, 37, 37, 0.7) !important;
+    background     : rgba(255, 255, 255, 0.7) !important;
     padding-left   : 5px;
     padding-right  : 5px;
     overflow-y     : auto;
 }
+
 
 #clipboard_item_header {
     font-family   : 'Roboto', sans-serif;
@@ -74,6 +107,7 @@
     padding-left  : 5px;
     padding-bottom: 18px;
 }
+
 
 #clipboard_items {
     
@@ -128,25 +162,17 @@
 }
 
 
-
-
-
 #clipboard_end {
     position        : sticky;
     bottom          : 0;
-    background-color: #32343C;
-      /* Change to your preferred color */
+    background-color: #ffffff;
     height                    : 50px;
-    border-bottom-left-radius : 5px;
-    border-bottom-right-radius: 5px;
     display                   : flex;
     align-items               : center;
-      /* This will vertically center the button */
     justify-content: center;
     gap            : 10px;
     padding-left   : 10px;
     padding-right  : 10px;
-    border-top: 1px solid #1f2937;
 }
 
 #clipboard_copy_button {
@@ -178,7 +204,7 @@
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 
