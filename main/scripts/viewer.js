@@ -135,7 +135,7 @@ class Code {
         this.identifier = null;
         this.elementComputedStyle = null;
         this.elementNonDefaultStyle = {};
-        this.viewer = $('<div>').attr('id', 'InspectorWindow');
+        this.viewer = $('<div>').attr('id', 'inspectorWindow');
 
         this.boundMouseClick = this.mouseClick.bind(this);
         this.boundMouseOver = this.mouseOver.bind(this);
@@ -210,9 +210,9 @@ class Code {
 
 
         if (ignoreElement) {
-            $('#InspectorWindow').css("display", "none");
+            $('#inspectorWindow').css("display", "none");
         } else {
-            $('#InspectorWindow').css("display", "block");
+            $('#inspectorWindow').css("display", "block");
             $(this.element).css('outline', '2px dashed red');
         }
 
@@ -250,24 +250,24 @@ class Code {
         this.identifier = '<' + this.element.tagName.toLowerCase() + '>' + idText + classText;
 
         let $identifier = $('<p>')
-            .attr('id', 'InspectorWindow_Identifier')
+            .attr('id', 'inspectorWindow__identifier')
             .text(this.identifier);
 
         this.viewer.append($identifier);
 
         for (let key in this.elementNonDefaultStyle) {
 
-            let $p = $('<p>').attr('id', 'InspectorWindow_' + key);
+            let $p = $('<p>').attr('id', 'inspectorWindow__' + key);
             //this.viewer.append($p);
 
             let $property = $('<span>')
-                .attr('id', 'InspectorWindow_' + key)
-                .addClass('InspectorWindow_property')
+                .attr('id', 'inspectorWindow__' + key)
+                .addClass('inspectorWindow__property')
                 .text(`${key}: `);
 
             let $value = $('<span>')
-                .attr('id', 'InspectorWindow_' + this.elementNonDefaultStyle[key])
-                .addClass('InspectorWindow_cssValue')
+                .attr('id', 'inspectorWindow__' + this.elementNonDefaultStyle[key])
+                .addClass('inspectorWindow__cssValue')
                 .text(this.elementNonDefaultStyle[key]);
 
             $p.append($property, $value);

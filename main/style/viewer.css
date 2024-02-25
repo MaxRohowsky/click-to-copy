@@ -1,38 +1,38 @@
-#InspectorWindow span,
-#InspectorWindow p{
-    margin-top: 0px;
-    margin-bottom: 0px;
+#inspectorWindow span,
+#inspectorWindow p{
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
 }
 
 
-#InspectorWindow {
-    max-width: 380px;
-    min-width: 300px;
-    border-radius: 3px;
-    padding: 10px;
-    background-color: rgb(255, 255, 255);
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-    position: absolute;
-    z-index: 9999;
+#inspectorWindow {
+    max-width: 380px !important;
+    min-width: 300px !important;
+    border-radius: 5px !important;
+    padding: 10px !important;
+    background-color: rgb(255, 255, 255) !important;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 14px 2px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px !important;
+    position: absolute !important;
+    z-index: 9999 !important;
 }
 
-#InspectorWindow_Identifier,
-.InspectorWindow_cssValue,
-.InspectorWindow_property {
-    font-family: monospace;
-
-    color: rgb(0, 0, 0);
-    font-size: 11pt;
+#inspectorWindow__identifier,
+.inspectorWindow__cssValue,
+.inspectorWindow__property {
+    font-family: monospace !important;
+    color: rgb(0, 0, 0) !important;
+    font-size: 16px !important;
+    font-weight: normal !important;
 }
 
-#InspectorWindow_Identifier,
-.InspectorWindow_property {
-    color: #2b83ca;
-    font-weight: 600;
+#inspectorWindow__identifier,
+.inspectorWindow__property {
+    color: #1686F0 !important;
+    font-weight: 600 !important;
 }
 
 
-.InspectorWindow_cssValue {
-    color: rgb(0, 0, 0);
+.InspectorWindow__cssValue {
+    color: rgb(0, 0, 0) !important;
 }
 
