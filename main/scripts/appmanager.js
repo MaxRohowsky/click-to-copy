@@ -101,7 +101,7 @@ class ClipboardApp {
     constructor(id, appClass) {
         this.id = id;
         this.appClass = appClass;
-        
+
         this.imgIndex = 0;
         this.app = appClass.name.toLowerCase();
         this.tooltip = "Clipboard";
@@ -155,19 +155,26 @@ class AppManager {
             .attr('id', 'appMenu')
             .addClass('appMenu__initial')
 
+        const moveIcon = $('<img>')
+            .addClass('appMenu__button__img')
+            .attr('src', `${EXTENSION_ID}/assets/move-icon.svg`)
+
         this.moveButton = $('<div>')
             .addClass('appMenu__move')
-            .appendTo(this.appMenu)
+            .append(moveIcon)
             .on('mousedown', () => moveElement(this.appMenu, "appMenu__initial"))
             .on('mouseup', () => freezeElement(this.appMenu));
 
         this.text = new App("textButton", Text);
         this.url = new App("urlButton", Url);
         this.code = new App("codeButton", Code);
+
+        const divider = $('<div>')
+            .addClass('appMenu__divider');
+
         this.clipboard = new ClipboardApp("clipboardButton", Clipboard);
 
-
-        const image = $('<img>')
+        const closeIcon = $('<img>')
             .addClass('appMenu__button__img')
             .attr('src', `${EXTENSION_ID}/assets/close-icon.svg`)
 
@@ -178,13 +185,16 @@ class AppManager {
         this.closeButton = $('<button>')
             .attr('id', 'appMenu__closeButton')
             .addClass('appMenu__button')
-            .append(image, tooltipSpan)
+            .append(closeIcon, tooltipSpan)
             .on('click', () => this.close());
 
+        this.appMenu.append(this.moveButton);
         this.appMenu.append(this.text.button);
         this.appMenu.append(this.url.button);
         this.appMenu.append(this.code.button);
+        this.appMenu.append(divider.clone());
         this.appMenu.append(this.clipboard.button);
+        this.appMenu.append(divider.clone());
         this.appMenu.append(this.closeButton);
 
         $(document).on('keydown', (e) => {

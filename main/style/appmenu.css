@@ -1,10 +1,14 @@
 #appMenu {
     position      : fixed !important;
     display       : flex !important;
+    justify-content: center;
+    align-items: center;
     flex-direction: row !important;
     z-index       : 9999 !important;
-    background    : rgb(44, 44, 46) !important;
-    border-radius : 6px !important;
+    background    : rgb(255, 255, 255) !important;
+    border-radius : 50px !important;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 14px 2px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    padding: 3px;
 }
 
 .appMenu__initial {
@@ -14,73 +18,85 @@
 }
 
 .appMenu__move {
-    padding: 2px !important;
-    margin : 5px !important;
-    cursor : grab !important;
     display: inline-block !important;
-    height : 35px;
-    width           : 3px;
-    border-radius   : 5px;
-    background-color: #d8d8d8;
+    height: 40px !important;
+    width: 40px !important;
+    position: relative !important;
+    cursor: grab !important;
+    display: inline-block !important;
+    margin-left: 8px !important;
+    margin-right: 2px !important;
+}
+
+
+.appMenu__divider {
+    border-left: 1px solid #ececec; /* Change the color as needed */
+    border-right: 1px solid #ececec; /* Change the color as needed */
+    height: 30px;
+    width: 0px;
+    border-radius: 20px;
+    margin: 0 8px;
+}
+
+
+.appMenu__move:active {
+    cursor: grabbing !important;
 }
 
 
 .appMenu__button {
     display         : inline-block !important;
-    background-color: rgb(53, 53, 193) !important;
+    background-color: rgba(186, 230, 255, 0.1) !important;
+    box-shadow: rgba(186, 216, 255, 0.6) 0px 0px 0px 2px;
     border          : none !important;
     border-radius   : 50px !important;
     cursor          : pointer !important;
     height          : 40px !important;
     width           : 40px !important;
     padding         : 2px !important;
-    margin          : 5px !important;
-    transition      : background-color 0.3s ease-in-out !important;
+    margin          : 7px !important;
+    transition      : background-color 0.3s ease-in-out, box-shadow 0.2s ease-in-out !important;
     position        : relative !important;
 }
 
 
+.appMenu__button.active {
+    background-color: rgba(186, 222, 255, 0.7) !important;
+    box-shadow: rgba(51, 119, 255, 0.9) 0px 0px 0px 3px;
+}
+
+.appMenu__button:hover {
+    background-color: rgba(186, 222, 255, 0.7) !important;
+}
+
+
 .appMenu__button:hover .appMenu__button__tooltip {
-    bottom    : 50px !important;
+    bottom    : 60px !important;
     visibility: visible !important;
     opacity   : 1 !important;
 }
 
 
 .appMenu__button__tooltip {
-    background   : rgb(44, 44, 46) !important;
-    color        : white !important;
+    background   : rgb(255, 255, 255) !important;
+    color        : #262626 !important;
+    font-family  : Arial, Helvetica, sans-serif !important;
     font-size    : 14px !important;
+    font-weight  : bold !important;
     position     : absolute !important;
     bottom       : 50px !important;
     left         : -25px !important;
     right        : -25px !important;
-    padding      : 3px 3px !important;
+    padding      : 6px 5px !important;
     visibility   : hidden !important;
     opacity      : 0 !important;
     transition   : all .1s !important;
-    border-radius: 4px !important;
-}
-
-
-.appMenu__button__tooltip:before {
-    content     : ''!important;
-    border-left : 5px solid transparent !important;
-    border-right: 5px solid transparent !important;
-    border-top  : 5px solid rgb(44, 44, 46) !important;
-    position    : absolute !important;
-    bottom      : -4px !important;
-    left        : 40px !important;
-}
-
-
-.appMenu__button.active {
-    background-color: #2098de !important;
+    border-radius: 10px !important;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 14px 2px;
 }
 
 
 .appMenu__button__img {
-
     width    : 30px !important;
     height   : 30px !important;
     position : absolute !important;
@@ -90,19 +106,23 @@
 }
 
 
-#appMenu__closeButton:hover {
-    background-color: #de2029 !important;
+#appMenu__closeButton {
+    background-color: #61616184 !important;
+    box-shadow: rgba(175, 175, 175, 0.6) 0px 0px 0px 2px;
 }
 
 
-
-
+#appMenu__closeButton:hover {
+    background-color: #de2029 !important;
+}
 
 
 .dashed_outline {
     position: relative; 
     z-index: 9999 !important;
 }
+
+
 .dashed_outline::after {
     content: "";
     position: absolute;
