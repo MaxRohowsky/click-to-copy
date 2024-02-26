@@ -35,8 +35,11 @@ class Url {
 
     addScrollListener() {
         $(window).on('scroll', () => {
-            $('a').addClass('dashed_outline')
-            // Add your on scroll logic here
+            $('a').each(function() {
+                if ($(this).attr('id') !== 'clipboardEnd__signature') {
+                    $(this).addClass('dashed_outline');
+                }
+            });
         });
     }
 

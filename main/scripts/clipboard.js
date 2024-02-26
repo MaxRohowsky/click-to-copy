@@ -2,7 +2,6 @@ const IGNORE_CLASSES = ['clipboardFilter__filter', 'clipboardItems__item', 'clip
 const IGNORE_IDS = ['clipboard', 'clipboardTop', 'clipboardFilter', 'clipboardItems', 'clipboardEnd', 'clipboardEnd__copy', 'clipboardEnd__clear', 'clipboard__closeIcon', 'clipboard__moveIcon', 'appMenu'];
 
 
-
 class CopiedObj {
     constructor(type, content) {
         this.toDisplay = false;
