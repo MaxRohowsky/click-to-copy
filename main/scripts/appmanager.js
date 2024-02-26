@@ -1,6 +1,6 @@
 
 
-const EXTENSION_ID = 'chrome-extension://laonhdndhpeoachehnobbcjdcnnhlioe';
+const EXTENSION_ID = `chrome-extension://${chrome.runtime.id}`;
 
 function moveElement(element, initialClass) {
     let rect = element[0].getBoundingClientRect();
@@ -55,7 +55,7 @@ class App {
 
     handleClick() {
         this.isOn = !this.isOn;
-        //console.log(App.allApps);
+        console.log(chrome.runtime.id);
         if (this.isOn) {
             this.closeExceptThis();
             this.launch();
