@@ -1,8 +1,8 @@
 {
-  "name": "Simple Extension",
+  "name": "Click to Copy",
   "manifest_version": 3,
   "version": "1.0",
-  "description": "Change webpage background color",
+  "description": "Copy Text, Urls, and CSS with one Click!",
   "action": {
 
   },
