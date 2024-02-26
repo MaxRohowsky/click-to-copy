@@ -1,0 +1,38 @@
+#inspectorWindow span,
+#inspectorWindow p{
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+
+#inspectorWindow {
+    max-width: 380px !important;
+    min-width: 300px !important;
+    border-radius: 5px !important;
+    padding: 10px !important;
+    background-color: rgb(255, 255, 255) !important;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 14px 2px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px !important;
+    position: absolute !important;
+    z-index: 9999 !important;
+}
+
+#inspectorWindow__identifier,
+.inspectorWindow__cssValue,
+.inspectorWindow__property {
+    font-family: monospace !important;
+    color: rgb(0, 0, 0) !important;
+    font-size: 16px !important;
+    font-weight: normal !important;
+}
+
+#inspectorWindow__identifier,
+.inspectorWindow__property {
+    color: #1686F0 !important;
+    font-weight: 600 !important;
+}
+
+
+.InspectorWindow__cssValue {
+    color: rgb(0, 0, 0) !important;
+}
+
