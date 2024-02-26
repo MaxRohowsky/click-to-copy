@@ -33,24 +33,17 @@ class Url {
         }
     }
 
-    /*addScrollListener() {
-        $(window).on('scroll', () => {
-            $('a').each(function() {
-                if ($(this).attr('id') !== 'clipboardEnd__signature') {
-                    $(this).addClass('dashed_outline');
-                }
-            });
-        });
-    }*/
+
 
     addEventListeners() {
         $('a').each(function() {
             if ($(this).attr('id') !== 'clipboardEnd__signature') {
-                $(this).addClass('dashed_outline')
-                .on('click', (e) => {
-                    this.Testfunction(e);
-                });
+                $(this).addClass('dashed_outline');
             }
+        });
+
+        $('a').on('click', (e) => {
+            this.Testfunction(e);
         });
     }
 
