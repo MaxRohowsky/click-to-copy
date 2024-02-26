@@ -44,7 +44,7 @@ class Clipboard {
         this.clipboardEnd = $('<div>').attr('id', 'clipboardEnd');
         this.clipboardCopyButton = $('<button>').attr('id', 'clipboardEnd__copy').text(`Copy (${this.clipboardCount} Items)`);
         this.clipboardClearButton = $('<div>').attr('id', 'clipboardEnd__clear');
-        this.clipboardSignature = $('<a>').attr('id', 'clipboardEnd__signature').attr('href', 'https://github.com/your-repo').text('☆ on GitHub');
+        this.clipboardSignature = $('<a>').attr('id', 'clipboardEnd__signature').attr('href', 'https://github.com/maxontech/click-to-copy').text('☆ on GitHub');
 
         this.trashIcon = $('<img>').attr('src', `${EXTENSION_ID}/assets/trash-icon.svg`).addClass(['']);
         this.closeIcon = $('<img>').attr('id', 'clipboard__closeIcon').attr('src', `${EXTENSION_ID}/assets/close-classic-icon.svg`).addClass(['']);
