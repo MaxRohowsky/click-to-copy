@@ -33,7 +33,7 @@ class Url {
         }
     }
 
-    addScrollListener() {
+    /*addScrollListener() {
         $(window).on('scroll', () => {
             $('a').each(function() {
                 if ($(this).attr('id') !== 'clipboardEnd__signature') {
@@ -41,12 +41,16 @@ class Url {
                 }
             });
         });
-    }
+    }*/
 
     addEventListeners() {
-        $('a').addClass('dashed_outline')
-        .on('click', (e) => {
-            this.Testfunction(e);
+        $('a').each(function() {
+            if ($(this).attr('id') !== 'abc') {
+                $(this).addClass('dashed_outline')
+                .on('click', (e) => {
+                    this.Testfunction(e);
+                });
+            }
         });
     }
 
