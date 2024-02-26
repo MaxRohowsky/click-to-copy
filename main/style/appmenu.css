@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: row !important;
-    z-index       : 9999 !important;
+    z-index       : 9999999 !important;
     background    : rgb(255, 255, 255) !important;
     border-radius : 50px !important;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 14px 2px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
@@ -60,7 +60,7 @@
 }
 
 
-.appMenu__button.active {
+.appMenu__button.appMenuActiveBtn {
     background-color: rgba(186, 222, 255, 0.7) !important;
     box-shadow: rgba(51, 119, 255, 0.9) 0px 0px 0px 3px;
 }
@@ -119,7 +119,7 @@
 
 .dashed_outline {
     position: relative; 
-    z-index: 9999 !important;
+    z-index: 9999999 !important;
 }
 
 

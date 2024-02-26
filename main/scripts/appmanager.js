@@ -69,7 +69,7 @@ class App {
         console.log('launching', this.app);
         this.isOn = true;
         this.instance = new this.appClass();
-        this.button.addClass('active');
+        this.button.addClass('appMenuActiveBtn');
     }
 
 
@@ -77,7 +77,7 @@ class App {
         console.log('closing', this.app);
         this.instance.close();
         this.instance = null;
-        this.button.removeClass('active');
+        this.button.removeClass('appMenuActiveBtn');
         this.isOn = false;
     }
 
@@ -86,7 +86,7 @@ class App {
             if (app !== this && app.isOn) {
                 console.log('closing', app.app);
                 app.isOn = false;
-                app.button.removeClass('active');
+                app.button.removeClass('appMenuActiveBtn');
                 app.instance.close();
                 app.instance = null;
             }
@@ -132,12 +132,12 @@ class ClipboardApp {
         this.isOn = !this.isOn;
 
         if (this.isOn) {
-            this.button.addClass('active');
-            this.instance.clipboard.removeClass('hidden');
+            this.button.addClass('appMenuActiveBtn');
+            this.instance.clipboard.removeClass('clipboardHidden');
         }
         else {
-            this.button.removeClass('active');
-            this.instance.clipboard.addClass('hidden');
+            this.button.removeClass('appMenuActiveBtn');
+            this.instance.clipboard.addClass('clipboardHidden');
         }
 
     }

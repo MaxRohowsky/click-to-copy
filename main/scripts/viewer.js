@@ -199,7 +199,8 @@ class Code {
 
     mouseOver(e) {
         this.element = e.target;
-        let ignoreElement = IGNORE_CLASSES.some(cls => $(this.element).hasClass(cls));
+        let ignoreElementByClass = IGNORE_CLASSES.some(cls => $(this.element).hasClass(cls));
+        let ignoreElementById = IGNORE_IDS.some(id => $(this.element).attr('id') === id);
 
         this.setNonDefaultStyle(this.element, TYPOGRAPHY)
         this.setNonDefaultStyle(this.element, BOX)
@@ -209,7 +210,7 @@ class Code {
         this.setNonDefaultStyle(this.element, EFFECT)
 
 
-        if (ignoreElement) {
+        if (ignoreElementByClass || ignoreElementById) {
             $('#inspectorWindow').css("display", "none");
         } else {
             $('#inspectorWindow').css("display", "block");

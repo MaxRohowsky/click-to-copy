@@ -1,22 +1,11 @@
-const IGNORE_CLASSES = ["appMenu", "menuButton", "menuImage", "clipboard", "clipboard_item", "clipboard_item_type", "clipboard_item_content", "clipboard_item_remove", "vertical-line"];
+const IGNORE_CLASSES = ['clipboardFilter__filter', 'clipboardItems__item', 'clipboardItems__item__type', 'clipboardItems__item__content', 'clipboardItems__item__remove', 'appMenu__button__img', 'appMenu__button__tooltip', 'appMenu__button', 'appMenuActiveBtn', 'appMenu__move', 'appMenu__divider'];
+const IGNORE_IDS = ['clipboard', 'clipboardTop', 'clipboardFilter', 'clipboardItems', 'clipboardEnd', 'clipboardEnd__copy', 'clipboardEnd__clear', 'clipboard__closeIcon', 'clipboard__moveIcon', 'appMenu'];
 
-function div(id, classes = []) {
-    return $(`<div>`).attr('id', id).addClass(classes);
-}
-
-function button(id, classes = [], text = '') {
-    return $(`<button>`).attr('id', id).addClass(classes).text(text);
-}
-
-function img(id, classes = [], src = '') {
-    return $(`<img>`).attr('id', id).addClass(classes).attr('src', src);
-}
 
 
 class CopiedObj {
     constructor(type, content) {
         this.toDisplay = false;
-        //this.inClipboard = false;
         this.type = type;
         this.content = content;
     }
@@ -41,31 +30,28 @@ class Clipboard {
     }
 
     buildClipboard() {
-        this.clipboard = div('clipboard', ['clipboard', 'hidden', 'clipboardInitial']);
-        this.clipboardContainer = div('clipboard_container', ['clipboard']);
-        this.clipboardTop = div('clipboard_top', ['clipboard']);
-        this.clipboardMid = div('clipboard_mid', ['clipboard']);
-        this.clipboardFilter = div('', ['clipboardFilter']);
+        this.clipboard = $('<div>').attr('id', 'clipboard').addClass(['clipboardHidden', 'clipboardInitialPosition']);
 
-        this.allFilter = button('', ['clipboard__filter'], 'All');
-        this.allFilter.addClass('active');
-        this.textFilter = button('', ['clipboard__filter'], 'Text');
-        this.urlFilter = button('', ['clipboard__filter'], 'URLs');
-        this.codeFilter = button('', ['clipboard__filter'], 'CSS');
-        
-        this.clipboardItems = div('clipboard_items', ['clipboard']);
-        this.clipboardEnd = div('clipboard_end', ['clipboard']);
-        this.clipboardCopyButton = div('clipboard_copy_button', ['clipboard']).text(`Copy (${this.clipboardCount} Items)`);
-        this.clipboardClearButton = div('clipboard_clear_button', ['clipboard']);
+        this.clipboardTop = $('<div>').attr('id', 'clipboardTop');
+        this.clipboardFilter = $('<div>').attr('id', 'clipboardFilter')
 
-        this.trashIcon = img('', [''], `${EXTENSION_ID}/assets/trash-icon.svg`);
-        this.closeIcon = img('clipboard_close_icon', [''], `${EXTENSION_ID}/assets/close-classic-icon.svg`);
-        this.moveIcon = img('clipboard_move_icon', [''], `${EXTENSION_ID}/assets/move-icon-clipboard.svg`);
+        this.allFilter = $('<button>').addClass(['clipboardFilter__filter']).text('All').addClass('appMenuActiveBtn');
+        this.textFilter = $('<button>').addClass(['clipboardFilter__filter']).text('Text');
+        this.urlFilter = $('<button>').addClass(['clipboardFilter__filter']).text('URLs');
+        this.codeFilter = $('<button>').addClass(['clipboardFilter__filter']).text('CSS');
 
-        this.clipboard.append(this.clipboardContainer);
-        this.clipboardContainer.append(this.clipboardTop, this.clipboardMid, this.clipboardEnd);
+        this.clipboardItems = $('<div>').attr('id', 'clipboardItems');
+        this.clipboardEnd = $('<div>').attr('id', 'clipboardEnd');
+        this.clipboardCopyButton = $('<button>').attr('id', 'clipboardEnd__copy').text(`Copy (${this.clipboardCount} Items)`);
+        this.clipboardClearButton = $('<div>').attr('id', 'clipboardEnd__clear');
+        this.clipboardSignature = $('<a>').attr('id', 'clipboardEnd__signature').attr('href', 'https://github.com/your-repo').text('☆ on GitHub');
+
+        this.trashIcon = $('<img>').attr('src', `${EXTENSION_ID}/assets/trash-icon.svg`).addClass(['']);
+        this.closeIcon = $('<img>').attr('id', 'clipboard__closeIcon').attr('src', `${EXTENSION_ID}/assets/close-classic-icon.svg`).addClass(['']);
+        this.moveIcon = $('<img>').attr('id', 'clipboard__moveIcon').attr('src', `${EXTENSION_ID}/assets/move-icon-clipboard.svg`).addClass(['']);
+
+        this.clipboard.append(this.clipboardTop, this.clipboardFilter, this.clipboardItems, this.clipboardEnd, this.clipboardSignature);
         this.clipboardTop.append(this.moveIcon, this.closeIcon);
-        this.clipboardMid.append(this.clipboardFilter, this.clipboardItems);
         this.clipboardFilter.append(this.allFilter, this.textFilter, this.urlFilter, this.codeFilter);
         this.clipboardEnd.append(this.clipboardCopyButton, this.clipboardClearButton);
         this.clipboardClearButton.append(this.trashIcon);
@@ -81,12 +67,12 @@ class Clipboard {
             this.showCount();
         });
         this.closeIcon.on('click', () => {
-            this.clipboard.addClass('hidden')
+            this.clipboard.addClass('clipboardHidden')
             /* Remove blue highlight from clipboard button */
-            appManager.clipboard.button.removeClass('active');
+            appManager.clipboard.button.removeClass('appMenuActiveBtn');
             appManager.clipboardOn = false;
         });
-        this.clipboardTop.on('mousedown', () => moveElement(this.clipboard, "clipboardInitial"))
+        this.clipboardTop.on('mousedown', () => moveElement(this.clipboard, "clipboardInitialPosition"))
             .on('mouseup', () => freezeElement(this.clipboard));
 
         this.clipboardCopyButton.on('click', this.writeToClipboard.bind(this))
@@ -95,20 +81,18 @@ class Clipboard {
         this.textFilter.on('click', () => this.filter('text'));
         this.urlFilter.on('click', () => this.filter('url'));
         this.codeFilter.on('click', () => this.filter('code'));
-
-
     }
 
 
     filter(type) {
         this.setFilter = type;
 
-        this.allFilter.removeClass('active');
-        this.textFilter.removeClass('active');
-        this.urlFilter.removeClass('active');
-        this.codeFilter.removeClass('active');
+        this.allFilter.removeClass('appMenuActiveBtn');
+        this.textFilter.removeClass('appMenuActiveBtn');
+        this.urlFilter.removeClass('appMenuActiveBtn');
+        this.codeFilter.removeClass('appMenuActiveBtn');
 
-        this[`${type}Filter`].addClass('active');
+        this[`${type}Filter`].addClass('appMenuActiveBtn');
 
         this.refreshClipboard();
     }
@@ -157,15 +141,15 @@ class Clipboard {
 
     addObj(obj) {
         const clipboardItem = $('<div>')
-            .attr('class', 'clipboard_item');
+            .attr('class', 'clipboardItems__item');
         const itemType = $('<img>')
-            .attr('class', 'clipboard_item_type')
+            .attr('class', 'clipboardItems__item__type')
             .attr('src', `${EXTENSION_ID}/assets/${obj.type}-icon.svg`);
         const itemContentDiv = $('<div>')
-            .attr('class', 'clipboard_item_content')
+            .attr('class', 'clipboardItems__item__content')
             .text(obj.type === 'code' ? obj.snippet : obj.content);
         const itemRemove = $('<img>')
-            .attr('class', 'clipboard_item_remove')
+            .attr('class', 'clipboardItems__item__remove')
             .attr('src', `${EXTENSION_ID}/assets/close-classic-icon.svg`)
             .on('click', (event) => {
                 $(event.target).parent().remove();

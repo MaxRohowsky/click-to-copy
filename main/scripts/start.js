@@ -1,7 +1,7 @@
 // This handles the injection of the appManager into the page
 $(function () {
   //let appManager;
-  if ($("#Menu").length === 0) {
+  if ($("#appMenu").length === 0) {
       window.appManager = new AppManager();
       window.appManager.inject()
   }
