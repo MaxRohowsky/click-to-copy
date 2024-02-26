@@ -45,7 +45,7 @@ class Url {
 
     addEventListeners() {
         $('a').each(function() {
-            if ($(this).attr('id') !== 'abc') {
+            if ($(this).attr('id') !== 'clipboardEnd__signature') {
                 $(this).addClass('dashed_outline')
                 .on('click', (e) => {
                     this.Testfunction(e);
