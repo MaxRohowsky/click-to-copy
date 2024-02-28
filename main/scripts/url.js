@@ -4,7 +4,7 @@ class Url {
         
     }
 
-    Testfunction(event) {
+    copyText(event) {
         let ignoreClasses = ["menuButton", "appMenu", "menuImage", "clipboard_item", "clipboard_item_type", "clipboard_item_content", "clipboard_item_remove"];
         let ignoreTags = ["menuButton", "appMenu", "menuImage"];
 
@@ -43,7 +43,7 @@ class Url {
         });
 
         $('a').on('click', (e) => {
-            this.Testfunction(e);
+            this.copyText(e);
         });
     }
 

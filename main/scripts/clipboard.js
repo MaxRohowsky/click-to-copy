@@ -1,5 +1,5 @@
 const IGNORE_CLASSES = ['clipboardFilter__filter', 'clipboardItems__item', 'clipboardItems__item__type', 'clipboardItems__item__content', 'clipboardItems__item__remove', 'appMenu__button__img', 'appMenu__button__tooltip', 'appMenu__button', 'appMenuActiveBtn', 'appMenu__move', 'appMenu__divider'];
-const IGNORE_IDS = ['clipboard', 'clipboardTop', 'clipboardFilter', 'clipboardItems', 'clipboardEnd', 'clipboardEnd__copy', 'clipboardEnd__clear', 'clipboard__closeIcon', 'clipboard__moveIcon', 'appMenu'];
+const IGNORE_IDS = ['clipboard', 'clipboardTop', 'clipboardFilter', 'clipboardItems', 'clipboardEnd', 'clipboardEnd__copy', 'clipboardEnd__clear', 'clipboard__trashIcon', 'clipboardEnd__signature', 'clipboard__closeIcon', 'clipboard__moveIcon', 'appMenu'];
 
 
 class CopiedObj {
@@ -45,9 +45,9 @@ class Clipboard {
         this.clipboardClearButton = $('<div>').attr('id', 'clipboardEnd__clear');
         this.clipboardSignature = $('<a>').attr('id', 'clipboardEnd__signature').attr('href', 'https://github.com/maxontech/click-to-copy').text('☆ on GitHub');
 
-        this.trashIcon = $('<img>').attr('src', `${EXTENSION_ID}/assets/trash-icon.svg`).addClass(['']);
-        this.closeIcon = $('<img>').attr('id', 'clipboard__closeIcon').attr('src', `${EXTENSION_ID}/assets/close-classic-icon.svg`).addClass(['']);
-        this.moveIcon = $('<img>').attr('id', 'clipboard__moveIcon').attr('src', `${EXTENSION_ID}/assets/move-icon-clipboard.svg`).addClass(['']);
+        this.trashIcon = $('<img>').attr('id', 'clipboard__trashIcon').attr('src', `${EXTENSION_ID}/assets/trash-icon.svg`);
+        this.closeIcon = $('<img>').attr('id', 'clipboard__closeIcon').attr('src', `${EXTENSION_ID}/assets/close-classic-icon.svg`);
+        this.moveIcon = $('<img>').attr('id', 'clipboard__moveIcon').attr('src', `${EXTENSION_ID}/assets/move-icon-clipboard.svg`);
 
         this.clipboard.append(this.clipboardTop, this.clipboardFilter, this.clipboardItems, this.clipboardEnd, this.clipboardSignature);
         this.clipboardTop.append(this.moveIcon, this.closeIcon);

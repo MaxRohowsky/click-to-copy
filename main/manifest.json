@@ -8,8 +8,12 @@
   },
   "permissions": [
     "scripting",
-    "activeTab"
+    "activeTab",
+    "tabs"
   ],
+  "host_permissions": [
+		"*://*/*"
+	],
   "background": {
     "service_worker": "background.js"
   },
@@ -19,11 +23,9 @@
         "scripts/jquery.js",
         "scripts/jquery-ui.js",
         "scripts/viewer.js",
-        "scripts/asset.js",
         "scripts/appmanager.js",
         "scripts/text.js",
         "scripts/url.js",
-        "scripts/color.js",
         "scripts/clipboard.js"
       ],
       "css": [
@@ -33,7 +35,8 @@
       ],
       "matches": [
         "<all_urls>"
-      ]
+      ],
+      "run_at": "document_end"
     }
   ],
   "web_accessible_resources": [

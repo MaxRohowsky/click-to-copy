@@ -228,7 +228,14 @@ class Code {
     }
 
     mouseClick(e) {
-        if (this.identifier !== null && IGNORE_CLASSES.every(cls => !$(this.element).hasClass(cls))) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        let identifierExists = this.identifier !== null;
+        let elementHasNoIgnoreClass = IGNORE_CLASSES.every(cls => !$(this.element).hasClass(cls));
+        let elementHasNoIgnoreId = IGNORE_IDS.every(id => $(this.element).attr('id') !== id);
+
+        if (identifierExists && elementHasNoIgnoreClass && elementHasNoIgnoreId) {
             let copiedCSS = new CopiedCSS('code', JSON.stringify(this.elementNonDefaultStyle, null, 4), this.identifier);
 
             navigator.clipboard.writeText(JSON.stringify(this.elementNonDefaultStyle, null, 4))
