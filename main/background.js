@@ -1,3 +1,16 @@
+chrome.action.onClicked.addListener((tab) => {
+
+  if (!tab.url.includes("chrome://") && !tab.url.includes("chrome-extension://") && !tab.url.includes("chrome.google.com")) {
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      files: ['scripts/start.js']
+    }).catch((error) => console.log(`Failed to inject Script: ${error}`));
+  }
+  else {
+    return
+  }
+
+});
 
 
 chrome.runtime.onInstalled.addListener((object) => {
@@ -41,10 +54,10 @@ chrome.runtime.onInstalled.addListener((object) => {
 
         let currentTab;
         const t = currentWindow.tabs.length;
-        console.log("Tabs: " + t);
+        //console.log("Tabs: " + t);
         for (let j = 0; j < t; j++) {
           currentTab = currentWindow.tabs[j];
-          console.log(currentTab);
+          //console.log(currentTab);
           if (!currentTab.url.includes("chrome://") && !currentTab.url.includes("chrome-extension://") && !currentTab.url.includes("chrome.google.com")) {
             injectIntoTab(currentTab);
           }
@@ -54,20 +67,10 @@ chrome.runtime.onInstalled.addListener((object) => {
   );
 
   if (object.reason === "install") {
-    chrome.tabs.create({ url: "https://maxontech.io/" });
+    chrome.tabs.create({ url: "https://maxontech.io/click-to-copy" });
   }
 });
 
 
 
-
-chrome.action.onClicked.addListener((tab) => {
-
-  chrome.scripting.executeScript({
-    target: { tabId: tab.id },
-    files: ['scripts/start.js']
-  }).catch((error) => console.log(`Failed to inject Script: ${error}`));
-  
-
-});
 

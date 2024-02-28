@@ -1,11 +1,20 @@
 {
   "name": "Click to Copy",
-  "manifest_version": 3,
-  "version": "1.0",
   "description": "Copy Text, Urls, and CSS with one Click!",
+  "manifest_version": 3,
+  "version": "1.0.1",
   "action": {
-
-  },
+		"icons": {
+			"16": "assets/icon-16.png",
+			"48": "assets/icon-48.png",
+			"128": "assets/icon-128.png"
+		}
+	},
+	"icons": {
+		"16": "assets/icon-16.png",
+		"48": "assets/icon-48.png",
+		"128": "assets/icon-128.png"
+	},
   "permissions": [
     "scripting",
     "activeTab",
