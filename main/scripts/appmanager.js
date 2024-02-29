@@ -55,7 +55,6 @@ class App {
 
     handleClick() {
         this.isOn = !this.isOn;
-        console.log(chrome.runtime.id);
         if (this.isOn) {
             this.closeExceptThis();
             this.launch();
@@ -66,7 +65,6 @@ class App {
 
 
     launch() {
-        console.log('launching', this.app);
         this.isOn = true;
         this.instance = new this.appClass();
         this.button.addClass('appMenuActiveBtn');
@@ -74,7 +72,6 @@ class App {
 
 
     closeThis() {
-        console.log('closing', this.app);
         this.instance.close();
         this.instance = null;
         this.button.removeClass('appMenuActiveBtn');
@@ -84,7 +81,6 @@ class App {
     closeExceptThis() {
         App.allApps.forEach(app => {
             if (app !== this && app.isOn) {
-                console.log('closing', app.app);
                 app.isOn = false;
                 app.button.removeClass('appMenuActiveBtn');
                 app.instance.close();

@@ -5,6 +5,7 @@ class Url {
     }
 
     copyText(event) {
+        let message;
         let ignoreClasses = ["menuButton", "appMenu", "menuImage", "clipboard_item", "clipboard_item_type", "clipboard_item_content", "clipboard_item_remove"];
         let ignoreTags = ["menuButton", "appMenu", "menuImage"];
 
@@ -30,6 +31,10 @@ class Url {
             appManager.clipboard.instance.copiedObjs.push(copiedUrl);
             appManager.clipboard.instance.refreshClipboard();
 
+            if (message) {
+                message.remove();
+            }
+            else message = showCopiedMessage(event.pageX, event.pageY);
         }
     }
 

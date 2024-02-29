@@ -1,3 +1,38 @@
+function showCopiedMessage(mouseX, mouseY) {
+        let message = $('<div>').addClass('copied-message');
+        $('body').append(message);
+
+        message.css({
+            position: 'absolute',
+            left: mouseX + 'px',
+            top: mouseY + -50 + 'px'
+        });
+
+        message.css({
+            'background-color': 'rgba(255, 255, 255) !important',
+            'box-shadow': 'rgba(0, 0, 0, 0.1) 0px 0px 14px 2px',
+            'font-size': '14px',
+            'border-radius': '8px',
+            'color': 'rgb(0,0,0)',
+            'padding': '10px',
+            'font-family': 'Arial, Helvetica, sans-serif',
+            'z-index': '99999',
+            'font-weight': 'bold'
+        });
+
+        message.text('Copied to Clipboard');
+
+        setTimeout(function () {
+            message.fadeOut(500, function () {
+                message.remove();
+            });
+        }, 1500);
+
+        return message;  // Add this line
+    }
+
+
+
 class Text {
     constructor() {
         this.start();
@@ -12,9 +47,6 @@ class Text {
         $(body).on('mousemove', (e) => {
             copiedString = window.getSelection().toString();
 
-
-
-
         });
 
         $(body).on('mouseup', (e) => {
@@ -25,13 +57,11 @@ class Text {
                 let copiedText = new CopiedObj('text', copiedString);
                 appManager.clipboard.instance.copiedObjs.push(copiedText);
                 appManager.clipboard.instance.refreshClipboard();
-    
 
-            
                 if (message) {
                     message.remove();
                 }
-                else message = this.showCopiedMessage(e.clientX, e.clientY);
+                else message = showCopiedMessage(e.pageX, e.pageY);
 
 
             }
@@ -61,7 +91,7 @@ class Text {
         $('.highlighted').contents().unwrap();
     }
 
-
+    /*
     showCopiedMessage(mouseX, mouseY) {
         let message = $('<div>').addClass('copied-message');
         $('body').append(message);
@@ -92,7 +122,7 @@ class Text {
         }, 1500);
 
         return message;  // Add this line
-    }
+    }*/
 
 
 }

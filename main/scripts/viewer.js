@@ -228,6 +228,7 @@ class Code {
     }
 
     mouseClick(e) {
+        let message;
         e.preventDefault();
         e.stopPropagation();
 
@@ -242,8 +243,15 @@ class Code {
 
             appManager.clipboard.instance.copiedObjs.push(copiedCSS);
             appManager.clipboard.instance.refreshClipboard();
+
+            if (message) {
+                message.remove();
+            }
+            else message = showCopiedMessage(e.pageX, e.pageY);
         
         }
+
+
     }
 
 
