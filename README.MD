@@ -24,15 +24,13 @@ Made by [maxontech](https://twitter.com/max_on_tech)
 
 ## Features
 
-✏️ Copy Text: Selected text is immediately copied to clipboard
-✂️ Copy URLs: Shows all URLs on a page and allows you to copy them
-🔎 Copy CSS: Inspect element CSS and copy the style
-👀 List: Manage copied items in the clipboard
-
-- The item you most recently clicked on is always copied, and you can paste it using CTRL + V.
-- To exit the copy mode, you can simply click on escape (ESC).
-- You can delete copied items from the list by pressing the "x" icon.
-
+- Copy Text ✏️: Selected text is immediately copied to clipboard
+- Copy URLs ✂️: Shows all URLs on a page and allows you to copy them
+- Copy CSS 🔎: Inspect element CSS and copy the style
+- List 👀: Manage copied items in the clipboard
+- The item you most recently clicked on is always copied, and you can paste it using CTRL + V
+- To exit the copy mode, you can simply click on escape (ESC)
+- You can delete copied items from the list by pressing the "x" icon
 
 ## Opening Click to Copy
 
