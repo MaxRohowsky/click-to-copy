@@ -83,7 +83,6 @@ class Text {
 
 
     close() {
-        console.log('closing text');
         const body = document.body;
         $(body).off('mousemove');
         $(body).off('mouseup');
