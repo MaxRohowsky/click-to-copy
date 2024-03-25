@@ -75,7 +75,7 @@
   border: none;
   padding: 5px;
   margin: 5px;
-
+  line-height: normal;
 
 }
 
@@ -160,7 +160,7 @@
   color: rgb(0, 0, 0);
   font-weight: 400;
   font-size: 14px;
-
+  margin: 0px;
 }
 
 
