@@ -2,7 +2,7 @@
   "name": "Click to Copy",
   "description": "Copy Text, Urls, and CSS with one Click!",
   "manifest_version": 3,
-  "version": "1.0.2",
+  "version": "1.0.3",
   "action": {
 		"icons": {
 			"16": "assets/icon-16.png",

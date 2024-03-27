@@ -20,8 +20,7 @@ class App {
     static tooltip = {
         text: "Copy Text",
         url: "Copy URLs",
-        code: "Copy CSS",
-        color: "Copy Colors"
+        code: "Copy CSS"
     }
 
     constructor(id, appClass) {
@@ -205,6 +204,11 @@ class AppManager {
     }
 
     close() {
+        for (let app of App.allApps) {
+            if (app.isOn) {
+                app.closeThis();
+            }
+        }
         this.clipboard.instance.clipboard.remove();
         this.appMenu.remove();
     }
