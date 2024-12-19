@@ -10,7 +10,7 @@ The clipboard collects all copied items and allows you to copy everything within
 
 👉 Get it now [for Chrome](https://chromewebstore.google.com/detail/click-to-copy/fonpjogfddpklefillfepifbcikebelh)
 
-Made by [maxontech](https://twitter.com/max_on_tech)
+Made by [maxrohowsky](https://twitter.com/maxrohowsky)
 
 ## Table of contents
 
@@ -45,7 +45,7 @@ You can run the extension locally without having to install it from the Chrome S
 
 1. Download the code. In the web version of GitHub, you can do that by clicking the green "Code" button, and then "Download ZIP".
 2. Go to chrome://extensions/ in your browser, and [enable developer mode](https://developer.chrome.com/docs/extensions/mv2/faq/#:~:text=You%20can%20start%20by%20turning,a%20packaged%20extension%2C%20and%20more.).
-3. Drag the [main folder](https://github.com/maxontech/click-to-copy/tree/master/main) (make sure it's a folder and not a ZIP file, so unzip first), or click on the "Load unpacked" button and locate the folder.
+3. Drag the [main folder](https://github.com/maxrohowsky/click-to-copy/tree/master/main) (make sure it's a folder and not a ZIP file, so unzip first), or click on the "Load unpacked" button and locate the folder.
 4. That's it, you will now be able to use the extension locally.
 
 ## Libraries
@@ -54,4 +54,4 @@ You can run the extension locally without having to install it from the Chrome S
 
 ## Contact
 
-Feel free to reach out to me on Twitter: [on Twitter](https://twitter.com/max_on_tech) if you have any questions or feedback! Hope you find this useful!
+Feel free to reach out to me on Twitter: [on Twitter](https://twitter.com/maxrohowsky) if you have any questions or feedback! Hope you find this useful!
